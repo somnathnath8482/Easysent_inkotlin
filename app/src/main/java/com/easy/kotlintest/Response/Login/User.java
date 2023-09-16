@@ -42,9 +42,9 @@ public class User{
 	private String username;
 
 	@SerializedName("token")
-	private Object token;
+	private String token;
 
-	public User(String phone, String name, String profilePic, String gender, String about, String isVerifyed, String email, String username, Object token) {
+	public User(String phone, String name, String profilePic, String gender, String about, String isVerifyed, String email, String username, String token) {
 		this.phone = phone;
 		this.name = name;
 		this.profilePic = profilePic;
@@ -96,7 +96,7 @@ public class User{
 		return username;
 	}
 
-	public Object getToken(){
+	public String getToken(){
 		return token;
 	}
 

@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Easysentv2"
         tools:targetApi="31">
         <activity
+            android:name=".activity.EditProfilrActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.ForgotPasswordActivity"
             android:exported="false">
             <meta-data
@@ -49,6 +56,7 @@
             android:theme="@style/splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -56,6 +64,18 @@
             android:name=".activity.MainActivity"
             android:exported="false" />
 
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/providerpats" />
+        </provider>
     </application>
 
 </manifest>

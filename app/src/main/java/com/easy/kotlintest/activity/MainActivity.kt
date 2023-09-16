@@ -2,6 +2,7 @@ package com.easy.kotlintest.activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Environment
@@ -189,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         }
         leftMenuBinding.layEditProfile.setOnClickListener { view ->
             binding.drawer.closeDrawer(GravityCompat.START)
-            // navController.navigate(R.id.editProfileFragment, null, options)
+           startActivity(Intent(this@MainActivity,EditProfilrActivity::class.java))
         }
         leftMenuBinding.layChangePassword.setOnClickListener { view ->
             binding.drawer.closeDrawer(GravityCompat.START)
