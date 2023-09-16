@@ -35,7 +35,7 @@ interface Thread_dao {
 
 
     @Query("select *  from Users  U   join message_thread T on ( T.sender==:id AND   u.user_id = T.reciver  ) OR  ( T.reciver =:id AND   u.user_id = T.sender  ) order by last_message_time DESC")
-    fun getActiveThread(id: String?): PagingSource<Int, Message_Thread>
+    fun getActiveThread(id: String?): PagingSource<Int, Active_Thread>
 
     @Query("UPDATE message_thread set unread=0 where thread_id=:id")
     fun updateUnread(id: String?)

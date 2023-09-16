@@ -64,7 +64,7 @@ class Thread_repository {
         }
     }
 
-    fun getActiveThread(Name_Or_Email: String?, live_data: LiveData_Messages<Message_Thread>) {
+    fun getActiveThread(Name_Or_Email: String?, live_data: LiveData_Messages<Active_Thread>) {
         scope.launch {
 
             val pager = Pager(

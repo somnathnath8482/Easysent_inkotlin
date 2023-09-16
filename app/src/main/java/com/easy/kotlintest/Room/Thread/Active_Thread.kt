@@ -32,7 +32,7 @@ import com.google.gson.annotations.SerializedName
      var about: String? = null
 
     @SerializedName("is_verifyed")
-     var isVerifyed: String? = null
+     var Verifyed: String? = null
 
     @SerializedName("email")
      var email: String? = null
@@ -88,7 +88,7 @@ import com.google.gson.annotations.SerializedName
         this.fstatus = fstatus
         this.gender = gender
         this.about = about
-        this.isVerifyed = isVerifyed
+        this.Verifyed = isVerifyed
         this.email = email
         this.token = token
         this.sender = sender

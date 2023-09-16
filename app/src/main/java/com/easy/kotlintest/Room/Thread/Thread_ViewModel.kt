@@ -43,7 +43,7 @@ class Thread_ViewModel(application: Application) : AndroidViewModel(application)
         return repository.selectThread(uid,listener)
     }
 
-    fun getActiveThreds(id: String?, live_data: LiveData_Messages<Message_Thread>) {
+    fun getActiveThreds(id: String?, live_data: LiveData_Messages<Active_Thread>) {
         repository.getActiveThread(id, live_data)
     }
 
