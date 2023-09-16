@@ -10,16 +10,12 @@ import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Networking.Helper.ApiClient
 import com.easy.kotlintest.Networking.Helper.ApiInterface
 import com.easy.kotlintest.Networking.Helper.Constants
-import com.easy.kotlintest.Networking.Helper.multipart.PART
-import com.easy.kotlintest.Networking.Helper.multipart.Params
-import com.easy.kotlintest.Networking.Helper.multipart.Utils
 import com.easy.kotlintest.Response.AllUsers.AllUsersResponse
 import com.easy.kotlintest.Response.AllUsers.UsersItem
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.Room.Users.Users
 import com.google.gson.Gson
 import org.json.JSONObject
-import java.io.File
 
 
 class SyncUserWorker(appContext: Context, workerParams: WorkerParameters) :
@@ -29,8 +25,8 @@ class SyncUserWorker(appContext: Context, workerParams: WorkerParameters) :
 
 
             val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
-            var resData: Data = Data.EMPTY
-            var userVewModel = UserVewModel(Application().getapplication())
+            val resData: Data = Data.EMPTY
+            val userVewModel = UserVewModel(Application().getapplication())
             val uthHeader: String = PrefUtill.getUser()?.user?.email ?: "";
 
             apiInterface.PostRequestFormData(
@@ -39,7 +35,7 @@ class SyncUserWorker(appContext: Context, workerParams: WorkerParameters) :
                 java.util.HashMap()
             ).execute().body().also {
                 try {
-                    val jsonObject = JSONObject(it)
+                    val jsonObject = JSONObject(it.toString())
                     if (jsonObject.has("error")) {
                     } else {
                         val gson = Gson()
