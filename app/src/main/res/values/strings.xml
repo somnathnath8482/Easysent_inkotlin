@@ -66,4 +66,7 @@
     <string name="no_network_connection">No Network Connection</string>
     <string name="splash">splash</string>
     <string name="groups">Groups</string>
+    <string name="type_a_message">Type a message...</string>
+    <string name="attach_attachment">attach attachment</string>
+    <string name="add_imoge">add imoge</string>
 </resources>

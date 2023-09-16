@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_view"
+    tools:context=".activity.Message.MessageActivity">
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_52sdp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/bottom"
+        android:layout_below="@id/toolbar"
+        android:nestedScrollingEnabled="false"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="5"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom"
+        android:progressTint="@color/thim_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentBottom="true"
+        android:background="#F0F4F6"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/text_send"
+            android:autofillHints="name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/btn_send"
+            android:layout_toEndOf="@id/iv_emoji"
+            android:background="@android:color/transparent"
+            android:hint="@string/type_a_message"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/gray_white" />
+
+        <ImageView
+            android:id="@+id/attach"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/attach_attachment"
+            android:src="@drawable/attach"
+            app:tint="@color/thim_color" />
+
+        <ImageView
+            android:id="@+id/iv_emoji"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/attach"
+            android:src="@drawable/emoji"
+            android:contentDescription="@string/add_imoge"
+            app:tint="@color/thim_color" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/send"
+            android:background="@drawable/ic_action_name" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lay_attach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/curved_border_5"
+        android:backgroundTint="#E9F3F8"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        >
+
+        <ImageView
+            android:id="@+id/iv_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:contentDescription="@string/attach_attachment"
+            android:adjustViewBounds="true"
+            android:maxHeight="@dimen/_120sdp"
+            android:src="@drawable/ic_gallery"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/lay_doc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/rounded_card"
+            android:backgroundTint="#BED9F4"
+            android:orientation="horizontal"
+            android:padding="@dimen/_5sdp"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_doc"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:gravity="center_vertical"
+                android:src="@drawable/ic_files"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/id_tv_attachment"
+                style="@style/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:autoLink="web"
+                android:gravity="center_vertical"
+                android:maxWidth="@dimen/_140sdp"
+                android:text="file_name"
+                android:textColor="#3D3A3A"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dismiss"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_x" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_replay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom"
+        android:layout_gravity="start"
+        android:background="@drawable/rounded_card"
+        android:backgroundTint="#F4F7F8"
+        android:gravity="start"
+        android:minHeight="@dimen/_35sdp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        >
+
+        <View
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="@dimen/_80sdp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/replay_sender"
+                    style="@style/desc"
+                    android:layout_width="0sp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:maxLines="3"
+                    android:paddingHorizontal="@dimen/_5sdp"
+                    android:text="You"
+                    android:textColor="#3949AB"
+                    android:textStyle="bold" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/dismiss_replay"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_x" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/replay_text"
+                style="@style/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:paddingHorizontal="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:text="Replayof"
+                android:textColor="#3D3A3A" />
+
+            <LinearLayout
+                android:id="@+id/lay_replay_doc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:background="#BED9F4"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="@dimen/_5sdp"
+                android:visibility="gone"
+
+                >
+
+                <ImageView
+                    android:id="@+id/iv_replay_doc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"
+                    android:minWidth="@dimen/_50sdp"
+                    android:minHeight="@dimen/_180sdp"
+                    android:src="@drawable/ic_files"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/iv_replay_attachment_title"
+                    style="@style/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="@string/full_name"
+                    android:textColor="#3D3A3A"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
