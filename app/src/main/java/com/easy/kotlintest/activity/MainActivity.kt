@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
@@ -27,7 +26,6 @@ import com.easy.kotlintest.Helper.ImageGetter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
-import com.easy.kotlintest.Networking.Sync
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.databinding.ActivityMainBinding
@@ -54,9 +52,7 @@ class MainActivity : AppCompatActivity() {
         @SuppressLint("StaticFieldLeak")
         lateinit var navController: NavController
         lateinit var options: NavOptions
-        fun navigate(directions: NavDirections) {
-            this.navController.navigate(directions, options)
-        }
+
 
     }
 
@@ -69,14 +65,6 @@ class MainActivity : AppCompatActivity() {
         context = this;
         toolbarBinding = MainToolbarBinding.bind(binding.toolbar.root)
         leftMenuBinding = LeftMenuBinding.bind(binding.navigationView.getHeaderView(0))
-
-
-        if (intent != null && intent.getBooleanExtra("new_login", false)) {
-            val sync = Sync()
-            sync.syncUser(this@MainActivity)
-        }
-
-
         uuserviewModel = UserVewModel(application)
 
         init()
@@ -109,64 +97,67 @@ class MainActivity : AppCompatActivity() {
             handler.post(Runnable {
                 item?.observe(this@MainActivity)
                 { user ->
-                    toolbarBinding.name.text = user?.name
-                    toolbarBinding.email.text = user?.email
+                    if (user != null) {
+                        toolbarBinding.name.text = user?.name
+                        toolbarBinding.email.text = user?.email
 
-                    if (user.profilePic != null && !user.profilePic.equals("null")) {
-                        val url: String = Constants.BASE_URL + "profile_image/" + user.profilePic
-                        val file: File = File(Constants.CATCH_DIR + "/" + user.profilePic)
-                        if (file.exists()) {
-                            Thread {
-                                val imageGetter = ImageGetter(toolbarBinding.profileImage)
-                                imageGetter.execute(file)
-                            }.start()
-                        } else {
-                            Glide.with(context).load(url).thumbnail(0.05f)
-                                .transition(DrawableTransitionOptions.withCrossFade())
-                                .addListener(object : RequestListener<Drawable?> {
-                                    override fun onLoadFailed(
-                                        e: GlideException?,
-                                        model: Any,
-                                        target: Target<Drawable?>,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        toolbarBinding.profileImage.setImageDrawable(
-                                            AppCompatResources.getDrawable(
-                                                context, MethodClass.getResId(
-                                                    user.name, Drawable::class.java
+                        if (user?.profilePic != null && !user?.profilePic.equals("null")) {
+                            val url: String =
+                                Constants.BASE_URL + "profile_image/" + user.profilePic
+                            val file: File = File(Constants.CATCH_DIR + "/" + user.profilePic)
+                            if (file.exists()) {
+                                Thread {
+                                    val imageGetter = ImageGetter(toolbarBinding.profileImage)
+                                    imageGetter.execute(file)
+                                }.start()
+                            } else {
+                                Glide.with(context).load(url).thumbnail(0.05f)
+                                    .transition(DrawableTransitionOptions.withCrossFade())
+                                    .addListener(object : RequestListener<Drawable?> {
+                                        override fun onLoadFailed(
+                                            e: GlideException?,
+                                            model: Any,
+                                            target: Target<Drawable?>,
+                                            isFirstResource: Boolean
+                                        ): Boolean {
+                                            toolbarBinding.profileImage.setImageDrawable(
+                                                AppCompatResources.getDrawable(
+                                                    context, MethodClass.getResId(
+                                                        user.name, Drawable::class.java
+                                                    )
                                                 )
                                             )
-                                        )
-                                        return true
-                                    }
+                                            return true
+                                        }
 
-                                    override fun onResourceReady(
-                                        resource: Drawable?,
-                                        model: Any,
-                                        target: Target<Drawable?>,
-                                        dataSource: DataSource,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        toolbarBinding.profileImage.setImageDrawable(resource)
-                                        MethodClass.CashImage(
-                                            Constants.BASE_URL + "profile_image/" + user.profilePic,
-                                            user.profilePic,
-                                            resource
-                                        )
-                                        return false
-                                    }
-                                }).into(toolbarBinding.profileImage)
-                        }
-                    } else {
-                        toolbarBinding.profileImage.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                context, MethodClass.getResId(
-                                    user.name, Drawable::class.java
+                                        override fun onResourceReady(
+                                            resource: Drawable?,
+                                            model: Any,
+                                            target: Target<Drawable?>,
+                                            dataSource: DataSource,
+                                            isFirstResource: Boolean
+                                        ): Boolean {
+                                            toolbarBinding.profileImage.setImageDrawable(resource)
+                                            MethodClass.CashImage(
+                                                Constants.BASE_URL + "profile_image/" + user.profilePic,
+                                                user.profilePic,
+                                                resource
+                                            )
+                                            return false
+                                        }
+                                    }).into(toolbarBinding.profileImage)
+                            }
+                        } else {
+                            toolbarBinding.profileImage.setImageDrawable(
+                                AppCompatResources.getDrawable(
+                                    context, MethodClass.getResId(
+                                        user?.name, Drawable::class.java
+                                    )
                                 )
                             )
-                        )
-                    }
+                        }
 
+                    }
 
                 }
             })
@@ -190,7 +181,7 @@ class MainActivity : AppCompatActivity() {
         }
         leftMenuBinding.layEditProfile.setOnClickListener { view ->
             binding.drawer.closeDrawer(GravityCompat.START)
-           startActivity(Intent(this@MainActivity,EditProfilrActivity::class.java))
+            startActivity(Intent(this@MainActivity, EditProfilrActivity::class.java))
         }
         leftMenuBinding.layChangePassword.setOnClickListener { view ->
             binding.drawer.closeDrawer(GravityCompat.START)
@@ -208,7 +199,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Create()
+        // Create()
     }
 
     private fun Create() {

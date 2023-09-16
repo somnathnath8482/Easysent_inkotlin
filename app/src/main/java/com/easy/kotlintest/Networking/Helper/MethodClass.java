@@ -131,8 +131,7 @@ public class MethodClass {
             Field idField = c.getDeclaredField(initial_char);
             return idField.getInt(idField);
         } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
+            return R.drawable.img_e;
         }
     }
 
