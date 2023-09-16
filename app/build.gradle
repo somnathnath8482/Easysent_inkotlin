@@ -1,0 +1,112 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.easy.kotlintest'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.easy.kotlintest"
+        minSdk 26
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    viewBinding {
+        enabled = true
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            assets {
+                srcDirs 'src\\main\\assets'
+            }
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
+
+    // Java language implementation
+    implementation "androidx.activity:activity:1.7.2"
+
+    //detect the memory leaks
+    /// debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.11'
+    //splash screen
+    implementation "androidx.core:core-splashscreen:1.0.1"
+    //density pixel size
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    //syllable toast
+    implementation 'io.github.muddz:styleabletoast:2.4.0'
+
+    //networking
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation 'com.google.code.gson:gson:2.10'
+
+
+    //Cashing
+
+    //live data
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+
+//room
+    def room_version = "2.5.2" // check latest version from docs
+
+    implementation "androidx.room:room-ktx:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+
+
+    //paging
+
+    implementation "androidx.paging:paging-runtime-ktx:3.2.1"
+    implementation "androidx.room:room-paging:2.5.2"
+
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:4.0.0'
+    implementation 'com.github.mayuce:LottieAlertDialog:1.1'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    implementation 'androidx.navigation:navigation-ui:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+}

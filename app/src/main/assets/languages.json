@@ -1,0 +1,1304 @@
+[
+  {
+    "Login": {
+      "English": "Login",
+      "Thai": "ลงชื่อเข้าใช้"
+    }
+  },
+  {
+    "Welcome_Back": {
+      "English": "Welcome Back",
+      "Thai": "ยินดีต้อนรับกลับมา"
+    }
+  },
+  {
+    "Login_To_Access": {
+      "English": "Please login to access your account",
+      "Thai": "กรุณาลงชื่อเข้าสู่ระบบเพื่อเข้าสู่บัญชีของคุณ"
+    }
+  },
+  {
+    "Mobile_Number": {
+      "English": "Phone Number",
+      "Thai": "เบอร์โทร"
+    }
+  },
+  {
+    "Enter_Here": {
+      "English": "Enter Here",
+      "Thai": "ป้อนที่นี่"
+    }
+  },
+  {
+    "Verify_Account": {
+      "English": "Verify Account",
+      "Thai": "ยืนยันบัญชี"
+    }
+  },
+  {
+    "Enter_OTP": {
+      "English": "Enter JobSpot Code sent to you as an SMS",
+      "Thai": "ป้อนรหัส JobSpot ที่ถึงคุณทางข้อความ SMS"
+    }
+  },
+  {
+    "Verify": {
+      "English": "Verify",
+      "Thai": "ยืนยันข้อมูล"
+    }
+  },
+  {
+    "Resend_Code": {
+      "English": "If you did not receive the code, click here to try again",
+      "Thai": "หากคุณไม่ได้รับรหัส คลิกที่นี่เพื่อลองอีกครั้ง"
+    }
+  },
+  {
+    "Resend": {
+      "English": "Resend",
+      "Thai": "ส่งอีกครั้ง"
+    }
+  },
+  {
+    "Sign_Up": {
+      "English": "Sign Up",
+      "Thai": "สมัครใช้บริการ"
+    }
+  },
+  {
+    "Welcome": {
+      "English": "Welcome",
+      "Thai": "ยินดีต้อนรับ"
+    }
+  },
+  {
+    "Fill_Fields": {
+      "English": "Fill the fields below",
+      "Thai": "กรอกข้อมูลลงในช่องข้างล่าง"
+    }
+  },
+  {
+    "Name": {
+      "English": "Name",
+      "Thai": "ชื่อ"
+    }
+  },
+  {
+    "Email_Address": {
+      "English": "Email Address",
+      "Thai": "ที่อยู่อีเมล"
+    }
+  },
+  {
+    "Old_User": {
+      "English": "Returning user?",
+      "Thai": "ผู้ใช้เดิมที่กลับมาใหม่?"
+    }
+  },
+  {
+    "Already_Have_An_Account": {
+      "English": "Already have an Account",
+      "Thai": "มีบัญชีผู้ใช้อยู่แล้ว"
+    }
+  },
+  {
+    "Dashboard": {
+      "English": "Dashboard",
+      "Thai": "แผงควบคุม"
+    }
+  },
+  {
+    "Jobs_Applied": {
+      "English": "Jobs Applied",
+      "Thai": "งานที่สมัครแล้ว"
+    }
+  },
+  {
+    "Jobs_Posted": {
+      "English": "Jobs Posted",
+      "Thai": "งานที่ประกาศ"
+    }
+  },
+  {
+    "Messages": {
+      "English": "Messages",
+      "Thai": "ข้อความ"
+    }
+  },
+  {
+    "Recently_Posted_Jobs": {
+      "English": "Recently Posted Jobs",
+      "Thai": "งานที่ประกาศล่าสุด"
+    }
+  },
+  {
+    "Category": {
+      "English": "Category",
+      "Thai": "หมวดหมู่"
+    }
+  },
+  {
+    "Sub_Category": {
+      "English": "Sub Category",
+      "Thai": "หมวดหมู่ย่อย"
+    }
+  },
+  {
+    "Days": {
+      "English": "Days",
+      "Thai": "วัน"
+    }
+  },
+  {
+    "Day": {
+      "English": "Day",
+      "Thai": "วัน"
+    }
+  },
+  {
+    "Per_Month": {
+      "English": "Per Month",
+      "Thai": "ต่อเดือน"
+    }
+  },
+  {
+    "Per_Week": {
+      "English": "Per Week",
+      "Thai": "Per_Week"
+    }
+  },
+  {
+    "Per_Day": {
+      "English": "Per Day",
+      "Thai": "ต่อวัน"
+    }
+  },
+  {
+    "Per_Hour": {
+      "English": "Per Hour",
+      "Thai": "ต่อชั่วโมง"
+    }
+  },
+  {
+    "Browse_Projects": {
+      "English": "Browse Projects",
+      "Thai": "ค้นหาโครงการ"
+    }
+  },
+  {
+    "My_Jobs": {
+      "English": "My Jobs",
+      "Thai": "งานของฉัน"
+    }
+  },
+  {
+    "Post_Project": {
+      "English": "Post Project",
+      "Thai": "ประกาศโครงการ"
+    }
+  },
+  {
+    "Edit_Profile": {
+      "English": "Edit Profile",
+      "Thai": "แก้ไขประวัติ"
+    }
+  },
+  {
+    "Notifications": {
+      "English": "Notifications",
+      "Thai": "การแจ้งเตือน"
+    }
+  },
+  {
+    "About": {
+      "English": "About",
+      "Thai": "เกี่ยวกับ"
+    }
+  },
+  {
+    "Contact": {
+      "English": "Contact",
+      "Thai": "ติดต่อ"
+    }
+  },
+  {
+    "FAQ": {
+      "English": "FAQ",
+      "Thai": "คำถามที่พบบ่อย"
+    }
+  },
+  {
+    "Logout": {
+      "English": "Logout",
+      "Thai": "ออกจากระบบ"
+    }
+  },
+  {
+    "Search_Results": {
+      "English": "Search Results",
+      "Thai": "ผลการค้นหา"
+    }
+  },
+  {
+    "Search": {
+      "English": "Search",
+      "Thai": "ค้นหา"
+    }
+  },
+  {
+    "Close": {
+      "English": "Close",
+      "Thai": "ปิด"
+    }
+  },
+  {
+    "Filters": {
+      "English": "Filters",
+      "Thai": "ตัวกรอง"
+    }
+  },
+  {
+    "Reset_All": {
+      "English": "Reset All",
+      "Thai": "รีเซ็ตทั้งหมด"
+    }
+  },
+  {
+    "Location": {
+      "English": "Location",
+      "Thai": "ตำแหน่ง"
+    }
+  },
+  {
+    "Physical_Location": {
+      "English": "Physical Location",
+      "Thai": "ตำแหน่งทางกายภาพ"
+    }
+  },
+  {
+    "Enter_Your_Location": {
+      "English": "Enter Your Location",
+      "Thai": "ป้อนตำแหน่งของคุณ"
+    }
+  },
+  {
+    "Skills": {
+      "English": "Skills",
+      "Thai": "ทักษะ"
+    }
+  },
+  {
+    "More": {
+      "English": "More",
+      "Thai": "เพิ่มเติม"
+    }
+  },
+  {
+    "Add_Skills": {
+      "English": "Add Skills",
+      "Thai": "เพิ่มทักษะ"
+    }
+  },
+  {
+    "Salary_Range": {
+      "English": "Salary Range",
+      "Thai": "ช่วงเงินเดือน"
+    }
+  },
+  {
+    "As_Employer": {
+      "English": "As Employer",
+      "Thai": "ในฐานะผู้จ้าง"
+    }
+  },
+  {
+    "As_Freelancer": {
+      "English": "As Employee",
+      "Thai": "ในฐานะผู้ถูกจ้าง"
+    }
+  },
+  {
+    "All": {
+      "English": "All",
+      "Thai": "ทั้งหมด"
+    }
+  },
+  {
+    "Open": {
+      "English": "Open",
+      "Thai": "เปิด"
+    }
+  },
+  {
+    "Closed": {
+      "English": "Closed",
+      "Thai": "ปิดแล้ว"
+    }
+  },
+  {
+    "In_Progress": {
+      "English": "In Progress",
+      "Thai": "กำลังดำเนินการ"
+    }
+  },
+  {
+    "Past": {
+      "English": "Past",
+      "Thai": "อดีต"
+    }
+  },
+  {
+    "Months_Ago": {
+      "English": "Months ago",
+      "Thai": "เดือนก่อน"
+    }
+  },
+  {
+    "Days_Ago": {
+      "English": "Days ago",
+      "Thai": "วันก่อน"
+    }
+  },
+  {
+    "Hours_Ago": {
+      "English": "Hours ago",
+      "Thai": "ชั่วโมงก่อน"
+    }
+  },
+  {
+    "Weeks_Ago": {
+      "English": "Weeks ago",
+      "Thai": "สัปดาห์ก่อน"
+    }
+  },
+  {
+    "Years_Ago": {
+      "English": "Years ago",
+      "Thai": "ปีก่อน"
+    }
+  },
+  {
+    "Job_Description": {
+      "English": "Job Description",
+      "Thai": "คำอธิบายงาน"
+    }
+  },
+  {
+    "Required_Skills": {
+      "English": "Required Skills",
+      "Thai": "ทักษะที่จำเป็น"
+    }
+  },
+  {
+    "Salary_or_Amount": {
+      "English": "Salary or Amount Offered",
+      "Thai": "เงินเดือนหรือเงินที่เสนอ"
+    }
+  },
+  {
+    "Employer": {
+      "English": "Employer",
+      "Thai": "ผู้จ้าง"
+    }
+  },
+  {
+    "Fields_Mandatory": {
+      "English": "All Fields Are Mandatory",
+      "Thai": "ช่องข้อมูลทั้งหมดจำเป็นต้องกรอก"
+    }
+  },
+  {
+    "Job_Title": {
+      "English": "Job Title",
+      "Thai": "ชื่อตำแหน่งงาน"
+    }
+  },
+  {
+    "Show_Interest": {
+      "English": "Show Interest",
+      "Thai": "แสดงความสนใจ"
+    }
+  },
+  {
+    "Summary": {
+      "English": "Summary",
+      "Thai": "สรุป"
+    }
+  },
+  {
+    "Amount": {
+      "English": "Amount",
+      "Thai": "จำนวนเงิน"
+    }
+  },
+  {
+    "Proposal": {
+      "English": "Proposal",
+      "Thai": "ข้อเสนอ"
+    }
+  },
+  {
+    "Send": {
+      "English": "Send",
+      "Thai": "ส่ง"
+    }
+  },
+  {
+    "Interested": {
+      "English": "Interested",
+      "Thai": "สนใจแล้ว"
+    }
+  },
+  {
+    "Message": {
+      "English": "Message",
+      "Thai": "ข้อความ"
+    }
+  },
+  {
+    "Profile": {
+      "English": "Profile",
+      "Thai": "โปรไฟล์"
+    }
+  },
+  {
+    "Member_Since": {
+      "English": "Member Since",
+      "Thai": "สมาชิกตั้งแต่"
+    }
+  },
+  {
+    "About_Me": {
+      "English": "About me",
+      "Thai": "เกี่ยวกับฉัน"
+    }
+  },
+  {
+    "Languages": {
+      "English": "Languages",
+      "Thai": "ภาษา"
+    }
+  },
+  {
+    "Fillup_the_below_fields_to_create_an_account": {
+      "English": "Fillup the below fields to create an account",
+      "Thai": "กรอกข้อมูลในช่องข้อมูลข้างล่างเพื่อสร้างบัญชี"
+    }
+  },
+  {
+    "By_Continuing_I_accept_all_the_Term_of_services_Guidelines_and_Privacy_policy": {
+      "English": "By Continuing, I accept all the<br> <font color=\'#D57B00\'>Term of services, Guidelines</font> and <font color=\'#D57B00\'>Privacy policy</font>",
+      "Thai": "หากดำเนินการต่อ ถือว่าข้าพเจ้ายอมรับ<br> <font color=\'#D57B00\'>เงื่อนไขการใช้บริการ แนวทางปฏิบัติ</font> และ <font color=\'#D57B00\'>นโยบายความเป็นส่วนตัว</font> ทุกประการ"
+    }
+  },
+  {
+    "New_Here": {
+      "English": "New Here?",
+      "Thai": "เพิ่งมาใหม่ใช่หรือไม่?"
+    }
+  },
+  {
+    "Create_an_Account": {
+      "English": "Create an Account",
+      "Thai": "สร้างบัญชี"
+    }
+  },
+  {
+    "Place_BID": {
+      "English": "Place Bid",
+      "Thai": "วางข้อเสนองาน"
+    }
+  },
+  {
+    "Job_summary": {
+      "English": "Job Summary",
+      "Thai": "สรุปงาน"
+    }
+  },
+  {
+    "Type_your_proposal_details_hare": {
+      "English": "Type your proposal details here",
+      "Thai": "พิมพ์รายละเอียดข้อเสนอของคุณได้ที่นี่"
+    }
+  },
+  {
+    "Place_your_Bid": {
+      "English": "Place your Bid",
+      "Thai": "วางข้อเสนองานของคุณ"
+    }
+  },
+  {
+    "Job_Detail": {
+      "English": "Job Detail",
+      "Thai": "รายละเอียดงาน"
+    }
+  },
+  {
+    "Required_Location": {
+      "English": "Required Location",
+      "Thai": "ตำแหน่งสถานที่ที่กำหนด"
+    }
+  },
+  {
+    "Apply": {
+      "English": "Apply",
+      "Thai": "สมัคร"
+    }
+  },
+  {
+    "Employer_Profile": {
+      "English": "Employer Profile",
+      "Thai": "โปรไฟล์ผู้จ้าง"
+    }
+  },
+  {
+    "Jobs_Awarded": {
+      "English": "Job Awarded",
+      "Thai": "งานที่ได้รับรางวัล"
+    }
+  },
+  {
+    "View_Freelancer_Profile": {
+      "English": "View Freelancer Profile",
+      "Thai": "ดูโปรไฟล์ฟรีแลนซ์"
+    }
+  },
+  {
+    "About_Company": {
+      "English": "About Company",
+      "Thai": "เกี่ยวกับบริษัท"
+    }
+  },
+  {
+    "Recent_Jobs_By_Employer": {
+      "English": "Recent Jobs By Employer",
+      "Thai": "งานล่าสุดของผู้จ้าง"
+    }
+  },
+  {
+    "Freelancer_Profile": {
+      "English": "Freelancer Profile",
+      "Thai": "โปรไฟล์ฟรีแลนซ์"
+    }
+  },
+  {
+    "Job_Completed": {
+      "English": "Job Completed",
+      "Thai": "งานที่เสร็จสิ้นแล้ว"
+    }
+  },
+  {
+    "Job_In_Progress": {
+      "English": "Job In Progress",
+      "Thai": "งานระหว่างดำเนินการ"
+    }
+  },
+  {
+    "View_Employer_Profile": {
+      "English": "View Employer Profile",
+      "Thai": "ดูโปรไฟล์ผู้จ้าง"
+    }
+  },
+  {
+    "Edcation": {
+      "English": "Edcation",
+      "Thai": "การศึกษา"
+    }
+  },
+  {
+    "Language_Known": {
+      "English": "Languages Known",
+      "Thai": "ภาษาที่รู้จัก"
+    }
+  },
+  {
+    "Get_Started": {
+      "English": "Get Started",
+      "Thai": "เริ่มต้นเลย"
+    }
+  },
+  {
+    "Skip": {
+      "English": "Skip",
+      "Thai": "ข้าม"
+    }
+  },
+  {
+    "Please_Enter_OTP_that_has_been_sent_to_you_on_your_registered_mobile_number": {
+      "English": "Please enter OTP that has been sent to you on your registered phone number",
+      "Thai": "กรุณาป้อนรหัส OTP ที่ส่งไปยังเบอร์โทรของคุณที่ลงทะเบียนไว้"
+    }
+  },
+  {
+    "Verify_OTP": {
+      "English": "Verify OTP",
+      "Thai": "ยืนยันรหัส OTP"
+    }
+  },
+  {
+    "If_you_did_not_receive_code": {
+      "English": "If you did not receive code",
+      "Thai": "หากคุณไม่ได้รับรหัส"
+    }
+  },
+  {
+    "Display_Name": {
+      "English": "Display Name",
+      "Thai": "ชื่อที่แสดง"
+    }
+  },
+  {
+    "Education": {
+      "English": "Education",
+      "Thai": "การศึกษา"
+    }
+  },
+  {
+    "Save_All_Changes": {
+      "English": "Save All Changes",
+      "Thai": "บันทึกการเปลี่ยนแปลงทั้งหมด"
+    }
+  },
+  {
+    "Company_Name": {
+      "English": "Company Name",
+      "Thai": "ชื่อบริษัท"
+    }
+  },
+  {
+    "So_please_fill_in_all_the_fields_below_to_post_your_job": {
+      "English": "Please fill in all the fields below to post your job",
+      "Thai": "กรุณากรอกข้อมูลในช่องข้อมูลด้านล่างทั้งหมดเพื่อประกาศงานของคุณ"
+    }
+  },
+  {
+    "So_please_fill_in_all_the_fields_below_to_update_your_job": {
+      "English": "Please fill in all the fields below to update your job",
+      "Thai": "กรุณากรอกข้อมูลในช่องข้อมูลด้านล่างทั้งหมดเพื่ออัปเดตงานของคุณ"
+    }
+  },
+  {
+    "Job_name_title": {
+      "English": "Job Name / Title",
+      "Thai": "ชื่องาน / ตำแหน่ง"
+    }
+  },
+  {
+    "Enter_your_job_name_or_title_here": {
+      "English": "Enter your job name or title here",
+      "Thai": "ป้อนชื่องานหรือตำแหน่งงานของคุณที่นี่"
+    }
+  },
+  {
+    "Categories": {
+      "English": "Categories",
+      "Thai": "หมวดหมู่"
+    }
+  },
+  {
+    "Enter_required_location": {
+      "English": "Enter required location",
+      "Thai": "ป้อนตำแหน่งสถานที่ที่กำหนด"
+    }
+  },
+  {
+    "Enter_Job_Description_here": {
+      "English": "Enter Job Description Here",
+      "Thai": "ป้อนรายละเอียดงานที่นี่"
+    }
+  },
+  {
+    "Post_Job": {
+      "English": "Post Job",
+      "Thai": "ลงประกาศงาน"
+    }
+  },
+  {
+    "Password_Change": {
+      "English": "Password Change",
+      "Thai": "การเปลี่ยนรหัสผ่าน"
+    }
+  },
+  {
+    "Enter_Password": {
+      "English": "Enter Password",
+      "Thai": "ป้อนรหัสผ่าน"
+    }
+  },
+  {
+    "Enter_Confirm_Password": {
+      "English": "Enter Confirm password",
+      "Thai": "ป้อนรหัสผ่านยืนยัน"
+    }
+  },
+  {
+    "Enter_Name": {
+      "English": "Enter Your Name",
+      "Thai": "ป้อนชื่อของคุณ"
+    }
+  },
+  {
+    "Enter_Email": {
+      "English": "Enter Your Valid Email",
+      "Thai": "ป้อนที่อยู่อีเมลที่ถูกต้องของคุณ"
+    }
+  },
+  {
+    "Enter_Phone": {
+      "English": "Enter Your Phone Number",
+      "Thai": "ป้อนเบอร์โทรของคุณ"
+    }
+  },
+  {
+    "Language_Choose": {
+      "English": "Select Language",
+      "Thai": "เลือกภาษา"
+    }
+  },
+  {
+    "Save": {
+      "English": "Save",
+      "Thai": "บันทึก"
+    }
+  },
+  {
+    "Forgot_Password": {
+      "English": "Forgot Password",
+      "Thai": "ลืมรหัสผ่าน"
+    }
+  },
+  {
+    "Please_Enter_mobile_to_access_your_account": {
+      "English": "Please use your phone number to access your account",
+      "Thai": "กรุณาป้อนเบอร์โทรของคุณเพื่อเข้าสู่บัญชีของคุณ"
+    }
+  },
+  {
+    "Send_OTP": {
+      "English": "Send OTP",
+      "Thai": "ส่งรหัส OTP"
+    }
+  },
+  {
+    "Forgot_Password_Q": {
+      "English": "Forgot Password?",
+      "Thai": "ลืมรหัสผ่านใช่หรือไม่?"
+    }
+  },
+  {
+    "View_BID": {
+      "English": "View Bid",
+      "Thai": "ดูข้อเสนองาน"
+    }
+  },
+  {
+    "More_plus": {
+      "English": "More +",
+      "Thai": "เพิ่มเติม +"
+    }
+  },
+  {
+    "Apply_Filter": {
+      "English": "Apply Filter",
+      "Thai": "ใช้ตัวกรอง"
+    }
+  },
+  {
+    "Basic_Information": {
+      "English": "Basic Information",
+      "Thai": "ข้อมูลพื้นฐาน"
+    }
+  },
+  {
+    "About_Mission": {
+      "English": "About Mission",
+      "Thai": "เกี่ยวกับภารกิจ"
+    }
+  },
+  {
+    "About_Us": {
+      "English": "About Us",
+      "Thai": "เกี่ยวกับเรา"
+    }
+  },
+  {
+    "Freelancer": {
+      "English": "Employee",
+      "Thai": "ผู้ถูกจ้าง"
+    }
+  },
+  {
+    "Follow_Us": {
+      "English": "Follow Us : ",
+      "Thai": "ติดตามเรา : "
+    }
+  },
+  {
+    "Contact_Us": {
+      "English": "Contact Us",
+      "Thai": "ติดต่อเรา"
+    }
+  },
+  {
+    "Get_In_Touch": {
+      "English": "Get In Touch",
+      "Thai": "ติดตามข่าวสารจากเรา"
+    }
+  },
+  {
+    "Email_Your_Message_Here": {
+      "English": "Email Your Message Here",
+      "Thai": "อีเมลข้อความของคุณที่นี่"
+    }
+  },
+  {
+    "Submit_Now": {
+      "English": "Submit Now",
+      "Thai": "ส่งตอนนี้"
+    }
+  },
+  {
+    "Done": {
+      "English": "Done",
+      "Thai": "เสร็จสิ้น"
+    }
+  },
+  {
+    "Cancel": {
+      "English": "Cancel",
+      "Thai": "ยกเลิก"
+    }
+  },
+  {
+    "Ok": {
+      "English": "Ok",
+      "Thai": "ตกลง"
+    }
+  },
+  {
+    "Please_Enter": {
+      "English": "Please Enter",
+      "Thai": "กรุณาป้อน"
+    }
+  },
+  {
+    "Please_Select": {
+      "English": "Please Select",
+      "Thai": "กรุณาเลือก"
+    }
+  },
+  {
+    "Pay_Type": {
+      "English": "Pay Type",
+      "Thai": "ประเภทการชำระ"
+    }
+  },
+  {
+    "Job_Type": {
+      "English": "Job Type",
+      "Thai": "ประเภทงาน"
+    }
+  },
+  {
+    "Please_Select_Skills": {
+      "English": "Please Select Skills",
+      "Thai": "กรุณาเลือกทักษะ"
+    }
+  },
+  {
+    "New_User": {
+      "English": "New User",
+      "Thai": "ผู้ใช้ใหม่"
+    }
+  },
+  {
+    "Returning_User": {
+      "English": "Returning User",
+      "Thai": "ผู้ใช้เดิมที่กลับมาใหม่"
+    }
+  },
+  {
+    "Last_Name": {
+      "English": "Last Name",
+      "Thai": "ชื่อสกุล"
+    }
+  },
+  {
+    "First_Name": {
+      "English": "First Name",
+      "Thai": "ชื่อต้น"
+    }
+  },
+  {
+    "Phone": {
+      "English": "Phone",
+      "Thai": "เบอร์โทร"
+    }
+  },
+  {
+    "Already_Added": {
+      "English": "Already Added",
+      "Thai": "เพิ่มเรียบร้อยแล้ว"
+    }
+  },
+  {
+    "Please_Select_Language": {
+      "English": "Please Select Language",
+      "Thai": "กรุณาเลือกภาษา"
+    }
+  },
+  {
+    "Tack_Photo": {
+      "English": "Take Photo",
+      "Thai": "ถ่ายรูปภาพ"
+    }
+  },
+  {
+    "Choose_From_Gallery": {
+      "English": "Choose From Gallery",
+      "Thai": "เลือกจากแกลลอรี"
+    }
+  },
+  {
+    "Upload_Image": {
+      "English": "Upload Image",
+      "Thai": "อัปโหลดรูปภาพ"
+    }
+  },
+  {
+    "Log_In": {
+      "English": "Log In",
+      "Thai": "เข้าสู่ระบบ"
+    }
+  },
+  {
+    "New_Jobs_Today": {
+      "English": "New Jobs Today",
+      "Thai": "งานใหม่วันนี้"
+    }
+  },
+  {
+    "Profile_Views_Today": {
+      "English": "Profile Views Today",
+      "Thai": "มุมมองโปรไฟล์วันนี้"
+    }
+  },
+  {
+    "Jobs_for_you_in_cln": {
+      "English": "Jobs for you in : ",
+      "Thai": "งานสำหรับคุณใน : "
+    }
+  },
+  {
+    "Close_Application": {
+      "English": "Close Application",
+      "Thai": "ปิดแอปพลิเคชัน"
+    }
+  },
+  {
+    "Do_you_want_to_close": {
+      "English": "Do you want to close?",
+      "Thai": "คุณต้องการปิดหรือไม่?"
+    }
+  },
+  {
+    "Yes": {
+      "English": "Yes",
+      "Thai": "ใช่"
+    }
+  },
+  {
+    "No": {
+      "English": "No",
+      "Thai": "ไม่"
+    }
+  },
+  {
+    "per": {
+      "English": "per",
+      "Thai": "ต่อ"
+    }
+  },
+  {
+    "Status": {
+      "English": "Status",
+      "Thai": "สถานะ"
+    }
+  },
+  {
+    "OPEN": {
+      "English": "OPEN",
+      "Thai": "เปิด"
+    }
+  },
+  {
+    "PAUSED": {
+      "English": "PAUSED",
+      "Thai": "หยุด"
+    }
+  },
+  {
+    "CLOSED": {
+      "English": "CLOSED",
+      "Thai": "ปิด"
+    }
+  },
+  {
+    "Update_Job": {
+      "English": "Update Job",
+      "Thai": "อัปเดตงาน"
+    }
+  },
+  {
+    "Update_Job": {
+      "English": "Update Job",
+      "Thai": "อัปเดตงาน"
+    }
+  },
+  {
+    "Delete_Job": {
+      "English": "Delete Job",
+      "Thai": "ลบงาน"
+    }
+  },
+  {
+    "Do_you_want_to_delete": {
+      "English": "Do you want to delete?",
+      "Thai": "คุณต้องการลบหรือไม่?"
+    }
+  },
+  {
+    "Less": {
+      "English": "Less -",
+      "Thai": "น้อยลง -"
+    }
+  },
+  {
+    "Interesting_Bid_Write_Reply": {
+      "English": "Interesting Bid, Write Reply?",
+      "Thai": "ข้อเสนอที่น่าสนใจ ต้องการเขียนตอบหลับหรือไม่?"
+    }
+  },
+  {
+    "Give_Job": {
+      "English": "Give Job",
+      "Thai": "ให้งาน"
+    }
+  },
+  {
+    "Your_Reply": {
+      "English": "Your Reply...",
+      "Thai": "การตอบกลับของคุณ..."
+    }
+  },
+  {
+    "Apply_now_if_you_have_the_require_skill": {
+      "English": "Apply now if you have the require skill",
+      "Thai": "สมัครตอนนี้หากคุณมีทักษะที่ต้องการ"
+    }
+  },
+  {
+    "Search_For": {
+      "English": "Search For",
+      "Thai": "ค้นหาเพื่อ"
+    }
+  },
+  {
+    "Jobs_that_I_posted": {
+      "English": "Jobs I posted",
+      "Thai": "งานที่ฉันประกาศ"
+    }
+  },
+  {
+    "Jobs_that_I_applied_to": {
+      "English": "Jobs I applied to",
+      "Thai": "งานที่ฉันสมัคร"
+    }
+  },
+  {
+    "New_jobs_for_you": {
+      "English": "New jobs for you",
+      "Thai": "งานใหม่สำหรับคุณ"
+    }
+  },
+  {
+    "Job_Posted_View_All": {
+      "English": "Job Posted View All",
+      "Thai": "งานที่ประกาศ ดูทั้งหมด"
+    }
+  },
+  {
+    "Job_Applied_View_All": {
+      "English": "Job Applied View All",
+      "Thai": "งานที่สมัคร ดูทั้งหมด"
+    }
+  },
+  {
+    "Post_a_job_Q": {
+      "English": "Post a job",
+      "Thai": "ประกาศงาน"
+    }
+  },
+  {
+    "Select": {
+      "English": "Select",
+      "Thai": "เลือก"
+    }
+  },
+  {
+    "Select_Location": {
+      "English": "Select Location",
+      "Thai": "เลือกตำแหน่งสถานที่"
+    }
+  },
+  {
+    "Select_District": {
+      "English": "Select District",
+      "Thai": "เลือกเขตพื้นที่"
+    }
+  },
+  {
+    "Select_Category": {
+      "English": "Select Category",
+      "Thai": "เลือกหมวดหมู่"
+    }
+  },
+  {
+    "Just_Now": {
+      "English": "Just Now",
+      "Thai": "เมื่อสักครู่"
+    }
+  },
+  {
+    "minute_ago": {
+      "English": "minute ago",
+      "Thai": "นาทีก่อน"
+    }
+  },
+  {
+    "minutes_ago": {
+      "English": "minutes ago",
+      "Thai": "นาทีก่อน"
+    }
+  },
+  {
+    "hour_ago": {
+      "English": "hour ago",
+      "Thai": "ชัวโมงก่อน"
+    }
+  },
+  {
+    "hours_ago": {
+      "English": "hours ago",
+      "Thai": "ชัวโมงก่อน"
+    }
+  },
+  {
+    "day_ago": {
+      "English": "day ago",
+      "Thai": "วันก่อน"
+    }
+  },
+  {
+    "days_ago": {
+      "English": "days ago",
+      "Thai": "วันก่อน"
+    }
+  },
+  {
+    "year_ago": {
+      "English": "year ago",
+      "Thai": "ปีก่อน"
+    }
+  },
+  {
+    "years_ago": {
+      "English": "years ago",
+      "Thai": "ปีก่อน"
+    }
+  },
+  {
+    "Menu": {
+      "English": "Menu",
+      "Thai": "เมนู"
+    }
+  },
+  {
+    "Giving_Job": {
+      "English": "Giving Job",
+      "Thai": "Giving_Job"
+    }
+  },
+  {
+    "Do_want_to_give_job": {
+      "English": "Do want to give job?",
+      "Thai": "Do_want_to_give_job?"
+    }
+  },
+  {
+    "No_Freelancer_Awarded": {
+      "English": "No Freelancer Awarded",
+      "Thai": "No_Freelancer_Awarded"
+    }
+  },
+  {
+    "Hourly": {
+      "English": "Hourly",
+      "Thai": "รายชั่วโมง"
+    }
+  },
+  {
+    "Daily": {
+      "English": "Daily",
+      "Thai": "รายวัน"
+    }
+  },
+  {
+    "Weekly": {
+      "English": "Weekly",
+      "Thai": "รายสัปดาห์"
+    }
+  },
+  {
+    "Monthly": {
+      "English": "Monthly",
+      "Thai": "รายเดือน"
+    }
+  },
+  {
+    "Part_Time": {
+      "English": "Part Time",
+      "Thai": "นอกเวลา"
+    }
+  },
+  {
+    "Full_Time": {
+      "English": "Full Time",
+      "Thai": "เต็มเวลา"
+    }
+  },
+  {
+    "At_Home": {
+      "English": "At Home",
+      "Thai": "ที่บ้าน"
+    }
+  },
+  {
+    "At_Location": {
+      "English": "At Location",
+      "Thai": "ที่สถานที่"
+    }
+  },
+  {
+    "Mixed": {
+      "English": "Mixed",
+      "Thai": "ผสมกัน"
+    }
+  },
+  {
+    "Language_Choose": {
+      "English": "Select Language",
+      "Thai": "เลือกภาษา"
+    }
+  }
+]

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/thim_color"
+    android:fillViewport="true"
+    tools:context=".activity.SignupActivity"
+    tools:ignore="RtlSymmetry">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/anim_logo"
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_14sdp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/banner"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/curved_top"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:paddingHorizontal="@dimen/_15sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_30sdp">
+
+            <TextView
+                style="@style/TextHeding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="@string/register" />
+
+            <TextView
+                android:id="@+id/tv_joinStudent"
+                style="@style/TextHedingSecondery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:text="@string/connect_with_friends"
+                android:textColor="@color/thim_color"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ed_fillname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/full_name"
+                android:inputType="text"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/phone"
+                android:inputType="number"
+                android:maxLength="12"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+
+            <EditText
+                android:id="@+id/ed_Username"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/username"
+                android:inputType="text"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+
+            <EditText
+                android:id="@+id/ed_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+
+            <EditText
+                android:id="@+id/ed_con_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:background="@drawable/curved_border_5"
+                android:hint="@string/conform_password"
+                android:paddingStart="@dimen/_7sdp"
+                android:textColorHint="@color/gray_white" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_height="wrap_content">
+                <CheckBox
+                    android:id="@+id/accept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:buttonTint="@color/thim_color"
+                    />
+                <TextView
+                    android:id="@+id/tv_accep"
+                    android:layout_toRightOf="@id/accept"
+                    style="@style/desc"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:text="@string/accepTc"
+                    android:layout_height="wrap_content"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:background="@drawable/button_bacground">
+
+                <TextView
+                    style="@style/Textdesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/register"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:gravity="center_horizontal"
+                android:text="@string/or"
+                android:textColor="@color/gray_white"
+                android:textSize="@dimen/_11sdp" />
+
+            <RelativeLayout
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/curved_border_green">
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/login"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

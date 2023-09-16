@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeFragment">
+
+    <TextView
+        android:id="@+id/btn_chats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_border"
+        android:fontFamily="@font/adamina"
+        android:gravity="center"
+        android:paddingVertical="@dimen/_9sdp"
+        android:text="@string/chats"
+        android:textColor="@color/derk"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btn_groups"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_groups"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_border"
+        android:fontFamily="@font/adamina"
+        android:gravity="center"
+        android:paddingVertical="@dimen/_9sdp"
+        android:text="@string/groups"
+        android:textColor="@color/derk"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btn_users"
+        app:layout_constraintStart_toEndOf="@id/btn_chats"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/btn_users"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_border"
+        android:fontFamily="@font/adamina"
+        android:gravity="center"
+        android:paddingVertical="@dimen/_9sdp"
+        android:text="@string/users"
+        android:textColor="@color/derk"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_groups"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_chats" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

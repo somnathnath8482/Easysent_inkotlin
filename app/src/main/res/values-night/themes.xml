@@ -1,0 +1,111 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Easysentv2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/theme</item>
+        <item name="colorPrimaryVariant">@color/theme</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/theme</item>
+        <item name="colorSecondaryVariant">@color/theme</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/derk</item>
+        <!-- Customize your theme here. -->
+        <item name="editTextStyle">@style/custom_EditTextStyle</item>
+    </style>
+
+    <style name="custom_EditTextStyle" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="custom_EditTextStyle2" parent="@android:style/Widget.EditText">
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textColor">@color/text_black</item>
+        <item name="fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="TextHeding" parent="Theme.Easysentv2">
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textSize">@dimen/_18sdp</item>
+        <item name="fontFamily">@font/archivo_bold</item>
+    </style>
+
+    <style name="TextHedingSecondery" parent="Theme.Easysentv2">
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="fontFamily">@font/adamina</item>
+    </style>
+    <style name="selected" parent="Theme.Easysentv2">
+        <item name="color">@color/color_selected_derk</item>
+    </style>
+    <style name="TextHeding3" parent="Theme.Easysentv2">
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="Textdesc" parent="Theme.Easysentv2">
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="fontFamily">@font/adamina</item>
+    </style>
+
+    <style name="desc" parent="Theme.Easysentv2">
+        <item name="android:textColor">@color/gray_white</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="fontFamily">@font/adamina</item>
+        <item name="android:lineSpacingExtra">@dimen/_2sdp</item>
+    </style>
+
+    <style name="MainBgCard" parent="Theme.Easysentv2">
+        <item name="android:background">@color/derk</item>
+    </style>
+
+
+    <style name="bottom_threedot">
+        <item name="tint">@color/white</item>
+
+    </style>
+
+    <style name="my_checkbox_style">
+        <item name="buttonTint">@color/thim_color</item>
+    </style>
+
+    <style name="CheckboxCheck">
+        <item name="colorAccent">@color/thim_color</item>
+    </style>
+
+    <style name="alert" parent="Theme.Easysentv2">
+        <item name="android:background">@color/thim_color</item>
+    </style>
+
+    <style name="toolbar" parent="Theme.Easysentv2">
+        <item name="android:background">@color/derk</item>
+    </style>
+
+    <style name="SheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="pop_up_menu_style" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:itemBackground">@color/white</item>
+        <item name="android:textSize">@dimen/_10sdp</item>
+        <item name="android:fontFamily">@font/adamina</item>
+        <item name="android:listPreferredItemHeightSmall">@dimen/_28sdp</item>
+        <item name="android:listPreferredItemPaddingLeft">@dimen/_4sdp</item>
+        <item name="android:listPreferredItemPaddingRight">@dimen/_4sdp</item>
+    </style>
+
+
+</resources>
