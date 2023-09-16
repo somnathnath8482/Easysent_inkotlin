@@ -3,7 +3,7 @@ package com.easy.kotlintest.Room.Thread
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.easy.kotlintest.Interface.Messages.Item
-import com.easy.kotlintest.Interface.Messages.LiveData_Messages
+import com.easy.kotlintest.Interface.Messages.LiveData_List
 
 class Thread_ViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -43,11 +43,11 @@ class Thread_ViewModel(application: Application) : AndroidViewModel(application)
         return repository.selectThread(uid,listener)
     }
 
-    fun getActiveThreds(id: String?, live_data: LiveData_Messages<Active_Thread>) {
+    fun getActiveThreds(id: String?, live_data: LiveData_List<Active_Thread>) {
         repository.getActiveThread(id, live_data)
     }
 
-    fun getAll( live_data: LiveData_Messages<Message_Thread>) {
+    fun getAll( live_data: LiveData_List<Message_Thread>) {
         repository.getAll(live_data)
     }
 }

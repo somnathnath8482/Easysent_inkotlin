@@ -7,6 +7,6 @@ import androidx.paging.PagingData;
  * Artix Development,
  * India.
  */
-public interface LiveData_Messages<T> {
+public interface LiveData_List<T> {
      void allMessage(androidx.lifecycle.LiveData<PagingData<T>> messages);
 }

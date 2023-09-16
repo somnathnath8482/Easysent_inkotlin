@@ -8,7 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Interface.Messages.LiveData_Item
-import com.easy.kotlintest.Interface.Messages.LiveData_Messages
+import com.easy.kotlintest.Interface.Messages.LiveData_List
 import com.easy.kotlintest.Networking.Interface.OnDateSelect
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -24,7 +24,6 @@ class UserRepository {
     }
 
     private val userDao: UserDao
-    lateinit var all: LiveData<List<Users?>>
     private var job: Job
     private var scope: CoroutineScope
 
@@ -100,7 +99,7 @@ class UserRepository {
         scope.launch { liveData_item.onItem(userDao.selectUserlive(uid)) }
     }
 
-    fun search(mail: String?, livedataMessages: LiveData_Messages<Users>) {
+    fun search(mail: String?, livedataMessages: LiveData_List<Users>) {
 
         scope.launch {
             // userDao.search(mail)
@@ -125,7 +124,7 @@ class UserRepository {
 
     }
 
-    fun getAll(livedataMessages: LiveData_Messages<Users>) {
+    fun getAll(livedataMessages: LiveData_List<Users>) {
 
         scope.launch {
             // userDao.search(mail)

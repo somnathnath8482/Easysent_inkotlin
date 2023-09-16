@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Interface.Messages.LiveData_Item
-import com.easy.kotlintest.Interface.Messages.LiveData_Messages
+import com.easy.kotlintest.Interface.Messages.LiveData_List
 import com.easy.kotlintest.Networking.Interface.OnDateSelect
 
 
@@ -60,11 +60,11 @@ class UserVewModel(application: Application) : AndroidViewModel(application) {
         repository.selectUserLive(uid, liveData_item)
     }
 
-    fun search(Name_Or_Email: String?, livedataMessages: LiveData_Messages<Users>) {
+    fun search(Name_Or_Email: String?, livedataMessages: LiveData_List<Users>) {
         repository.search(Name_Or_Email, livedataMessages)
     }
 
-    fun getAll(livedataMessages: LiveData_Messages<Users>) {
+    fun getAll(livedataMessages: LiveData_List<Users>) {
         return repository.getAll(livedataMessages)
     }
 }

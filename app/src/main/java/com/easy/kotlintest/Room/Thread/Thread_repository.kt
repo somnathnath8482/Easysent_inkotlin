@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.easy.kotlintest.Interface.Messages.Item
-import com.easy.kotlintest.Interface.Messages.LiveData_Messages
+import com.easy.kotlintest.Interface.Messages.LiveData_List
 import com.easy.kotlintest.Room.Users.UserDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -64,7 +64,7 @@ class Thread_repository {
         }
     }
 
-    fun getActiveThread(Name_Or_Email: String?, live_data: LiveData_Messages<Active_Thread>) {
+    fun getActiveThread(Name_Or_Email: String?, live_data: LiveData_List<Active_Thread>) {
         scope.launch {
 
             val pager = Pager(
@@ -85,7 +85,7 @@ class Thread_repository {
         }
     }
 
-    fun getAll(live_data: LiveData_Messages<Message_Thread>) {
+    fun getAll(live_data: LiveData_List<Message_Thread>) {
         scope.launch {
             val pager = Pager(
                 PagingConfig(

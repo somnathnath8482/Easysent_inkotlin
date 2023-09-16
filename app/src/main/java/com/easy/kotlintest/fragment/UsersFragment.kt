@@ -9,11 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
-import com.easy.kotlintest.Interface.Messages.LiveData_Messages
 import com.easy.kotlintest.Networking.Interface.AllInterFace
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.Room.Users.Users

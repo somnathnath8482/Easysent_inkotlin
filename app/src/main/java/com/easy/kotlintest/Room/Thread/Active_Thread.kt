@@ -41,11 +41,7 @@ import com.google.gson.annotations.SerializedName
      var token: String? = null
 
     @SerializedName("unread")
-     val unread = 0
-
-    @SerializedName("cash_pic")
-     val cash_pic: String? = null
-
+     var unread = 0
 
      var sender: String? = null
      var thread_id: String? = null
@@ -100,6 +96,8 @@ import com.google.gson.annotations.SerializedName
         this.last_message_status = last_message_status
         this.last_message_time = last_message_time
     }
+
+
 
 
 }

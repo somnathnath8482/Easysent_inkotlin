@@ -7,6 +7,6 @@ import java.util.List;
  * Artix Development,
  * India.
  */
-public interface LiveDatanonPage<T> {
+public interface LiveDataListNonPage<T> {
     void allMessage(androidx.lifecycle.LiveData<List<T>> messages);
 }
