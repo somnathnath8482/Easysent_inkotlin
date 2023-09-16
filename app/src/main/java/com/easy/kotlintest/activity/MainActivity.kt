@@ -199,7 +199,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Create()
+        Create()
     }
 
     private fun Create() {
