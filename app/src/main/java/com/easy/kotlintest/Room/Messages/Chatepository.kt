@@ -81,6 +81,10 @@ class Chatepository(application: Application?) {
         item.onItem(Chat_dao.selectChat(uid))
 
     }
+    fun selectChat(uid: String?): Chats? {
+       return Chat_dao.selectChat(uid);
+
+    }
 
     fun selectAttachment(uid: String?, chat_id: String?, list: LiveData_List<Chats>) {
 
