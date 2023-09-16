@@ -4,6 +4,9 @@ import android.app.Activity
 import com.easy.kotlintest.Networking.Helper.ApiClient
 import com.easy.kotlintest.Networking.Helper.ApiInterface
 import com.easy.kotlintest.Networking.Helper.MethodClass
+import com.easy.kotlintest.Networking.Helper.multipart.PART
+import com.easy.kotlintest.Networking.Helper.multipart.Params
+import com.easy.kotlintest.Networking.Helper.multipart.Utils.getParam
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -11,6 +14,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import com.easy.kotlintest.Networking.Interface.OnSuccess as Customresponse
 
 
@@ -77,8 +81,14 @@ open class Network {
                             try {
                                 val jsonObject = JSONObject(response.body().toString())
                                 if (jsonObject.has("error")) {
-                                    if (should_show_errror){
-                                        MethodClass.hasError(context,com.easy.kotlintest.Response.Error.Error("1",jsonObject.getString("error").toString()))
+                                    if (should_show_errror) {
+                                        MethodClass.hasError(
+                                            context,
+                                            com.easy.kotlintest.Response.Error.Error(
+                                                "1",
+                                                jsonObject.getString("error").toString()
+                                            )
+                                        )
 
                                     }
 
@@ -104,6 +114,66 @@ open class Network {
                     }
                 })
         }
+    }
+
+
+    fun postMultipart(
+        should_show_errror: Boolean,
+        context: Activity,
+        url: String,
+        filePath: String,
+        file_key: String,
+        uthHeader: String = "",
+        map: HashMap<String, Any>,
+        customresponse: Customresponse
+    ) {
+
+        scope.launch {                          //non blocking corotines
+
+            apiInterface.PostRequestMultipart(
+                url, uthHeader,
+                Params.createMultiPart(PART(file_key, File(filePath))), getParam(map)
+            )
+                .enqueue(object : Callback<String?> {
+                    override fun onResponse(call: Call<String?>, response: Response<String?>) {
+                        if (response.code().toString() == "200") run {
+                            try {
+                                val jsonObject = JSONObject(response.body().toString())
+                                if (jsonObject.has("error")) {
+                                    if (should_show_errror) {
+                                        MethodClass.hasError(
+                                            context,
+                                            com.easy.kotlintest.Response.Error.Error(
+                                                "1",
+                                                jsonObject.getString("error").toString()
+                                            )
+                                        )
+
+                                    }
+
+                                } else {
+                                    customresponse.OnSucces(
+                                        call.request().url.toString(),
+                                        response.code().toString(),
+                                        response.body()
+                                    )
+                                }
+
+
+                            } catch (e: Exception) {
+                            }
+
+                        }
+
+
+                    }
+
+                    override fun onFailure(call: Call<String?>, t: Throwable) {
+                        customresponse.OnSucces(call.request().url.toString(), "-1", t.message)
+                    }
+                })
+        }
+
     }
 
 
