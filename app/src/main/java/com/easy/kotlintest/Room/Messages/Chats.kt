@@ -12,37 +12,37 @@ class Chats {
     var rid = 0
 
     @SerializedName("attachment")
-    var attachment: String? = null
+    var attachment: String? = ""
 
     @SerializedName("sender")
-    var sender: String? = null
+    var sender: String? = ""
 
     @SerializedName("created_at")
-    var createdAt: String? = null
+    var createdAt: String? = ""
 
     @ColumnInfo(name = "chat_id")
-    var id: String? = null
+    var id: String? = ""
 
     @SerializedName("thread")
-    var thread: String? = null
+    var thread: String? = ""
 
     @SerializedName("message")
-    var message: String? = null
+    var message: String? = ""
 
     @SerializedName("type")
-    var type: String? = null
+    var type: String? = ""
 
     @SerializedName("replay_of")
-    var replay_of: String? = null
+    var replay_of: String? = ""
 
     @SerializedName("reciver")
-    var reciver: String? = null
+    var reciver: String? = ""
 
     @SerializedName("seen")
-    var seen: String? = null
+    var seen: String? = ""
 
     @SerializedName("is_deleted")
-    var deleted: String? = null
+    var deleted: String? = ""
 
     constructor() {}
     constructor(

@@ -112,7 +112,7 @@ class SyncUserWorker(appContext: Context, workerParams: WorkerParameters) :
 
         } catch (e: Exception) {
             // If there's an error, you might want to retry depending on the error
-            Result.failure()
+            Result.retry()
         }
     }
 

@@ -4,7 +4,7 @@ import android.app.Application
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 
 class Application : Application() {
-  lateinit var  application:Application;
+   var  application:Application = this;
     override fun onCreate() {
         super.onCreate()
         application = this
@@ -12,7 +12,7 @@ class Application : Application() {
     }
 
     fun getapplication():Application{
-        return this;
+        return application?:this;
     }
 
 }

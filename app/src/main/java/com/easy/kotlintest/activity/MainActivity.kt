@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
                         if (user?.profilePic != null && !user?.profilePic.equals("null")) {
                             val url: String =
                                 Constants.BASE_URL + "profile_image/" + user.profilePic
-                            val file: File = File(Constants.CATCH_DIR + "/" + user.profilePic)
+                            val file = File(Constants.CATCH_DIR + "/" + user.profilePic)
                             if (file.exists()) {
                                 Thread {
                                     val imageGetter = ImageGetter(toolbarBinding.profileImage)

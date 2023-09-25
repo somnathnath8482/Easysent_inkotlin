@@ -1,5 +1,6 @@
 package com.easy.kotlintest.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.easy.kotlintest.Networking.Interface.AllInterFace
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.Room.Users.Users
+import com.easy.kotlintest.activity.Message.MessageActivity
 import com.easy.kotlintest.adapter.UserAdapter
 import com.easy.kotlintest.databinding.FragmentUsersBinding
 import kotlinx.coroutines.CoroutineScope
@@ -64,7 +66,9 @@ class UsersFragment : Fragment(), CoroutineScope {
         }, Dispatchers.Main, object : AllInterFace() {
             override fun IsClicked(s: String?) {
                 super.IsClicked(s)
-
+                val intent = Intent(activity, MessageActivity::class.java)
+                intent.putExtra("reciver", s)
+                activity!!.startActivity(intent)
             }
         })
         binding.recycler.adapter = adapter

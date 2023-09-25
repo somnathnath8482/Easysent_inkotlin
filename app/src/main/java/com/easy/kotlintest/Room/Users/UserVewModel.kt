@@ -53,7 +53,7 @@ class UserVewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun selectUser(uid: String?, item: Item<Users>) {
-        return repository.selectUser(uid, item)
+         repository.selectUser(uid, item)
     }
 
     fun selectUserLive(uid: String?, liveData_item: LiveData_Item<Users>) {

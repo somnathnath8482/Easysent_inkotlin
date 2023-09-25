@@ -8,16 +8,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Networking.Network
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Response.Login.LoginResponse
-import com.easy.kotlintest.Workers.MultipartWorker
+import com.easy.kotlintest.Workers.SyncMessageWorker
+import com.easy.kotlintest.Workers.SyncThreadWorker
 import com.easy.kotlintest.Workers.SyncUserWorker
 import com.easy.kotlintest.databinding.ActivityLoginBinding
 import com.google.gson.Gson
@@ -56,10 +57,24 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-         binding.btnRegister.setOnClickListener { startActivity(Intent(this, SignupActivity::class.java)) }
-         binding.joinEasysent.setOnClickListener { binding.btnRegister.performClick() }
+        binding.btnRegister.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    SignupActivity::class.java
+                )
+            )
+        }
+        binding.joinEasysent.setOnClickListener { binding.btnRegister.performClick() }
 
-         binding.btnForgot.setOnClickListener { startActivity(Intent(this, ForgotPasswordActivity::class.java)) }
+        binding.btnForgot.setOnClickListener {
+            startActivity(
+                Intent(
+                    this,
+                    ForgotPasswordActivity::class.java
+                )
+            )
+        }
 
     }
 
@@ -74,7 +89,12 @@ class LoginActivity : AppCompatActivity() {
         map["device_id"] = Build.ID
 
 
-        network.post(true,activity,Constants.BASE_URL + Constants.LOGIN, map = map) { url, code, res ->
+        network.post(
+            true,
+            activity,
+            Constants.BASE_URL + Constants.LOGIN,
+            map = map
+        ) { url, code, res ->
             run {
 
                 if (code.equals("200")) {
@@ -119,12 +139,20 @@ class LoginActivity : AppCompatActivity() {
                                 PrefUtill.setIsLogged(true)
                                 PrefUtill.setUser(loginResponse)
 
-                                val uploadWorkRequest = OneTimeWorkRequestBuilder<SyncUserWorker>()
+                                val syncUser = OneTimeWorkRequestBuilder<SyncUserWorker>()
                                     .build()
+
+                                val syncThread = OneTimeWorkRequestBuilder<SyncThreadWorker>()
+                                    .build()
+                                val syncuser = OneTimeWorkRequestBuilder<SyncMessageWorker>()
+                                    .build()
+
+                                val requests: List<WorkRequest> = listOf(syncUser, syncThread, syncuser)
 
                                 val manager = WorkManager
                                     .getInstance(this@LoginActivity)
-                                manager.enqueue(uploadWorkRequest)
+                                manager.enqueue(requests)
+
 
                                 val intent = Intent(applicationContext, MainActivity::class.java)
                                 //intent.putExtra("new_login", true)

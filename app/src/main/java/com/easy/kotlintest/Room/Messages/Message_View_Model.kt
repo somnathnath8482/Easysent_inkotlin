@@ -47,9 +47,7 @@ class Message_View_Model(application: Application) : AndroidViewModel(applicatio
     fun selectChat(uid: String?,item: Item<Chats>) {
         repository.selectChat(uid,item)
     }
-    fun selectChat(uid: String?): Chats? {
-        return repository.selectChat(uid)
-    }
+
 
     fun selectAttachment(uid: String?, chat_id: String?, list: LiveData_List<Chats>) {
         return repository.selectAttachment(uid, chat_id,list)

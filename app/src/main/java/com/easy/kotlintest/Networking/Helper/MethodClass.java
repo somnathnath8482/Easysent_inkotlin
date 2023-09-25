@@ -6,29 +6,48 @@ import static com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR2;
 import static com.easy.kotlintest.Networking.Helper.Constants.LOGOUT;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill;
+import com.easy.kotlintest.Networking.Interface.AllInterFace;
+import com.easy.kotlintest.Networking.Interface.OnMenuItemClick;
 import com.easy.kotlintest.Networking.Network;
 import com.easy.kotlintest.R;
 import com.easy.kotlintest.Response.Error.Error;
+import com.easy.kotlintest.Room.Messages.Chats;
+import com.easy.kotlintest.Room.Messages.Message_View_Model;
 import com.easy.kotlintest.activity.LoginActivity;
 import com.labters.lottiealertdialoglibrary.ClickListener;
 import com.labters.lottiealertdialoglibrary.DialogTypes;
@@ -44,15 +63,35 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import io.github.muddz.styleabletoast.StyleableToast;
 
 public class MethodClass {
 
-
+    public static String changeDateFormat2(String date_str) {
+        String date_output = "";
+        SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        input.setTimeZone(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+        output.setTimeZone(TimeZone.getDefault());
+        try {
+            Date oneWayTripDate = input.parse(date_str);
+            date_output = output.format(oneWayTripDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date_output;
+    }
 
     public static JSONObject Json_rpc_format(HashMap<String, String> params) {
         HashMap<String, Object> main_param = new HashMap<String, Object>();
@@ -334,6 +373,147 @@ public class MethodClass {
         }
 
         return photoPath;
+    }
+    public static void chengeBackground(LinearLayout mainLay) {
+        mainLay.setBackgroundColor(mainLay.getContext().getColor(R.color.seleted_bg));
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mainLay.setBackgroundColor(mainLay.getContext().getColor(R.color.transparent));
+            }
+        }, 1200);
+
+
+    }
+    public static void showFullScreen(Activity context, Handler handler, String thread, String chat_id) {
+      /*  LayoutInflater inflater = context.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.fragment_view_attachment, null);
+        @NonNull FragmentViewAttachmentBinding binding = FragmentViewAttachmentBinding.bind(dialogView);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+        // AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        Message_View_Model message_view_model = new Message_View_Model(context.getApplication());
+        List<Chats> chats = message_view_model.selectAttachment(thread, chat_id);
+        Attachment_viewpager adapter = new Attachment_viewpager(chats, context, handler);
+
+        binding.recycler.setAdapter(adapter);
+        binding.recycler.setOffscreenPageLimit(4);
+
+        binding.recycler.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+
+                adapter.pauseAll();
+
+            }
+        });
+
+        builder.setView(dialogView);
+        builder.setCancelable(true);
+        AlertDialog dialog = builder.create();
+        //dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //dialog.getWindow().setStatusBarColor(context.getResources().getColor(R.color.Green));
+        if (dialog.getWindow() != null)
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
+        dialog.show();
+
+        dialog.setOnDismissListener(dialogInterface -> {
+            try {
+                adapter.pauseAll();
+            } catch (Exception e) {
+
+            }
+        });*/
+
+    }
+    public static void report(Activity context, AllInterFace allInterFace, String name) {
+/*
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.report_lay, null);
+
+        ReportLayBinding binding = ReportLayBinding.bind(dialogView.getRootView());
+
+        binding.heading.setText("Want To Report " + name + " ?");
+        binding.tvBlock.setText(" Check to Block " + name);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+
+        builder.setView(dialogView);
+        builder.setCancelable(true);
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        binding.btCancel.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        binding.btCancel.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        binding.btreport.setOnClickListener(view -> {
+            allInterFace.isClicked(binding.accept.isChecked());
+            dialog.dismiss();
+        });
+*/
+
+    }
+    public static class GetFileBitmap extends AsyncTask<Void, Void, Bitmap> {
+
+        String path;
+        ImageView imageView;
+
+        Context context;
+
+        public GetFileBitmap(String path, ImageView imageView, Context context) {
+            this.path = path;
+            this.imageView = imageView;
+            this.context = context;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            FutureTarget<Bitmap> futureTarget = Glide.with(context)
+                    .asBitmap()
+                    .override(600, 600)
+                    .load(path)
+                    .submit();
+            try {
+                return futureTarget.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+    }
+
+    public static void show_popup_menu2(View imageView, Activity activity, OnMenuItemClick onMenuItemClick) {
+        //Toast.makeText(activity, "clicked "+block, Toast.LENGTH_SHORT).show();
+        Context wrapper = new ContextThemeWrapper(activity, R.style.pop_up_menu_style);
+        PopupMenu popupMenu = new PopupMenu(wrapper, imageView, Gravity.BOTTOM | Gravity.END);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.messagemenu2, popupMenu.getMenu());
+        popupMenu.show();
+
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                onMenuItemClick.OnClick(menuItem.getItemId());
+                return true;
+            }
+        });
     }
 
     public static String rotateImage(int degree, String imagePath) {

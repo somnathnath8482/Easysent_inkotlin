@@ -42,22 +42,29 @@ class SyncThreadWorker(appContext: Context, workerParams: WorkerParameters) :
                         if (!jsonObject.has("error")) {
                             val gson = Gson()
                             val response: AllThreadsResponse =
-                                gson.fromJson(res.toString(), AllThreadsResponse::class.java)
+                                gson.fromJson(jsonObject.toString(), AllThreadsResponse::class.java)
                             if (response != null) {
                                 for (i in 0 until response.threads.size) {
                                     try {
                                         val uitem: ThreadsItem = response.threads[i]
-                                        val message_thread = Message_Thread(
-                                            uitem.sender,
-                                            uitem.id,
-                                            uitem.createAt,
-                                            uitem.reciver,
-                                            "",
-                                            "",
-                                            "",
-                                            uitem.createAt
-                                        )
-                                        thread_viewModel.insert(message_thread)
+
+                                        thread_viewModel.selectThread(uitem.id){
+                                            if (it==null){
+                                                val message_thread = Message_Thread(
+                                                    uitem.sender,
+                                                    uitem.id,
+                                                    uitem.createAt,
+                                                    uitem.reciver,
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    uitem.createAt
+                                                )
+                                                thread_viewModel.insert(message_thread)
+                                            }
+                                        }
+
+
                                     } catch (e: java.lang.Exception) {
                                         e.printStackTrace()
                                     }
@@ -66,6 +73,7 @@ class SyncThreadWorker(appContext: Context, workerParams: WorkerParameters) :
                         }
 
                     } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
 
@@ -81,7 +89,7 @@ class SyncThreadWorker(appContext: Context, workerParams: WorkerParameters) :
 
         } catch (e: Exception) {
             // If there's an error, you might want to retry depending on the error
-            Result.failure()
+            Result.retry()
         }
     }
 

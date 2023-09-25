@@ -12,12 +12,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-class Chatepository(application: Application?) {
+class Chatepository{
     private val Chat_dao: ChatDao
     private var job: Job
     private var scope: CoroutineScope
 
-    init {
+    constructor(application: Application?)  {
         val database = MessageDataBase.getInstance(application!!)
         Chat_dao = database!!.chatDao()
         job = Job()
@@ -78,11 +78,11 @@ class Chatepository(application: Application?) {
     }
 
     fun selectChat(uid: String?, item: Item<Chats>) {
-        item.onItem(Chat_dao.selectChat(uid))
+        scope.launch {
 
-    }
-    fun selectChat(uid: String?): Chats? {
-       return Chat_dao.selectChat(uid);
+            item.onItem(Chat_dao.selectChat(uid))
+        }
+
 
     }
 
