@@ -43,4 +43,8 @@ interface ChatDao {
     // @Query("SELECT * FROM Chats WHERE thread = :Tid AND (type = 'I' OR type = 'V') ")
     @Query("SELECT * FROM Chats WHERE thread = :Tid AND (type = 'I' OR type = 'V')  ORDER BY CASE WHEN chat_id =:chat_id THEN 0 ELSE 1 END")
     fun selectAttachment(Tid: String?, chat_id: String?): PagingSource<Int, Chats>
+
+    //without live and paged
+    @Query("SELECT * FROM Chats WHERE thread = :Tid AND (type = 'I' OR type = 'V')  ORDER BY CASE WHEN chat_id =:chat_id THEN 0 ELSE 1 END")
+    fun selectAttachmentNonPaged(Tid: String?, chat_id: String?): List<Chats>
 }

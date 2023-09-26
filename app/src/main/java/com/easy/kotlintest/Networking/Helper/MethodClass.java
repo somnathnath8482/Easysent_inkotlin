@@ -7,7 +7,6 @@ import static com.easy.kotlintest.Networking.Helper.Constants.LOGOUT;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +14,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -34,8 +32,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.exifinterface.media.ExifInterface;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -46,13 +42,15 @@ import com.easy.kotlintest.Networking.Interface.OnMenuItemClick;
 import com.easy.kotlintest.Networking.Network;
 import com.easy.kotlintest.R;
 import com.easy.kotlintest.Response.Error.Error;
-import com.easy.kotlintest.Room.Messages.Chats;
 import com.easy.kotlintest.Room.Messages.Message_View_Model;
 import com.easy.kotlintest.activity.LoginActivity;
+import com.easy.kotlintest.adapter.ViewPager.AttachmentViewpager;
+import com.easy.kotlintest.databinding.FragmentViewAttachmentBinding;
 import com.labters.lottiealertdialoglibrary.ClickListener;
 import com.labters.lottiealertdialoglibrary.DialogTypes;
 import com.labters.lottiealertdialoglibrary.LottieAlertDialog;
 
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -67,7 +65,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Timer;
@@ -131,27 +128,27 @@ public class MethodClass {
 
         if (error != null) {
 
-                try {
-                    // activity.onBackPressed();
-                    LottieAlertDialog lottieAlertDialog = new LottieAlertDialog.Builder(activity, DialogTypes.TYPE_ERROR)
-                            .setPositiveButtonColor(Color.parseColor("#048B3A"))
-                            .setNegativeButtonColor(Color.parseColor("#DA1606"))
-                            .setNoneButtonColor(Color.parseColor("#038DFC"))
-                            .setPositiveTextColor(Color.WHITE)
-                            .setNegativeTextColor(Color.WHITE)
-                            .setNoneTextColor(Color.WHITE)
-                            .setTitle("Error")
-                            .setDescription(error.getMessage())
-                            .setNoneText("OK")
-                            .setNoneListener(Dialog::dismiss)
-                            .build();
+            try {
+                // activity.onBackPressed();
+                LottieAlertDialog lottieAlertDialog = new LottieAlertDialog.Builder(activity, DialogTypes.TYPE_ERROR)
+                        .setPositiveButtonColor(Color.parseColor("#048B3A"))
+                        .setNegativeButtonColor(Color.parseColor("#DA1606"))
+                        .setNoneButtonColor(Color.parseColor("#038DFC"))
+                        .setPositiveTextColor(Color.WHITE)
+                        .setNegativeTextColor(Color.WHITE)
+                        .setNoneTextColor(Color.WHITE)
+                        .setTitle("Error")
+                        .setDescription(error.getMessage())
+                        .setNoneText("OK")
+                        .setNoneListener(Dialog::dismiss)
+                        .build();
 
-                    lottieAlertDialog.setCancelable(false);
-                    lottieAlertDialog.setCanceledOnTouchOutside(false);
-                    lottieAlertDialog.show();
-                } catch (Exception e) {
-                    StyleableToast.makeText(activity.getApplicationContext(), "" + error.getMessage(), R.style.mytoast).show();
-                }
+                lottieAlertDialog.setCancelable(false);
+                lottieAlertDialog.setCanceledOnTouchOutside(false);
+                lottieAlertDialog.show();
+            } catch (Exception e) {
+                StyleableToast.makeText(activity.getApplicationContext(), "" + error.getMessage(), R.style.mytoast).show();
+            }
 
 
             return false;
@@ -160,6 +157,7 @@ public class MethodClass {
 
         return true;
     }
+
     public static int getResId(String resName, Class<?> c) {
 
         try {
@@ -188,6 +186,7 @@ public class MethodClass {
             return editText.getText().toString().trim();
         }
     }
+
     public static boolean isValidEmailId(String email) {
 
         return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
@@ -218,7 +217,7 @@ public class MethodClass {
                         map.put("id", id);
 
 
-                        network.post(BASE_URL + LOGOUT ,"",map,(url, code, res) -> {
+                        network.post(BASE_URL + LOGOUT, "", map, (url, code, res) -> {
 
                         });
                         lottieAlertDialog.dismiss();
@@ -244,7 +243,7 @@ public class MethodClass {
 
     }
 
-    public static void CashImage(String s, String s1, Drawable d) {
+    public static void CashImage(String s, String s1, @Nullable  Drawable d) {
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -275,6 +274,38 @@ public class MethodClass {
         th.run();
     }
 
+
+    public static void CashImage3(String name,  Bitmap bm) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File(CATCH_DIR + "/" + name);
+
+                if (file.exists()) {
+                    file.delete();
+                }
+
+                try {
+                    file.createNewFile();
+
+                    FileOutputStream outStream = new FileOutputStream(file);
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+                    outStream.flush();
+                    outStream.close();
+
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    file.delete();
+                }
+
+            }
+        });
+        th.run();
+    }
+
     public static void CashImage2(String s, String s1) {
 
         Thread th = new Thread(new Runnable() {
@@ -287,6 +318,7 @@ public class MethodClass {
         th.start();
 
     }
+
     public static class GetFile extends AsyncTask<Void, Void, Void> {
 
         File file;
@@ -339,6 +371,7 @@ public class MethodClass {
         out.flush();
         out.close();
     }
+
     public static String getRightAngleImage(String photoPath) {
 
         try {
@@ -374,6 +407,7 @@ public class MethodClass {
 
         return photoPath;
     }
+
     public static void chengeBackground(LinearLayout mainLay) {
         mainLay.setBackgroundColor(mainLay.getContext().getColor(R.color.seleted_bg));
         Timer timer = new Timer();
@@ -386,48 +420,62 @@ public class MethodClass {
 
 
     }
+
     public static void showFullScreen(Activity context, Handler handler, String thread, String chat_id) {
-      /*  LayoutInflater inflater = context.getLayoutInflater();
+        LayoutInflater inflater = context.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.fragment_view_attachment, null);
         @NonNull FragmentViewAttachmentBinding binding = FragmentViewAttachmentBinding.bind(dialogView);
         AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
         // AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-        Message_View_Model message_view_model = new Message_View_Model(context.getApplication());
-        List<Chats> chats = message_view_model.selectAttachment(thread, chat_id);
-        Attachment_viewpager adapter = new Attachment_viewpager(chats, context, handler);
-
-        binding.recycler.setAdapter(adapter);
-        binding.recycler.setOffscreenPageLimit(4);
-
-        binding.recycler.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-
-                adapter.pauseAll();
-
-            }
-        });
-
         builder.setView(dialogView);
         builder.setCancelable(true);
         AlertDialog dialog = builder.create();
+
+
+
+        Message_View_Model message_view_model = new Message_View_Model(context.getApplication());
+        message_view_model.selectAttachmentNonPaged(thread, chat_id, chats -> {
+
+            AttachmentViewpager adapter = new AttachmentViewpager(chats, context, handler);
+            handler.post(
+                    () -> {
+                        binding.recycler.setAdapter(adapter);
+                    } );
+
+
+            binding.recycler.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+                @Override
+                public void onPageSelected(int position) {
+                    super.onPageSelected(position);
+                    adapter.pauseAll();
+
+                }
+            });
+
+
+            dialog.setOnDismissListener(dialogInterface -> {
+                try {
+                    adapter.pauseAll();
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
+            });
+
+        });
+
+        binding.recycler.setOffscreenPageLimit(4);
+
+
+
         //dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //dialog.getWindow().setStatusBarColor(context.getResources().getColor(R.color.Green));
         if (dialog.getWindow() != null)
             dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
         dialog.show();
 
-        dialog.setOnDismissListener(dialogInterface -> {
-            try {
-                adapter.pauseAll();
-            } catch (Exception e) {
-
-            }
-        });*/
 
     }
+
     public static void report(Activity context, AllInterFace allInterFace, String name) {
 /*
 
@@ -461,6 +509,7 @@ public class MethodClass {
 */
 
     }
+
     public static class GetFileBitmap extends AsyncTask<Void, Void, Bitmap> {
 
         String path;

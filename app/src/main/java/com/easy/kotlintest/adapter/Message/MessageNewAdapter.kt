@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,10 @@ import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Helper.SaveWithProgress
-import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Networking.Interface.AllInterFace
+import com.easy.kotlintest.Networking.Interface.OnMenuItemClick
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
@@ -51,10 +52,16 @@ class MessageNewAdapter(
         get() = Dispatchers.Main
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //Log.e("TAG", "onBindViewHolder: $position" )
         val item = getItem(position)
         item?.also {
             holder.message?.text =it.message
             holder.time?.text = MethodClass.changeDateFormat2(it.createdAt)
+            holder.itemView.setOnLongClickListener { view: View? ->
+                showPopupMenu(holder.mainLay!!, item)
+                true
+            }
+
             launch {
                 when {
                     item.type.equals("T", ignoreCase = true) -> {
@@ -139,6 +146,37 @@ class MessageNewAdapter(
 
 
     }
+    private fun showPopupMenu(chatMe: LinearLayout, item: Chats) {
+        MethodClass.show_popup_menu2(chatMe, activity
+        ) { res ->
+            if (res == R.id.menu_delete) {
+                    message_view_model.updateDelete(item.id, "1")
+            } else if (res == R.id.menu_foroward) {
+                // Handle menu_foroward
+                // Intent intent = Intent(activity, ShareActivity::class.java)
+                // intent.putExtra("from", "forowrd")
+                // intent.putExtra("type", item.type)
+                // intent.putExtra("msg", item.message ?: "")
+                // if (item.attachment != null) {
+                //     intent.putExtra("file", CATCH_DIR2 + "/" + item.attachment)
+                // } else {
+                //     intent.putExtra("file", "")
+                // }
+                // context.startActivity(intent)
+            } else if (res == R.id.menu_report) {
+                MethodClass.report(activity, object : AllInterFace() {
+                    override fun isClicked(`is`: Boolean) {
+                        super.isClicked(`is`)
+                        if (`is`) {
+                            // Handle report submission
+                        }
+                        Toast.makeText(context, "Report Submitted", Toast.LENGTH_SHORT).show()
+                    }
+                }, "This Group")
+            }
+        }
+    }
+
 
     private fun AttachmentDoc(item: Chats, holder:ViewHolder) {
         holder.layDoc?.visibility = View.VISIBLE
@@ -214,26 +252,43 @@ class MessageNewAdapter(
                 holder.ivAttachment?.visibility = View.VISIBLE
                 holder.layAttachment?.visibility = View.VISIBLE
                 holder.btnPlay?.visibility = View.VISIBLE
-                Thread {
-                    val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
-                        .asBitmap()
+
+                val cashFile = File(Constants.CATCH_DIR + "/" + item.attachment)
+                if (cashFile.exists()){
+                    Glide.with(context)
+                        .load(cashFile)
                         .override(600, 600)
-                        .load(file.absolutePath)
-                        .submit()
-                    try {
-                        val bitmap = futureTarget.get()
-                        handler.post {
-                            Glide.with(context)
-                                .load(bitmap)
-                                .override(600, 600)
-                                .into(holder.ivAttachment!!)
-                            holder.ivAttachment?.visibility = View.VISIBLE
-                            holder.layAttachment?.visibility = View.VISIBLE
+                        .into(holder.ivAttachment!!)
+                    holder.ivAttachment?.visibility = View.VISIBLE
+                    holder.layAttachment?.visibility = View.VISIBLE
+                }else {
+
+
+                    Thread {
+                        val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
+                            .asBitmap()
+                            .override(600, 600)
+                            .load(file.absolutePath)
+                            .submit()
+                        try {
+                            val bitmap = futureTarget.get()
+                            handler.post {
+                                Glide.with(context)
+                                    .load(bitmap)
+                                    .override(600, 600)
+                                    .into(holder.ivAttachment!!)
+                                holder.ivAttachment?.visibility = View.VISIBLE
+                                holder.layAttachment?.visibility = View.VISIBLE
+                            }
+                            MethodClass.CashImage3(
+                                file.name.replace("mp4","jpg"),
+                                bitmap
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
                         }
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-                }.start()
+                    }.start()
+                }
             } else {
                 holder.layDoc?.visibility = View.VISIBLE
                 holder.ivDownload?.visibility = View.VISIBLE
@@ -340,7 +395,6 @@ class MessageNewAdapter(
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
             val mainLay: LinearLayout? = itemView.findViewById(R.id.main_lay)
             val message: TextView? = itemView.findViewById(R.id.message)
             val time: TextView? = itemView.findViewById(R.id.time)
@@ -361,7 +415,6 @@ class MessageNewAdapter(
             val layReplay: LinearLayout? = itemView.findViewById(R.id.lay_replay)
             val layReplayDoc: LinearLayout? = itemView.findViewById(R.id.lay_replay_doc)
             val ivReplayDoc: ImageView? = itemView.findViewById(R.id.iv_replay_doc)
-
 
     }
 

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -73,13 +74,16 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         val adapter = MessageNewAdapter(
             object : DiffUtil.ItemCallback<Chats>() {
                 override fun areItemsTheSame(oldItem: Chats, newItem: Chats): Boolean {
-                    return oldItem.id === newItem.id
+                    val boll= oldItem.id == newItem.id
+                    //Log.e("TAG", "areItemsTheSame: $boll" )
+                    return boll
                 }
 
 
                 override fun areContentsTheSame(oldItem: Chats, newItem: Chats): Boolean {
-                    return (oldItem.rid == newItem.rid && oldItem.seen.equals(newItem.seen, true)
-                            && oldItem.deleted.equals(newItem.deleted, true))
+                    val boo=  ( oldItem.seen==newItem.seen && oldItem.deleted == newItem.deleted);
+                    //Log.e("TAG", "areContentsTheSame: $boo" )
+                    return boo
                 }
             },
             Dispatchers.Main,
@@ -93,23 +97,23 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         val linearLayoutManager = LinearLayoutManager(this@MessageActivity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         linearLayoutManager.stackFromEnd = true
-        linearLayoutManager.reverseLayout = false
+       linearLayoutManager.reverseLayout = false
         binding.recycler.layoutManager = linearLayoutManager
         binding.recycler.isNestedScrollingEnabled = false
         binding.recycler.setHasFixedSize(true)
         binding.recycler.adapter = adapter
 
 
-        message_view_model.getChat_By_Paged(reciver, PrefUtill.getUser()?.user?.id, LiveData_List {
+        message_view_model.getChat_By_Paged(reciver, PrefUtill.getUser()?.user?.id) {
             handler.post {
-                it.observe(this, Observer {
+                it.observe(this) {
                     launch {
                         adapter.submitData(it);
                     }
 
-                })
+                }
             }
-        })
+        }
 
 
         userVewModel.selectUserLive(

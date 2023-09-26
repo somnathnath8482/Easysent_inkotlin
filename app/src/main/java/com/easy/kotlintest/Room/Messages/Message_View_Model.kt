@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.easy.kotlintest.Interface.Messages.Item
+import com.easy.kotlintest.Interface.Messages.ListMessages
 import com.easy.kotlintest.Interface.Messages.LiveData_List
 
 
@@ -51,6 +52,9 @@ class Message_View_Model(application: Application) : AndroidViewModel(applicatio
 
     fun selectAttachment(uid: String?, chat_id: String?, list: LiveData_List<Chats>) {
         return repository.selectAttachment(uid, chat_id,list)
+    }
+    fun selectAttachmentNonPaged(uid: String?, chat_id: String?, list: ListMessages<Chats>) {
+        return repository.selectAttachmentNonPageed(uid, chat_id,list)
     }
 
 

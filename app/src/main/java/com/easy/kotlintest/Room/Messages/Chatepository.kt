@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.easy.kotlintest.Interface.Messages.Item
+import com.easy.kotlintest.Interface.Messages.ListMessages
 import com.easy.kotlintest.Interface.Messages.LiveData_List
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -103,6 +104,16 @@ class Chatepository{
             }
 
             list.allMessage(pager.flow.cachedIn(scope).asLiveData())
+
+        }
+
+    }
+
+    fun selectAttachmentNonPageed(uid: String?, chat_id: String?, list: ListMessages<Chats>) {
+
+        scope.launch {
+
+            list.allMessage(Chat_dao.selectAttachmentNonPaged(uid, chat_id))
 
         }
 
