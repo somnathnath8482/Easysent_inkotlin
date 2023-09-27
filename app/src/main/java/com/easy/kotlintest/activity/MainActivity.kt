@@ -199,6 +199,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        MethodClass.isAllowed(this@MainActivity)
         Create()
     }
 

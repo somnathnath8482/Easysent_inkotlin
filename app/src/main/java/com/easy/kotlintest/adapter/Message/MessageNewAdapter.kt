@@ -281,7 +281,7 @@ class MessageNewAdapter(
                                 holder.layAttachment?.visibility = View.VISIBLE
                             }
                             MethodClass.CashImage3(
-                                file.name.replace("mp4","jpg"),
+                                file.name.replace("mp4","png"),
                                 bitmap
                             )
                         } catch (e: Exception) {
