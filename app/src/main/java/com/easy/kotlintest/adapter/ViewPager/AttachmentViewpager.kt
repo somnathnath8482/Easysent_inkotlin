@@ -17,8 +17,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.easy.kotlintest.Networking.Helper.Constants
-import com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR2
-import com.easy.kotlintest.Networking.Helper.MethodClass.CashImage2
+import com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR_Memory
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.databinding.AttachmentItemBinding
@@ -34,20 +33,20 @@ class AttachmentViewpager(chats: MutableList<Chats>, context: Activity, handler:
     private var chats: MutableList<Chats>
     private var context: Activity
     private var handler: Handler
-    private var player: ExoPlayer?  = null
+    private var player: ExoPlayer? = null
     private var playerList: MutableList<ExoPlayer> = ArrayList()
 
     init {
         this.chats = chats
         this.context = context
         this.handler = handler
-       this. player = ExoPlayer.Builder(context).build()
+        this.player = ExoPlayer.Builder(context).build()
     }
 
 
     fun pauseAll() {
         playerList.forEach {
-            if (it?.isPlaying?:false){
+            if (it?.isPlaying ?: false) {
                 it.pause()
             }
         }
@@ -82,7 +81,7 @@ class AttachmentViewpager(chats: MutableList<Chats>, context: Activity, handler:
 
         val item: Chats = chats.get(position)
         if (item.type.equals("I", true)) {
-            val file = File(CATCH_DIR2 + "/" + item.attachment)
+            val file = File(CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists() && file.isAbsolute) {
                 Glide.with(context).load(file.absolutePath)
                     .into(binding.ivAttachment)
@@ -114,20 +113,16 @@ class AttachmentViewpager(chats: MutableList<Chats>, context: Activity, handler:
                         }
                     })
                     .into(binding.ivAttachment)
-                CashImage2(
-                    Constants.BASE_URL + "Attachment/" + item.attachment,
-                    item.attachment
-                )
             }
             binding.ivAttachment.visibility = View.VISIBLE
         }
         if (item.type.equals("V", true)) {
 
-                player?.pause()
+            player?.pause()
 
             player = ExoPlayer.Builder(context).build()
             var path: String = Constants.BASE_URL + "Attachment/" + item.attachment
-            val file = File(CATCH_DIR2 + "/" + item.attachment)
+            val file = File(CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
                 path = file.absolutePath
             }

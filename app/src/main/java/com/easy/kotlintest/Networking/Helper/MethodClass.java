@@ -1,8 +1,8 @@
 package com.easy.kotlintest.Networking.Helper;
 
 import static com.easy.kotlintest.Networking.Helper.Constants.BASE_URL;
-import static com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR;
-import static com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR2;
+import static com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR_CASH;
+import static com.easy.kotlintest.Networking.Helper.Constants.CATCH_DIR_Memory;
 import static com.easy.kotlintest.Networking.Helper.Constants.LOGOUT;
 
 import android.Manifest;
@@ -16,7 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -250,33 +249,61 @@ public class MethodClass {
 
     }
 
-    public static void CashImage(String s, String s1, @Nullable  Drawable d) {
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File file = new File(CATCH_DIR + "/" + s1);
+    public static void CashImageInMemory(String file_name, @Nullable Bitmap bm) {
 
-                if (file.exists()) {
-                    file.deleteOnExit();
-                }
+        Thread th = new Thread(() -> {
 
-                try {
-                    file.createNewFile();
-                   /* Bitmap bm = ((BitmapDrawable) d).getBitmap();
-                    FileOutputStream outStream = new FileOutputStream(file);
-                    bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            File file = new File(CATCH_DIR_Memory + "/" + file_name);
 
-                    outStream.flush();
-                    outStream.close();*/
-
-                    new GetFile(file, s).execute();
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    file.delete();
-                }
-
+            if (file.exists()) {
+                file.delete();
             }
+
+            try {
+                file.createNewFile();
+
+                FileOutputStream outStream = new FileOutputStream(file);
+                getResizedBitmap(bm, 50).compress(Bitmap.CompressFormat.PNG, 5, outStream);
+
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                file.delete();
+            }
+
+        });
+        th.run();
+    }
+
+
+public static void CashImageInMemoryOriginalQuality(String file_name, @Nullable Bitmap bm) {
+
+        Thread th = new Thread(() -> {
+
+            File file = new File(CATCH_DIR_Memory + "/" + file_name);
+
+            if (file.exists()) {
+                file.delete();
+            }
+
+            try {
+                file.createNewFile();
+
+                FileOutputStream outStream = new FileOutputStream(file);
+              bm.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                file.delete();
+            }
+
         });
         th.run();
     }
@@ -285,7 +312,7 @@ public class MethodClass {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -295,45 +322,42 @@ public class MethodClass {
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
-    public static void CashImage3(String name,  Bitmap bm) {
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-                File file = new File(CATCH_DIR + "/" + name);
+    public static void CashImageInCatch(String file_name, Bitmap bm) {
+        Thread th = new Thread(() -> {
 
-                if (file.exists()) {
-                    file.delete();
-                }
+            File file = new File(CATCH_DIR_CASH + "/" + file_name);
 
-                try {
-                    file.createNewFile();
-
-                    FileOutputStream outStream = new FileOutputStream(file);
-                    getResizedBitmap(bm,50).compress(Bitmap.CompressFormat.PNG, 5, outStream);
-
-                    outStream.flush();
-                    outStream.close();
-
-
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    file.delete();
-                }
-
+            if (file.exists()) {
+                file.delete();
             }
+
+            try {
+                file.createNewFile();
+
+                FileOutputStream outStream = new FileOutputStream(file);
+                getResizedBitmap(bm, 50).compress(Bitmap.CompressFormat.PNG, 5, outStream);
+
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                file.delete();
+            }
+
         });
         th.run();
     }
 
-    public static void CashImage2(String s, String s1) {
+    public static void CashImageFromUrl(String url, String s1) {
 
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
-                File file = new File(CATCH_DIR2 + "/" + s1);
-                new GetFile(file, s).execute();
+                File file = new File(CATCH_DIR_Memory + "/" + s1);
+                new GetFile(file, url).execute();
             }
         });
         th.start();
@@ -453,7 +477,6 @@ public class MethodClass {
         AlertDialog dialog = builder.create();
 
 
-
         Message_View_Model message_view_model = new Message_View_Model(context.getApplication());
         message_view_model.selectAttachmentNonPaged(thread, chat_id, chats -> {
 
@@ -461,7 +484,7 @@ public class MethodClass {
             handler.post(
                     () -> {
                         binding.recycler.setAdapter(adapter);
-                    } );
+                    });
 
 
             binding.recycler.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -485,7 +508,6 @@ public class MethodClass {
         });
 
         binding.recycler.setOffscreenPageLimit(4);
-
 
 
         //dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -619,7 +641,6 @@ public class MethodClass {
         }
         return imagePath;
     }
-
 
 
     public static String[] storge_permissions = {

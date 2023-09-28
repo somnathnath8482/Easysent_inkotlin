@@ -97,7 +97,7 @@ class MessageNewAdapter_Backup(
                             !item.type.equals("V", ignoreCase = true)
                         ) {
                             holder.layDoc.setOnClickListener { view ->
-                                val file = File(CATCH_DIR2 + "/" + item.attachment)
+                                val file = File(CATCH_DIR_Memory + "/" + item.attachment)
                                 if (file.exists()) {
                                     val path = FileProvider.getUriForFile(
                                         context,
@@ -280,7 +280,7 @@ class MessageNewAdapter_Backup(
                             ) || replay.message.equals("null", ignoreCase = true))
                         ) {
                             holder.replayText.visibility = View.GONE
-                            val file = File(CATCH_DIR2 + "/" + replay.attachment)
+                            val file = File(CATCH_DIR_Memory + "/" + replay.attachment)
                             if (file.exists()) {
                                 Glide.with(context).load(file.absolutePath)
                                     .override(SIZE_ORIGINAL, SIZE_ORIGINAL)
@@ -328,7 +328,7 @@ class MessageNewAdapter_Backup(
                         ) {
                             holder.replayText.visibility = View.GONE
                             if (replay.attachment != null && !replay.attachment.equals("null")) {
-                                val file = File(CATCH_DIR2 + "/" + replay.attachment)
+                                val file = File(CATCH_DIR_Memory + "/" + replay.attachment)
                                 if (file.exists()) {
                                     Thread {
                                         val futureTarget = Glide.with(context)
@@ -408,7 +408,7 @@ class MessageNewAdapter_Backup(
         iv_download.visibility = View.GONE
         iv_download_progress.visibility = View.VISIBLE
 
-        val file = File("$CATCH_DIR2/${item.attachment}")
+        val file = File("$CATCH_DIR_Memory/${item.attachment}")
         val saveWithProgress = SaveWithProgress(
             "$Attachment_URL/${item.attachment}",
             file,
@@ -431,7 +431,7 @@ class MessageNewAdapter_Backup(
         holder.ivAttachmentTitle.text = item.attachment
         holder.ivDoc.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_files))
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("$CATCH_DIR2/${item.attachment}")
+            val file = File("$CATCH_DIR_Memory/${item.attachment}")
             if (file.exists()) {
                 holder.ivDownload.visibility = View.GONE
             }
@@ -443,7 +443,7 @@ class MessageNewAdapter_Backup(
         holder.ivAttachmentTitle.text = item.attachment
         holder.ivDoc.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_pdf))
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("$CATCH_DIR2/${item.attachment}")
+            val file = File("$CATCH_DIR_Memory/${item.attachment}")
             if (file.exists()) {
                 holder.ivDownload.visibility = View.GONE
             }
@@ -452,7 +452,7 @@ class MessageNewAdapter_Backup(
 
     private fun AttachmentVideo(item: Chats, holder: ViewHolder) {
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("$CATCH_DIR2/${item.attachment}")
+            val file = File("$CATCH_DIR_Memory/${item.attachment}")
             if (file.exists()) {
                 holder.ivAttachment.visibility = View.VISIBLE
                 holder.layAttachment.visibility = View.VISIBLE
@@ -533,7 +533,7 @@ class MessageNewAdapter_Backup(
 
     private fun attachmentImage(item: Chats, holder: ViewHolder) {
         if (item.attachment != null && item.attachment != "null") {
-            val file = File(CATCH_DIR2 + "/" + item.attachment)
+            val file = File(CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
                 MethodClass.GetFileBitmap(file.absolutePath, holder.ivAttachment, context)
                     .execute()
@@ -565,7 +565,7 @@ class MessageNewAdapter_Backup(
                         }
                     })
                     .into(holder.ivAttachment)
-                MethodClass.CashImage2(BASE_URL + "Attachment/" + item.attachment, item.attachment)
+                MethodClass.CashImageFromUrl(BASE_URL + "Attachment/" + item.attachment, item.attachment)
             }
             holder.ivAttachment.visibility = View.VISIBLE
             holder.layAttachment.visibility = View.VISIBLE

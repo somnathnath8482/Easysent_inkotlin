@@ -25,9 +25,9 @@ public class Constants {
     public static final String SEND_NOTIFICATION = "https://fcm.googleapis.com/fcm/send";
     public static final String TEST = Home_URL+"api/test.php";
     public static String ACTIVE = "";
-    public static String CATCH_DIR = "";
-    public static String CATCH_DIR2 = "";
-    public static String CATCH_DIR3 = "";
+    public static String CATCH_DIR_CASH = "";//catch_Dir/easysent
+    public static String CATCH_DIR_Memory = "";//storage sd_card/Easysent
+    public static String CATCH_DIR3 = "";//catch_Dir/easysent/cash
 
     public static final String UPDATE_BY_SQL = "update_by_sql.php";
     public static final String CREATE_CLIP = "create_clip.php";

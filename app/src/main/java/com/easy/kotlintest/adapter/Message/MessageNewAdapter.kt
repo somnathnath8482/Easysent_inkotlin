@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +16,19 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Helper.SaveWithProgress
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Networking.Interface.AllInterFace
-import com.easy.kotlintest.Networking.Interface.OnMenuItemClick
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
@@ -183,7 +185,7 @@ class MessageNewAdapter(
         holder.ivAttachmentTitle?.text = item.attachment
         holder.ivDoc?.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_files))
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("${Constants.CATCH_DIR2}/${item.attachment}")
+            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
                 holder.ivDownload?.visibility = View.GONE
             }
@@ -195,7 +197,7 @@ class MessageNewAdapter(
         holder.ivAttachmentTitle?.text = item.attachment
         holder.ivDoc?.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_pdf))
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("${Constants.CATCH_DIR2}/${item.attachment}")
+            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
                 holder.ivDownload?.visibility = View.GONE
             }
@@ -204,39 +206,51 @@ class MessageNewAdapter(
 
     private fun attachmentImage(item: Chats, holder: ViewHolder) {
         if (item.attachment != null && item.attachment != "null") {
-            val file = File(Constants.CATCH_DIR2 + "/" + item.attachment)
+            val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
                 MethodClass.GetFileBitmap(file.absolutePath, holder.ivAttachment, context)
                     .execute()
             } else {
-                Glide.with(context)
-                    .load(Constants.BASE_URL + "Attachment/" + item.attachment)
-                    .thumbnail(0.05f)
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .addListener(object : RequestListener<Drawable> {
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            holder.ivAttachment?.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_x))
-                            return true
-                        }
+                launch {
+                    Glide.with(context)
+                        .asBitmap()
+                        .override(500, 500)
+                        .load(Uri.parse(Constants.BASE_URL + "Attachment/" + item.attachment))
+                        .addListener(object : RequestListener<Bitmap?> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Bitmap?>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                return false
+                            }
 
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            holder.ivAttachment?.setImageDrawable(resource)
-                            return false
-                        }
-                    })
-                    .into(holder.ivAttachment!!)
-                MethodClass.CashImage2(Constants.BASE_URL + "Attachment/" + item.attachment, item.attachment)
+                            override fun onResourceReady(
+                                resource: Bitmap?,
+                                model: Any?,
+                                target: Target<Bitmap?>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                try {
+                                    holder.ivAttachment!!.setImageBitmap(resource)
+                                    MethodClass.CashImageInMemoryOriginalQuality(item.attachment,resource)
+                                }catch (e:Exception){
+                                    e.printStackTrace()
+
+                                }
+                                return false
+                            }
+                        })
+                        .submit()
+
+
+
+                }
+
+
+
             }
             holder.ivAttachment?.visibility = View.VISIBLE
             holder.layAttachment?.visibility = View.VISIBLE
@@ -247,13 +261,13 @@ class MessageNewAdapter(
     }
     private fun AttachmentVideo(item: Chats, holder: ViewHolder) {
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("${Constants.CATCH_DIR2}/${item.attachment}")
+            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
                 holder.ivAttachment?.visibility = View.VISIBLE
                 holder.layAttachment?.visibility = View.VISIBLE
                 holder.btnPlay?.visibility = View.VISIBLE
 
-                val cashFile = File(Constants.CATCH_DIR + "/" + item.attachment)
+                val cashFile = File(Constants.CATCH_DIR_CASH + "/" + item.attachment)
                 if (cashFile.exists()){
                     Glide.with(context)
                         .load(cashFile)
@@ -280,7 +294,7 @@ class MessageNewAdapter(
                                 holder.ivAttachment?.visibility = View.VISIBLE
                                 holder.layAttachment?.visibility = View.VISIBLE
                             }
-                            MethodClass.CashImage3(
+                            MethodClass.CashImageInCatch(
                                 file.name.replace("mp4","png"),
                                 bitmap
                             )
@@ -316,7 +330,7 @@ class MessageNewAdapter(
         iv_download.visibility = View.GONE
         iv_download_progress.visibility = View.VISIBLE
 
-        val file = File("${Constants.CATCH_DIR2}/${item.attachment}")
+        val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
         val saveWithProgress = SaveWithProgress(
             "${Constants.Attachment_URL}/${item.attachment}",
             file,

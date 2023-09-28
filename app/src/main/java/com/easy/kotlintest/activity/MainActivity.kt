@@ -3,6 +3,7 @@ package com.easy.kotlintest.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Environment
@@ -16,13 +17,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.FutureTarget
 import com.easy.kotlintest.BuildConfig
-import com.easy.kotlintest.Helper.ImageGetter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
@@ -31,15 +27,19 @@ import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.databinding.ActivityMainBinding
 import com.easy.kotlintest.databinding.LeftMenuBinding
 import com.easy.kotlintest.databinding.MainToolbarBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 import java.io.File
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Created by Somnath nath on 11,September,2023
  * Artix Development,
  * India.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var toolbarBinding: MainToolbarBinding
@@ -104,48 +104,44 @@ class MainActivity : AppCompatActivity() {
                         if (user?.profilePic != null && !user?.profilePic.equals("null")) {
                             val url: String =
                                 Constants.BASE_URL + "profile_image/" + user.profilePic
-                            val file = File(Constants.CATCH_DIR + "/" + user.profilePic)
+                            val file = File(Constants.CATCH_DIR_CASH + "/" + user.profilePic)
                             if (file.exists()) {
-                                Thread {
-                                    val imageGetter = ImageGetter(toolbarBinding.profileImage)
-                                    imageGetter.execute(file)
-                                }.start()
-                            } else {
-                                Glide.with(context).load(url).thumbnail(0.05f)
-                                    .transition(DrawableTransitionOptions.withCrossFade())
-                                    .addListener(object : RequestListener<Drawable?> {
-                                        override fun onLoadFailed(
-                                            e: GlideException?,
-                                            model: Any,
-                                            target: Target<Drawable?>,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            toolbarBinding.profileImage.setImageDrawable(
-                                                AppCompatResources.getDrawable(
-                                                    context, MethodClass.getResId(
-                                                        user.name, Drawable::class.java
-                                                    )
-                                                )
-                                            )
-                                            return true
-                                        }
+                                launch {
 
-                                        override fun onResourceReady(
-                                            resource: Drawable?,
-                                            model: Any,
-                                            target: Target<Drawable?>,
-                                            dataSource: DataSource,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            toolbarBinding.profileImage.setImageDrawable(resource)
-                                            MethodClass.CashImage(
-                                                Constants.BASE_URL + "profile_image/" + user.profilePic,
-                                                user.profilePic,
-                                                resource
-                                            )
-                                            return false
-                                        }
-                                    }).into(toolbarBinding.profileImage)
+                                    try {
+                                        Glide.with(context)
+                                            .load(file)
+                                            .into(toolbarBinding.profileImage)
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            } else {
+
+                                launch {
+
+                                    val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
+                                        .asBitmap()
+                                        .override(100, 100)
+                                        .load(url)
+                                        .submit()
+
+                                    try {
+
+                                        val bim = futureTarget.get()
+
+                                        Glide.with(context)
+                                            .load(bim)
+                                            .into(toolbarBinding.profileImage)
+
+                                        MethodClass.CashImageInCatch(user.profilePic, bim)
+
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+
                             }
                         } else {
                             toolbarBinding.profileImage.setImageDrawable(
@@ -207,17 +203,17 @@ class MainActivity : AppCompatActivity() {
         val folder_main = "EasySent"
         val folder_secondary = "EasySent/Cash"
         val dir = File(this.filesDir, folder_main)
-        val dir2 =
+        val dir_memory =
             File(Environment.getExternalStorageDirectory().toString() + "/Download/", folder_main)
         val dir3 = File(this.filesDir, folder_secondary)
         if (!dir.exists()) {
             val `is` = dir.mkdirs()
             if (`is`) {
-                Constants.CATCH_DIR = dir.absolutePath.toString()
+                Constants.CATCH_DIR_CASH = dir.absolutePath.toString()
             }
             Log.d("TAG", "Create Folder: $`is`")
         } else {
-            Constants.CATCH_DIR = dir.absolutePath.toString()
+            Constants.CATCH_DIR_CASH = dir.absolutePath.toString()
         }
         if (!dir3.exists()) {
             val `is` = dir3.mkdirs()
@@ -238,14 +234,17 @@ class MainActivity : AppCompatActivity() {
             }
             Log.d("TAG", "Create Folder: $`is`")
         }
-        if (!dir2.exists()) {
-            val `is` = dir2.mkdirs()
+        if (!dir_memory.exists()) {
+            val `is` = dir_memory.mkdirs()
             if (`is`) {
-                Constants.CATCH_DIR2 = dir2.absolutePath.toString()
+                Constants.CATCH_DIR_Memory = dir_memory.absolutePath.toString()
             }
             Log.d("TAG", "Create Folder: $`is`")
         } else {
-            Constants.CATCH_DIR2 = dir2.absolutePath.toString()
+            Constants.CATCH_DIR_Memory = dir_memory.absolutePath.toString()
         }
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
 }

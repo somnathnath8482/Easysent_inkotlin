@@ -1,15 +1,14 @@
 package com.easy.kotlintest.activity.Message
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,12 +17,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.easy.kotlintest.Helper.FileHandel.PickFile
 import com.easy.kotlintest.Helper.ImageGetter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
-import com.easy.kotlintest.Interface.Messages.LiveData_List
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Room.Messages.Chats
@@ -129,50 +128,38 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                         if (user.profilePic != null && !user?.profilePic.equals("null")) {
                             val url: String =
                                 Constants.BASE_URL + "profile_image/" + user.profilePic
-                            val file = File(Constants.CATCH_DIR + "/" + user.profilePic)
+                            val file = File(Constants.CATCH_DIR_CASH + "/" + user.profilePic)
                             if (file.exists()) {
-                                Thread {
-                                    val imageGetter = ImageGetter(mainToolbarBinding.profileImage)
-                                    imageGetter.execute(file)
-                                }.start()
+                                launch {
+                                        Glide.with(context)
+                                            .load(file)
+                                            .into(mainToolbarBinding.profileImage)
+                                }
                             } else {
-                                Glide.with(context).load(url).thumbnail(0.05f)
-                                    .transition(DrawableTransitionOptions.withCrossFade())
-                                    .addListener(object : RequestListener<Drawable?> {
-                                        override fun onLoadFailed(
-                                            e: GlideException?,
-                                            model: Any,
-                                            target: Target<Drawable?>,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            mainToolbarBinding.profileImage.setImageDrawable(
-                                                AppCompatResources.getDrawable(
-                                                    context, MethodClass.getResId(
-                                                        user.name, Drawable::class.java
-                                                    )
-                                                )
-                                            )
-                                            return true
-                                        }
 
-                                        override fun onResourceReady(
-                                            resource: Drawable?,
-                                            model: Any,
-                                            target: Target<Drawable?>,
-                                            dataSource: DataSource,
-                                            isFirstResource: Boolean
-                                        ): Boolean {
-                                            mainToolbarBinding.profileImage.setImageDrawable(
-                                                resource
-                                            )
-                                            MethodClass.CashImage(
-                                                Constants.BASE_URL + "profile_image/" + user.profilePic,
-                                                user.profilePic,
-                                                resource
-                                            )
-                                            return false
-                                        }
-                                    }).into(mainToolbarBinding.profileImage)
+                                launch {
+
+                                    val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
+                                        .asBitmap()
+                                        .override(100, 100)
+                                        .load(url)
+                                        .submit()
+
+                                    try {
+
+                                        val bim = futureTarget.get()
+
+                                        Glide.with(context)
+                                            .load(bim)
+                                            .into(mainToolbarBinding.profileImage)
+
+                                        MethodClass.CashImageInCatch(user.profilePic, bim)
+
+                                    }catch (e:Exception){
+                                        e.printStackTrace()
+                                    }
+                                }
+
                             }
                         } else {
                             mainToolbarBinding.profileImage.setImageDrawable(
