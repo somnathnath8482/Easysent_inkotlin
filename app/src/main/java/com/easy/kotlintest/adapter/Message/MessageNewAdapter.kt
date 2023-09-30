@@ -53,7 +53,7 @@ class MessageNewAdapter(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+   /* override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //Log.e("TAG", "onBindViewHolder: $position" )
         val item = getItem(position)
         item?.also {
@@ -70,17 +70,17 @@ class MessageNewAdapter(
                         // TODO: Handle type T
                     }
                     item.type.equals("I", ignoreCase = true) -> {
-                        attachmentImage(item, holder)
+                      //  attachmentImage(item, holder)
                     }
                     item.type.equals("V", ignoreCase = true) -> {
 
-                        AttachmentVideo(item, holder)
+                      //  AttachmentVideo(item, holder)
                     }
                     item.type.equals("P", ignoreCase = true) -> {
-                       AttachmentPDF(item, holder)
+                      // AttachmentPDF(item, holder)
                     }
                     else -> {
-                       AttachmentDoc(item, holder)
+                      // AttachmentDoc(item, holder)
                     }
                 }
 
@@ -147,7 +147,7 @@ class MessageNewAdapter(
         }
 
 
-    }
+    }*/
     private fun showPopupMenu(chatMe: LinearLayout, item: Chats) {
         MethodClass.show_popup_menu2(chatMe, activity
         ) { res ->
@@ -357,7 +357,7 @@ class MessageNewAdapter(
         viewType: Int
     ): ViewHolder {
 
-        val item = getItem(viewType)
+    /*    val item = getItem(viewType)
         val res: Int = when {
             item != null -> {
                 if (item.sender.equals(myId, ignoreCase = true)) {
@@ -399,9 +399,9 @@ class MessageNewAdapter(
                 }
             }
             else -> R.layout.chat_shimmer
-        }
+        }*/
 
-        val view = LayoutInflater.from(activity).inflate(res, parent, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.chat_shimmer, parent, false)
         return ViewHolder(view)
 
 
@@ -432,6 +432,9 @@ class MessageNewAdapter(
 
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+    }
 
 
 }

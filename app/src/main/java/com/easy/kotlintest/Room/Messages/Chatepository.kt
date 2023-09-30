@@ -126,10 +126,10 @@ class Chatepository{
 
             val pager = Pager(
                 PagingConfig(
-                    3000,  //  Count of items in one page
-                    9000,  //  Number of items to prefetch
+                    30,  //  Count of items in one page
+                    30,  //  Number of items to prefetch
                     true,  // Enable placeholders for data which is not yet loaded
-                    30000,  // initialLoadSize - Count of items to be loaded initially
+                    120,  // initialLoadSize - Count of items to be loaded initially
                     PagingConfig.MAX_SIZE_UNBOUNDED
                 )
             ) {

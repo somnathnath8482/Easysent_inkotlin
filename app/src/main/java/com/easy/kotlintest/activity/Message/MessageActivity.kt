@@ -9,19 +9,15 @@ import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.FutureTarget
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.easy.kotlintest.Helper.FileHandel.PickFile
-import com.easy.kotlintest.Helper.ImageGetter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
@@ -34,11 +30,13 @@ import com.easy.kotlintest.databinding.ActivityMessageBinding
 import com.easy.kotlintest.databinding.MainToolbarBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
 class MessageActivity : AppCompatActivity(), CoroutineScope {
+    private var livedata: LiveData<PagingData<Chats>>?=null
     private lateinit var reciver: String
     private lateinit var message_view_model: Message_View_Model
     private lateinit var thread_viewModel: Thread_ViewModel
@@ -51,25 +49,17 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMessageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        context = this
         if (intent != null) {
             reciver = intent.getStringExtra("reciver") ?: ""
-            if (reciver == "") {
-                onBackPressed()
-            }
         }
-        pickFile = PickFile(this, this, handler)
-
-        mainToolbarBinding = MainToolbarBinding.bind(binding.toolbar.root)
-        mainToolbarBinding.back.setVisibility(View.VISIBLE)
-        mainToolbarBinding.menu.setVisibility(View.GONE)
-        mainToolbarBinding.menuMessage.setVisibility(View.VISIBLE)
 
         userVewModel = ViewModelProviders.of(this)[UserVewModel::class.java]
         thread_viewModel = ViewModelProviders.of(this)[Thread_ViewModel::class.java]
         message_view_model = ViewModelProviders.of(this)[Message_View_Model::class.java]
 
+        message_view_model.chatByPaged(reciver, PrefUtill.getUser()?.user?.id) {
+            livedata  = it
+        }
         val adapter = MessageNewAdapter(
             object : DiffUtil.ItemCallback<Chats>() {
                 override fun areItemsTheSame(oldItem: Chats, newItem: Chats): Boolean {
@@ -93,6 +83,30 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             message_view_model,
             binding.recycler
         )
+
+
+        livedata?.observe(this) {it->
+            launch {
+                setContentView(binding.root)
+                adapter.submitData(it);
+            }
+
+        }
+
+        context = this
+
+        pickFile = PickFile(this, this, handler)
+
+        mainToolbarBinding = MainToolbarBinding.bind(binding.toolbar.root)
+        mainToolbarBinding.back.setVisibility(View.VISIBLE)
+        mainToolbarBinding.menu.setVisibility(View.GONE)
+        mainToolbarBinding.menuMessage.setVisibility(View.VISIBLE)
+
+
+
+
+
+
         val linearLayoutManager = LinearLayoutManager(this@MessageActivity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         linearLayoutManager.stackFromEnd = true
@@ -103,7 +117,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         binding.recycler.adapter = adapter
 
 
-        message_view_model.getChat_By_Paged(reciver, PrefUtill.getUser()?.user?.id) {
+        message_view_model.chatByPaged(reciver, PrefUtill.getUser()?.user?.id) {
             handler.post {
                 it.observe(this) {
                     launch {

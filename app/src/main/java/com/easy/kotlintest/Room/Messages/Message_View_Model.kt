@@ -2,7 +2,6 @@ package com.easy.kotlintest.Room.Messages
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Interface.Messages.ListMessages
 import com.easy.kotlintest.Interface.Messages.LiveData_List
@@ -58,7 +57,7 @@ class Message_View_Model(application: Application) : AndroidViewModel(applicatio
     }
 
 
-    fun getChat_By_Paged(
+    fun chatByPaged(
         user: String?,
         me: String?,
         list: LiveData_List<Chats>
