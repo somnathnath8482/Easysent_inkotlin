@@ -38,6 +38,12 @@ android {
             assets {
                 srcDirs 'src\\main\\assets'
             }
+            res.srcDirs =
+                    [
+                            '/src/main/res/layout/message',
+                            '/src/main/res/layout/all',
+                            '/src/main/res'
+                    ]
         }
     }
 }
