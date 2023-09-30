@@ -210,36 +210,36 @@ class MessageNewAdapter_Backup(
                         "T" -> if (!item.replay_of.equals("null", ignoreCase = true) &&
                             !item.replay_of.equals("", ignoreCase = true)
                         ) {
-                            R.layout.chat_right_m
+                            R.layout.chat_right_all
                         } else {
-                            R.layout.chat_right_t
+                            R.layout.chat_right_text
                         }
                         "I" -> if (!item.replay_of.equals("null", ignoreCase = true) &&
                             !item.replay_of.equals("", ignoreCase = true)
                         ) {
-                            R.layout.chat_right_m
+                            R.layout.chat_right_all
                         } else {
-                            R.layout.chat_right_i
+                            R.layout.chat_right_attachment
                         }
-                        else -> R.layout.chat_right_m
+                        else -> R.layout.chat_right_all
                     }
                 } else {
                     when (item.type) {
                         "T" -> if (!item.replay_of.equals("null", ignoreCase = true) &&
                             !item.replay_of.equals("", ignoreCase = true)
                         ) {
-                            R.layout.chat_left_m
+                            R.layout.chat_left_all
                         } else {
-                            R.layout.chat_left_t
+                            R.layout.chat_left_text
                         }
                         "I" -> if (!item.replay_of.equals("null", ignoreCase = true) &&
                             !item.replay_of.equals("", ignoreCase = true)
                         ) {
-                            R.layout.chat_left_m
+                            R.layout.chat_left_all
                         } else {
-                            R.layout.chat_left_i
+                            R.layout.chat_left_attachment
                         }
-                        else -> R.layout.chat_left_m
+                        else -> R.layout.chat_left_all
                     }
                 }
             }

@@ -69,4 +69,6 @@
     <string name="type_a_message">Type a message...</string>
     <string name="attach_attachment">attach attachment</string>
     <string name="add_imoge">add imoge</string>
+    <string name="play">paly</string>
+    <string name="download">Download</string>
 </resources>

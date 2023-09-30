@@ -3,7 +3,6 @@ package com.easy.kotlintest.adapter.Message
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Handler
 import android.view.LayoutInflater
@@ -11,16 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
@@ -401,7 +397,7 @@ class MessageNewAdapter(
             else -> R.layout.chat_shimmer
         }*/
 
-        val view = LayoutInflater.from(activity).inflate(R.layout.chat_shimmer, parent, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.chat_left_all, parent, false)
         return ViewHolder(view)
 
 
@@ -409,7 +405,7 @@ class MessageNewAdapter(
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val mainLay: LinearLayout? = itemView.findViewById(R.id.main_lay)
+            val mainLay: ConstraintLayout? = itemView.findViewById(R.id.main_lay)
             val message: TextView? = itemView.findViewById(R.id.message)
             val time: TextView? = itemView.findViewById(R.id.time)
             val sender: TextView? = itemView.findViewById(R.id.sender)
