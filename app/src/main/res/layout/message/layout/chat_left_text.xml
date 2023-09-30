@@ -32,6 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:autoLink="all"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textSize="@dimen/_9sdp"
         android:gravity="center_horizontal"
         android:textColor="#3D3A3A"
         app:layout_constraintStart_toStartOf="parent"

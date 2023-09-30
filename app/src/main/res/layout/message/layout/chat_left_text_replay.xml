@@ -23,74 +23,72 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Somnath nath" />
 
+    <!--start for replay-->
 
-    <!--start attachment-->
-    <ImageView
-        android:id="@+id/iv_attachment"
+    <View
+        android:id="@+id/replay_bg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/rounded_card"
+        android:backgroundTint="#F4F7F8"
+        app:layout_constraintBottom_toBottomOf="@id/replay_text"
+        app:layout_constraintEnd_toEndOf="@id/iv_replay_attachment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/replay_sender" />
+
+    <View
+        android:id="@+id/replay_bar"
+        android:layout_width="@dimen/_5sdp"
+        android:layout_height="0dp"
+        android:background="@drawable/bar"
+        app:layout_constraintBottom_toBottomOf="@id/replay_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/replay_sender" />
+
+    <TextView
+        android:id="@+id/replay_sender"
+        style="@style/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:paddingHorizontal="@dimen/_7sdp"
+        android:textColor="#3949AB"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sender"
+        tools:text="You"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/replay_text"
+        style="@style/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:paddingHorizontal="@dimen/_7sdp"
+        android:paddingBottom="@dimen/_2sdp"
+        android:textColor="#3D3A3A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/replay_sender"
+        tools:text="this is teplay text "
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/iv_replay_attachment"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:minHeight="@dimen/_8sdp"
-        android:minWidth="@dimen/_80sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sender"
+        android:gravity="center_horizontal"
         android:src="@drawable/ic_files"
+        app:layout_constraintBottom_toBottomOf="@id/replay_bg"
+        app:layout_constraintStart_toEndOf="@id/replay_text"
+        app:layout_constraintTop_toTopOf="@id/replay_bg"
         android:contentDescription="@string/attach_attachment"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <ImageView
-        android:id="@+id/btn_play"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_play"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/play"
-        android:visibility="gone"/>
+    <!--end replay-->
 
-    <ImageView
-        android:id="@+id/iv_download"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:adjustViewBounds="true"
-        android:gravity="center"
-        android:src="@drawable/ic_download"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white"
-        android:contentDescription="@string/download"
-        android:visibility="gone"/>
-
-    <ProgressBar
-        android:id="@+id/iv_download_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="@dimen/_25sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/_5sdp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/circular_shape"
-        android:gravity="center"
-        android:indeterminate="false"
-        android:progress="0"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        android:progressTint="@color/thim_color"
-        android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
-
-
-    <!--end attachment-->
 
     <TextView
         android:id="@+id/message"
@@ -99,12 +97,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:autoLink="all"
+        android:gravity="center_horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:textSize="@dimen/_9sdp"
-        android:gravity="center_horizontal"
         android:textColor="#3D3A3A"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_attachment"
+        app:layout_constraintTop_toBottomOf="@id/replay_bg"
         tools:text="This is  a dummy message" />
 
     <TextView
@@ -119,7 +117,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message"
         tools:text="22:40 AM" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
