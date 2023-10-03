@@ -7,12 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/_35sdp"
     android:layout_marginBottom="@dimen/_7sdp"
-    android:background="@drawable/chat_right"
-    android:orientation="vertical"
-    android:paddingVertical="@dimen/_5sdp"
-    android:paddingStart="@dimen/_15sdp"
-    android:paddingEnd="@dimen/_5sdp">
-
+    android:background="@drawable/chat_right">
     <TextView
         android:id="@+id/sender"
         style="@style/desc"
@@ -21,23 +16,27 @@
         android:textColor="#E53935"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Somnath nath" />
-
-
+        tools:text="Somnath nath"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:visibility="gone"/>
     <!--start attachment-->
     <ImageView
         android:id="@+id/iv_attachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxWidth="@dimen/_150sdp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
         android:minHeight="@dimen/_8sdp"
         android:minWidth="@dimen/_80sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sender"
-        android:src="@drawable/ic_files"
+        tools:src="@drawable/local_iamge_demo"
+
         android:contentDescription="@string/attach_attachment"
         android:visibility="gone"/>
 
@@ -86,9 +85,10 @@
         android:progressDrawable="@drawable/circular_progress_bar"
         android:progressTint="@color/thim_color"
         android:textAlignment="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_attachment"
+        app:layout_constraintBottom_toBottomOf="@id/iv_attachment"
+        app:layout_constraintStart_toStartOf="@id/iv_attachment"
+        app:layout_constraintEnd_toEndOf="@id/iv_attachment"
         android:visibility="gone"/>
 
 
@@ -101,10 +101,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:autoLink="all"
+        android:gravity="center_horizontal"
         android:fontFamily="sans-serif-condensed-medium"
         android:textSize="@dimen/_9sdp"
-        android:gravity="center_horizontal"
         android:textColor="#3D3A3A"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginStart="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_attachment"
         tools:text="This is  a dummy message" />
@@ -114,9 +116,10 @@
         style="@style/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_2sdp"
         android:textColor="@color/gray_white"
         android:textSize="@dimen/_9sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_1sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message"

@@ -1,6 +1,7 @@
 package com.easy.kotlintest.Room.Messages
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -20,6 +21,12 @@ class Chatepository{
 
     constructor(application: Application?)  {
         val database = MessageDataBase.getInstance(application!!)
+        Chat_dao = database!!.chatDao()
+        job = Job()
+        scope = CoroutineScope(job)
+    }
+ constructor(context: Context?)  {
+        val database = MessageDataBase.getInstance(context!!)
         Chat_dao = database!!.chatDao()
         job = Job()
         scope = CoroutineScope(job)

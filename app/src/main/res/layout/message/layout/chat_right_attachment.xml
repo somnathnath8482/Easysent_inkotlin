@@ -1,22 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<?xml version="1.0" encoding="utf-8"?><androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/_35sdp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
         android:background="@drawable/chat_left"
-        android:paddingVertical="@dimen/_5sdp"
-        android:paddingStart="@dimen/_5sdp"
-        android:paddingEnd="@dimen/_15sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/_35sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -25,17 +22,20 @@
             android:id="@+id/iv_attachment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="@dimen/_150sdp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_5sdp"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/attach_attachment"
-            android:minWidth="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_13sdp"
             android:minHeight="@dimen/_8sdp"
-            android:src="@drawable/ic_files"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:minWidth="@dimen/_80sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/local_iamge_demo"
+            android:contentDescription="@string/attach_attachment"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/btn_play"
@@ -48,7 +48,7 @@
             app:layout_constraintEnd_toEndOf="@id/iv_attachment"
             app:layout_constraintStart_toStartOf="@id/iv_attachment"
             app:layout_constraintTop_toTopOf="@id/iv_attachment"
-            app:layout_constraintBottom_toBottomOf="@id/iv_attachment"/>
+            app:layout_constraintBottom_toBottomOf="@id/iv_attachment" />
 
         <ImageView
             android:id="@+id/iv_download"
@@ -58,7 +58,6 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/download"
-            android:gravity="center"
             android:src="@drawable/ic_download"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/iv_attachment"
@@ -83,9 +82,10 @@
             android:progressTint="@color/thim_color"
             android:textAlignment="center"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/iv_attachment"
+            app:layout_constraintStart_toStartOf="@id/iv_attachment"
+            app:layout_constraintBottom_toBottomOf="@id/iv_attachment"
+            app:layout_constraintTop_toTopOf="@id/iv_attachment" />
 
 
         <!--end attachment-->
@@ -97,10 +97,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:autoLink="all"
-            android:gravity="center_horizontal"
-            android:textSize="@dimen/_9sdp"
             android:fontFamily="sans-serif-condensed-medium"
             android:textColor="#3D3A3A"
+            android:textSize="@dimen/_9sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_13sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_attachment"
             tools:text="This is  a dummy message" />
@@ -115,6 +117,7 @@
             android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/_13sdp"
             app:layout_constraintTop_toBottomOf="@id/message"
             tools:text="22:40 AM" />
     </androidx.constraintlayout.widget.ConstraintLayout>

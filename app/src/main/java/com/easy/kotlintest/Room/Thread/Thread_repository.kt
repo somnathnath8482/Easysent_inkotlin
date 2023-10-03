@@ -1,6 +1,7 @@
 package com.easy.kotlintest.Room.Thread
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -17,6 +18,12 @@ class Thread_repository {
 
     constructor(application: Application?) {
         val database = UserDatabase.getInstance(application!!)
+        thread_dao = database!!.thread_dao()!!
+        job = Job()
+        scope = CoroutineScope(job)
+    }
+    constructor(context: Context?) {
+        val database = UserDatabase.getInstance(context!!)
         thread_dao = database!!.thread_dao()!!
         job = Job()
         scope = CoroutineScope(job)

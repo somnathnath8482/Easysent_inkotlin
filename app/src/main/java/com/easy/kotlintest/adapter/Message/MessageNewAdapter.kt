@@ -66,37 +66,6 @@ class MessageNewAdapter(
              }
 
              launch {
-                 when {
-                     item.type.equals("T", ignoreCase = true) -> {
-                         // TODO: Handle type T
-                     }
-                     item.type.equals("I", ignoreCase = true) -> {
-                       //  attachmentImage(item, holder)
-                     }
-                     item.type.equals("V", ignoreCase = true) -> {
-
-                       //  AttachmentVideo(item, holder)
-                     }
-                     item.type.equals("P", ignoreCase = true) -> {
-                       // AttachmentPDF(item, holder)
-                     }
-                     else -> {
-                       // AttachmentDoc(item, holder)
-                     }
-                 }
-
-                 if (!item.type.equals("T", ignoreCase = true) && !item.type.equals(
-                         "I",
-                         ignoreCase = true
-                     )
-                 ) { holder.ivDownload?.setOnClickListener { view ->
-                         Download_file(
-                             item,
-                             holder.ivDownload,
-                             holder.ivDownloadProgress!!,
-                             position
-                         )
-                     } }
 
 
                  if (item.sender.equals(myId)){
@@ -187,10 +156,15 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            attachmentImage(item, viewholder.binding.ivAttachment)
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
+                            attachmentImage(item, viewholder.binding.ivAttachment,viewholder.binding.btnPlay)
                         }
                         "V" -> {
-
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentVideo(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -201,6 +175,9 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -210,6 +187,9 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -231,10 +211,19 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            attachmentImage(item, viewholder.binding.ivAttachment)
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
+                            attachmentImage(
+                                item,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.btnPlay
+                            )
                         }
                         "V" -> {
-
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentVideo(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -245,6 +234,9 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -254,6 +246,9 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -272,12 +267,21 @@ class MessageNewAdapter(
 
                     when (item.type) {
                         "T" -> {
-
                         }
                         "I" -> {
-                            attachmentImage(item, viewholder.binding.ivAttachment)
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
+                            attachmentImage(
+                                item,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.btnPlay
+                            )
                         }
                         "V" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentVideo(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -288,6 +292,9 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -297,6 +304,9 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -317,10 +327,19 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            attachmentImage(item, viewholder.binding.ivAttachment)
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
+                            attachmentImage(
+                                item,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.btnPlay
+                            )
                         }
                         "V" -> {
-
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentVideo(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -331,6 +350,9 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -340,6 +362,9 @@ class MessageNewAdapter(
                             )
                         }
                         "D" -> {
+                            if (item.message==null || item.message?.length==0){
+                                viewholder.binding.message.visibility  = View.GONE
+                            }
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -358,22 +383,21 @@ class MessageNewAdapter(
     }
 
 
-    private fun attachmentImage(item: Chats, imageview: ImageView) {
+    private fun attachmentImage(item: Chats, imageview: ImageView, btnPlay: ImageView) {
         if (item.attachment != null && item.attachment != "null") {
             val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
-                Glide.with(context)
+            /*    Glide.with(context)
                     .asBitmap()
                     .override(500, 300)
                     .load(file)
-                    .into(imageview)
-                /*
+                    .into(imageview)*/
 
                    MethodClass.GetFileBitmap(
                        file.absolutePath,
                        imageview,
                        context
-                   ).execute()*/
+                   ).execute()
             } else {
                 launch {
                     Glide.with(context)
@@ -415,6 +439,7 @@ class MessageNewAdapter(
                 }
             }
             imageview.visibility = View.VISIBLE
+            btnPlay.visibility = View.GONE
             imageview.setOnClickListener {
                 MethodClass.showFullScreen(activity, handler, item.thread, item.id)
             }

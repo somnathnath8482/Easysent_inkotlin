@@ -13,6 +13,7 @@ import com.easy.kotlintest.Networking.Helper.Constants.BASE_URL
 import com.easy.kotlintest.Networking.Helper.Constants.GET_ALL_CHATS
 import com.easy.kotlintest.Response.Chats_By_Thread.AllChatResponse
 import com.easy.kotlintest.Response.Chats_By_Thread.ChatsItem
+import com.easy.kotlintest.Room.Messages.Chatepository
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
 import com.easy.kotlintest.Room.Thread.Thread_ViewModel
@@ -32,7 +33,7 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
 
             val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
             val resData: Data = Data.EMPTY
-            val message_view_model = Message_View_Model(Application().getapplication())
+            val message_view_model = Chatepository(con)
             val thread_viewModel = Thread_ViewModel(Application().getapplication())
             val uthHeader: String = PrefUtill.getUser()?.user?.email ?: "";
             val map = HashMap<String, Any>()
@@ -52,7 +53,7 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
                             if (response != null) {
                                 for (i in 0 until response.chats.size) {
                                     try {
-                                        val item: ChatsItem = response.chats[i]
+                                        val item: ChatsItem = response.chats[i];
                                         val chats = Chats(
                                             item.attachment,
                                             item.sender,
