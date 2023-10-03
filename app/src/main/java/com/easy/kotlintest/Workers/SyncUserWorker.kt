@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.easy.kotlintest.Helper.Application
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Networking.Helper.ApiClient
@@ -12,7 +11,7 @@ import com.easy.kotlintest.Networking.Helper.ApiInterface
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Response.AllUsers.AllUsersResponse
 import com.easy.kotlintest.Response.AllUsers.UsersItem
-import com.easy.kotlintest.Room.Users.UserVewModel
+import com.easy.kotlintest.Room.Users.UserRepository
 import com.easy.kotlintest.Room.Users.Users
 import com.google.gson.Gson
 import org.json.JSONObject
@@ -20,13 +19,14 @@ import org.json.JSONObject
 
 class SyncUserWorker(appContext: Context, workerParams: WorkerParameters) :
     Worker(appContext, workerParams) {
+    val con = appContext
     override fun doWork(): Result {
         return try {
 
 
             val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
             val resData: Data = Data.EMPTY
-            val userVewModel = UserVewModel(Application().getapplication())
+            val userVewModel = UserRepository(con)
             val uthHeader: String = PrefUtill.getUser()?.user?.email ?: "";
 
             apiInterface.PostRequestFormData(

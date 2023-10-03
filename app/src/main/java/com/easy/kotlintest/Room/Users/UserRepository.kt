@@ -1,6 +1,7 @@
 package com.easy.kotlintest.Room.Users
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.paging.Pager
@@ -18,6 +19,12 @@ class UserRepository {
 
     constructor(application: Application?) {
         val database = UserDatabase.getInstance(application!!)
+        userDao = database!!.userDao()!!
+        job = Job()
+        scope = CoroutineScope(job)
+    }
+    constructor(context: Context?) {
+        val database = UserDatabase.getInstance(context!!)
         userDao = database!!.userDao()!!
         job = Job()
         scope = CoroutineScope(job)

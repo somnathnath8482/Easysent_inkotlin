@@ -30,13 +30,12 @@ import com.easy.kotlintest.databinding.ActivityMessageBinding
 import com.easy.kotlintest.databinding.MainToolbarBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
 class MessageActivity : AppCompatActivity(), CoroutineScope {
-    private var livedata: LiveData<PagingData<Chats>>?=null
+    private var livedata: LiveData<PagingData<Chats>>? = null
     private lateinit var reciver: String
     private lateinit var message_view_model: Message_View_Model
     private lateinit var thread_viewModel: Thread_ViewModel
@@ -58,19 +57,19 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         message_view_model = ViewModelProviders.of(this)[Message_View_Model::class.java]
 
         message_view_model.chatByPaged(reciver, PrefUtill.getUser()?.user?.id) {
-            livedata  = it
+            livedata = it
         }
         val adapter = MessageNewAdapter(
             object : DiffUtil.ItemCallback<Chats>() {
                 override fun areItemsTheSame(oldItem: Chats, newItem: Chats): Boolean {
-                    val boll= oldItem.id == newItem.id
+                    val boll = oldItem.id == newItem.id
                     //Log.e("TAG", "areItemsTheSame: $boll" )
                     return boll
                 }
 
 
                 override fun areContentsTheSame(oldItem: Chats, newItem: Chats): Boolean {
-                    val boo=  ( oldItem.seen==newItem.seen && oldItem.deleted == newItem.deleted);
+                    val boo = (oldItem.seen == newItem.seen && oldItem.deleted == newItem.deleted);
                     //Log.e("TAG", "areContentsTheSame: $boo" )
                     return boo
                 }
@@ -85,10 +84,10 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         )
 
 
-        livedata?.observe(this) {it->
+        livedata?.observe(this) { it ->
             launch {
-                setContentView(binding.root)
                 adapter.submitData(it);
+                setContentView(binding.root)
             }
 
         }
@@ -103,14 +102,10 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         mainToolbarBinding.menuMessage.setVisibility(View.VISIBLE)
 
 
-
-
-
-
         val linearLayoutManager = LinearLayoutManager(this@MessageActivity)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
         linearLayoutManager.stackFromEnd = true
-       linearLayoutManager.reverseLayout = false
+        linearLayoutManager.reverseLayout = false
         binding.recycler.layoutManager = linearLayoutManager
         binding.recycler.isNestedScrollingEnabled = false
         binding.recycler.setHasFixedSize(true)
@@ -130,7 +125,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
 
 
         userVewModel.selectUserLive(
-          reciver
+            reciver
         ) { item ->
             handler.post(kotlinx.coroutines.Runnable {
                 item?.observe(this@MessageActivity)
@@ -145,9 +140,9 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                             val file = File(Constants.CATCH_DIR_CASH + "/" + user.profilePic)
                             if (file.exists()) {
                                 launch {
-                                        Glide.with(context)
-                                            .load(file)
-                                            .into(mainToolbarBinding.profileImage)
+                                    Glide.with(context)
+                                        .load(file)
+                                        .into(mainToolbarBinding.profileImage)
                                 }
                             } else {
 
@@ -169,7 +164,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
 
                                         MethodClass.CashImageInCatch(user.profilePic, bim)
 
-                                    }catch (e:Exception){
+                                    } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
                                 }

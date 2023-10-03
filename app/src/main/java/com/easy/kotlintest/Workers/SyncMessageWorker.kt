@@ -4,9 +4,7 @@ import android.content.Context
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.easy.kotlintest.Helper.Application
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
-import com.easy.kotlintest.Interface.Messages.Item
 import com.easy.kotlintest.Networking.Helper.ApiClient
 import com.easy.kotlintest.Networking.Helper.ApiInterface
 import com.easy.kotlintest.Networking.Helper.Constants.BASE_URL
@@ -15,8 +13,7 @@ import com.easy.kotlintest.Response.Chats_By_Thread.AllChatResponse
 import com.easy.kotlintest.Response.Chats_By_Thread.ChatsItem
 import com.easy.kotlintest.Room.Messages.Chatepository
 import com.easy.kotlintest.Room.Messages.Chats
-import com.easy.kotlintest.Room.Messages.Message_View_Model
-import com.easy.kotlintest.Room.Thread.Thread_ViewModel
+import com.easy.kotlintest.Room.Thread.Thread_repository
 import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.Call
@@ -33,11 +30,11 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
 
             val apiInterface: ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
             val resData: Data = Data.EMPTY
-            val message_view_model = Chatepository(con)
-            val thread_viewModel = Thread_ViewModel(Application().getapplication())
+            val repository = Chatepository(con)
+            val threadRepository = Thread_repository(con)
             val uthHeader: String = PrefUtill.getUser()?.user?.email ?: "";
             val map = HashMap<String, Any>()
-            map["id"] = PrefUtill.getUser()?.getUser()?.getId()?:""
+            map["id"] = PrefUtill.getUser()?.user?.id ?:""
             apiInterface.PostRequestFormData(
                 BASE_URL + GET_ALL_CHATS,
                 uthHeader,
@@ -68,25 +65,25 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
                                             item.is_deleted
                                         )
 
-                                            message_view_model.selectChat(item.id) { isss ->
+                                            repository.selectChat(item.id) { isss ->
                                                 if (isss != null) {
                                                     if (!item.seen.equals(isss.seen) && item.seen
                                                             .toInt() > (isss.seen?.toInt() ?: 0)
                                                     ) {
-                                                        message_view_model.updateSeen(
+                                                        repository.updateSeen(
                                                             item.seen,
                                                             item.id
                                                         )
                                                     }
                                                     if (!item.is_deleted.equals(isss.deleted)) {
-                                                        message_view_model.updateDelete(
+                                                        repository.updateDelete(
                                                             item.id,
                                                             item.is_deleted
                                                         )
                                                     }
                                                 } else {
-                                                    message_view_model.insert(chats)
-                                                    thread_viewModel.updateLastSeen(
+                                                    repository.insert(chats)
+                                                    threadRepository.update_last_seen(
                                                         chats.message,
                                                         chats.seen,
                                                         chats.type,
