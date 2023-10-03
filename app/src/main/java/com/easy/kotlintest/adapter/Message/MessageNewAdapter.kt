@@ -3,34 +3,37 @@ package com.easy.kotlintest.adapter.Message
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.FutureTarget
+import com.bumptech.glide.request.RequestListener
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Helper.SaveWithProgress
 import com.easy.kotlintest.Networking.Helper.Constants
+import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Networking.Interface.AllInterFace
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
 import com.easy.kotlintest.Room.Users.UserVewModel
-import com.easy.kotlintest.databinding.ChatLeftAllBinding
-import com.easy.kotlintest.databinding.ChatLeftAttachmentBinding
-import com.easy.kotlintest.databinding.ChatLeftTextBinding
-import com.easy.kotlintest.databinding.ChatLeftTextReplayBinding
-import com.easy.kotlintest.databinding.ChatRightAllBinding
-import com.easy.kotlintest.databinding.ChatRightAttachmentBinding
-import com.easy.kotlintest.databinding.ChatRightTextBinding
-import com.easy.kotlintest.databinding.ChatRightTextReplayBinding
+import com.easy.kotlintest.databinding.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
@@ -47,10 +50,11 @@ class MessageNewAdapter(
     var myId: String = PrefUtill.getUser()?.user?.id ?: "",
 ) : PagingDataAdapter<Chats, RecyclerView.ViewHolder>(diffCallback, mainDispatcher),
     CoroutineScope {
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    /* override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    /* override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
          //Log.e("TAG", "onBindViewHolder: $position" )
          val item = getItem(position)
          item?.also {
@@ -145,68 +149,231 @@ class MessageNewAdapter(
 
 
      }*/
-/*    private fun showPopupMenu(chatMe: LinearLayout, item: Chats) {
-        MethodClass.show_popup_menu2(chatMe, activity
-        ) { res ->
-            if (res == R.id.menu_delete) {
-                    message_view_model.updateDelete(item.id, "1")
-            } else if (res == R.id.menu_foroward) {
-                // Handle menu_foroward
-                // Intent intent = Intent(activity, ShareActivity::class.java)
-                // intent.putExtra("from", "forowrd")
-                // intent.putExtra("type", item.type)
-                // intent.putExtra("msg", item.message ?: "")
-                // if (item.attachment != null) {
-                //     intent.putExtra("file", CATCH_DIR2 + "/" + item.attachment)
-                // } else {
-                //     intent.putExtra("file", "")
-                // }
-                // context.startActivity(intent)
-            } else if (res == R.id.menu_report) {
-                MethodClass.report(activity, object : AllInterFace() {
-                    override fun isClicked(`is`: Boolean) {
-                        super.isClicked(`is`)
-                        if (`is`) {
-                            // Handle report submission
+
+    override fun onBindViewHolder(viewholder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
+        item?.also {
+            when (viewholder) {
+                is LeftTextHolder -> {
+                    viewholder.binding.sender.visibility = View.GONE
+
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+                }
+                is RightTextHolder -> {
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+                }
+                is LeftTextReplayHolder -> {
+                    viewholder.binding.sender.visibility = View.GONE
+
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+                }
+                is RightTextReplayHolder -> {
+
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+                }
+                is LeftAttachmentHolder -> {
+                    viewholder.binding.sender.visibility = View.GONE
+
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+
+
+                    when (item.type) {
+                        "T" -> {
+
                         }
-                        Toast.makeText(context, "Report Submitted", Toast.LENGTH_SHORT).show()
+                        "I" -> {
+                            attachmentImage(item, viewholder.binding.ivAttachment)
+                        }
+                        "V" -> {
+
+                            attachmentVideo(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        "P" -> {
+                            attachmentPDF(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        else -> {
+                            attachmentDoc(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
                     }
-                }, "This Group")
+
+                }
+                is RightAttachmentHolder -> {
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+
+
+                    when (item.type) {
+                        "T" -> {
+
+                        }
+                        "I" -> {
+                            attachmentImage(item, viewholder.binding.ivAttachment)
+                        }
+                        "V" -> {
+
+                            attachmentVideo(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        "P" -> {
+                            attachmentPDF(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        else -> {
+                            attachmentDoc(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                    }
+                }
+                is LeftAllHolder -> {
+                    viewholder.binding.sender.visibility = View.GONE
+
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+
+                    when (item.type) {
+                        "T" -> {
+
+                        }
+                        "I" -> {
+                            attachmentImage(item, viewholder.binding.ivAttachment)
+                        }
+                        "V" -> {
+                            attachmentVideo(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        "P" -> {
+                            attachmentPDF(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        else -> {
+                            attachmentDoc(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                    }
+                }
+                is RightAllHolder -> {
+                    viewholder.binding.message.text = item.message
+                    viewholder.binding.time.text = item.getFormattedTime()
+
+
+                    when (item.type) {
+                        "T" -> {
+
+                        }
+                        "I" -> {
+                            attachmentImage(item, viewholder.binding.ivAttachment)
+                        }
+                        "V" -> {
+
+                            attachmentVideo(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        "P" -> {
+                            attachmentPDF(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                        "D" -> {
+                            attachmentDoc(
+                                item,
+                                viewholder.binding.ivDownload,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.ivDownloadProgress,
+                                position
+                            )
+                        }
+                    }
+                }
             }
+
         }
+
+
     }
 
 
-    private fun AttachmentDoc(item: Chats, holder:ViewHolder) {
-        holder.layDoc?.visibility = View.VISIBLE
-        holder.ivAttachmentTitle?.text = item.attachment
-        holder.ivDoc?.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_files))
-        if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
-            if (file.exists()) {
-                holder.ivDownload?.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun AttachmentPDF(item: Chats, holder: ViewHolder) {
-        holder.layDoc?.visibility = View.VISIBLE
-        holder.ivAttachmentTitle?.text = item.attachment
-        holder.ivDoc?.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_pdf))
-        if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
-            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
-            if (file.exists()) {
-                holder.ivDownload?.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun attachmentImage(item: Chats, holder: ViewHolder) {
+    private fun attachmentImage(item: Chats, imageview: ImageView) {
         if (item.attachment != null && item.attachment != "null") {
             val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
-                MethodClass.GetFileBitmap(file.absolutePath, holder.ivAttachment, context)
-                    .execute()
+                Glide.with(context)
+                    .asBitmap()
+                    .override(500, 300)
+                    .load(file)
+                    .into(imageview)
+                /*
+
+                   MethodClass.GetFileBitmap(
+                       file.absolutePath,
+                       imageview,
+                       context
+                   ).execute()*/
             } else {
                 launch {
                     Glide.with(context)
@@ -217,7 +384,7 @@ class MessageNewAdapter(
                             override fun onLoadFailed(
                                 e: GlideException?,
                                 model: Any?,
-                                target: Target<Bitmap?>?,
+                                target: com.bumptech.glide.request.target.Target<Bitmap?>?,
                                 isFirstResource: Boolean
                             ): Boolean {
                                 return false
@@ -226,55 +393,115 @@ class MessageNewAdapter(
                             override fun onResourceReady(
                                 resource: Bitmap?,
                                 model: Any?,
-                                target: Target<Bitmap?>?,
+                                target: com.bumptech.glide.request.target.Target<Bitmap?>?,
                                 dataSource: DataSource?,
                                 isFirstResource: Boolean
                             ): Boolean {
                                 try {
-                                    holder.ivAttachment!!.setImageBitmap(resource)
-                                    MethodClass.CashImageInMemoryOriginalQuality(item.attachment,resource)
-                                }catch (e:Exception){
+                                    imageview.setImageBitmap(resource)
+                                    MethodClass.CashImageInMemoryOriginalQuality(
+                                        item.attachment,
+                                        resource
+                                    )
+                                } catch (e: Exception) {
                                     e.printStackTrace()
 
                                 }
                                 return false
                             }
+
                         })
                         .submit()
-
-
-
                 }
-
-
-
             }
-            holder.ivAttachment?.visibility = View.VISIBLE
-            holder.layAttachment?.visibility = View.VISIBLE
-            holder.ivAttachment?.setOnClickListener {
+            imageview.visibility = View.VISIBLE
+            imageview.setOnClickListener {
                 MethodClass.showFullScreen(activity, handler, item.thread, item.id)
             }
         }
     }
-    private fun AttachmentVideo(item: Chats, holder: ViewHolder) {
+
+    private fun attachmentDoc(
+        item: Chats,
+        download: ImageView,
+        iv_doc: ImageView,
+        progress: ProgressBar,
+        position: Int
+    ) {
+        Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_files))
+            .override(300, 300).into(iv_doc)
+        iv_doc.visibility = View.VISIBLE
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
-                holder.ivAttachment?.visibility = View.VISIBLE
-                holder.layAttachment?.visibility = View.VISIBLE
-                holder.btnPlay?.visibility = View.VISIBLE
+                download.visibility = View.GONE
+            } else {
+                download.visibility = View.VISIBLE
 
+                download.setOnClickListener {
+                    downloadfile(
+                        item,
+                        download,
+                        progress,
+                        position
+                    )
+                }
+
+            }
+        }
+    }
+
+    private fun attachmentPDF(
+        item: Chats,
+        download: ImageView,
+        iv_doc: ImageView,
+        ivDownloadProgress: ProgressBar,
+        position: Int
+    ) {
+        Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_pdf))
+            .override(300, 300).into(iv_doc)
+        iv_doc.visibility = View.VISIBLE
+        if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
+            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
+            if (file.exists()) {
+                download.visibility = View.GONE
+            } else {
+                download.visibility = View.VISIBLE
+                download.setOnClickListener {
+                    downloadfile(
+                        item,
+                        download,
+                        ivDownloadProgress,
+                        position
+                    )
+                }
+            }
+        }
+    }
+
+    private fun attachmentVideo(
+        item: Chats,
+        download: ImageView,
+        play: ImageView,
+        attachment: ImageView,
+        ivDownloadProgress: ProgressBar,
+        position: Int
+    ) {
+        if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
+            val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
+            attachment.visibility = View.VISIBLE
+            if (file.exists()) {
                 val cashFile = File(Constants.CATCH_DIR_CASH + "/" + item.attachment)
-                if (cashFile.exists()){
+                if (cashFile.exists()) {
+
                     Glide.with(context)
                         .load(cashFile)
-                        .override(600, 600)
-                        .into(holder.ivAttachment!!)
-                    holder.ivAttachment?.visibility = View.VISIBLE
-                    holder.layAttachment?.visibility = View.VISIBLE
-                }else {
+                        .override(400, 400)
+                        .into(attachment)
+                    play.visibility = View.VISIBLE
+                    download.visibility = View.GONE
 
-
+                } else {
                     Thread {
                         val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
                             .asBitmap()
@@ -287,12 +514,14 @@ class MessageNewAdapter(
                                 Glide.with(context)
                                     .load(bitmap)
                                     .override(600, 600)
-                                    .into(holder.ivAttachment!!)
-                                holder.ivAttachment?.visibility = View.VISIBLE
-                                holder.layAttachment?.visibility = View.VISIBLE
+                                    .into(attachment)
+
+                                play.visibility = View.VISIBLE
+                                download.visibility = View.GONE
+
                             }
                             MethodClass.CashImageInCatch(
-                                file.name.replace("mp4","png"),
+                                file.name.replace("mp4", "png"),
                                 bitmap
                             )
                         } catch (e: Exception) {
@@ -301,24 +530,71 @@ class MessageNewAdapter(
                     }.start()
                 }
             } else {
-                holder.layDoc?.visibility = View.VISIBLE
-                holder.ivDownload?.visibility = View.VISIBLE
-                holder.ivAttachmentTitle?.text = item.attachment
-                holder.ivDoc?.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        R.drawable.ic_video
-                    )
-                )
+
+                val cashFile = File(Constants.CATCH_DIR_CASH + "/" + item.attachment)
+                if (cashFile.exists()) {
+                    Glide.with(context)
+                        .load(cashFile)
+                        .override(400, 400)
+                        .into(attachment)
+                    play.visibility = View.GONE
+                    download.visibility = View.VISIBLE
+                    download.setOnClickListener {
+                        downloadfile(
+                            item,
+                            download,
+                            ivDownloadProgress,
+                            position
+                        )
+                    }
+                } else {
+
+
+                    Thread {
+                        val futureTarget: FutureTarget<Bitmap> = Glide.with(context)
+                            .asBitmap()
+                            .override(600, 600)
+                            .load("${Constants.Attachment_URL}/${item.attachment}")
+                            .submit()
+                        try {
+                            val bitmap = futureTarget.get()
+                            handler.post {
+                                Glide.with(context)
+                                    .load(bitmap)
+                                    .override(400, 400)
+                                    .into(attachment)
+
+                                play.visibility = View.GONE
+                                download.visibility = View.VISIBLE
+                                download.setOnClickListener {
+                                    downloadfile(
+                                        item,
+                                        download,
+                                        ivDownloadProgress,
+                                        position
+                                    )
+                                }
+
+                            }
+                            MethodClass.CashImageInCatch(
+                                file.name.replace("mp4", "png"),
+                                bitmap
+                            )
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }.start()
+                }
+
             }
 
-            holder.ivAttachment?.setOnClickListener {
+            attachment.setOnClickListener {
                 MethodClass.showFullScreen(activity, handler, item.thread, item.id)
             }
         }
-    }*/
+    }
 
-    private fun Download_file(
+    private fun downloadfile(
         item: Chats,
         iv_download: ImageView,
         iv_download_progress: ProgressBar,
@@ -447,85 +723,40 @@ class MessageNewAdapter(
           val layReplayDoc: LinearLayout? = itemView.findViewById(R.id.lay_replay_doc)
           val ivReplayDoc: ImageView? = itemView.findViewById(R.id.iv_replay_doc)*/
 
-        init {
-            val binding = ChatLeftAllBinding.bind(itemView)
-            binding.message.text = "CHAT LEFT ALL"
 
-        }
-
-
+        val binding = ChatLeftAllBinding.bind(itemView)
     }
 
     class LeftAttachmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            val binding = ChatLeftAttachmentBinding.bind(itemView)
-            binding.message.text = "CHAT LEFT  ATTACHMENT"
-        }
-
+        val binding = ChatLeftAttachmentBinding.bind(itemView)
     }
 
     class LeftTextHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            val binding = ChatLeftTextBinding.bind(itemView)
-            binding.message.text = "CHAT LEFT TEXT"
 
-        }
-
+        val binding = ChatLeftTextBinding.bind(itemView)
     }
+
     class LeftTextReplayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            val binding = ChatLeftTextReplayBinding.bind(itemView)
-            binding.message.text = "CHAT LEFT  TEXT REPLAY"
-
-        }
-
+        val binding = ChatLeftTextReplayBinding.bind(itemView)
     }
 
     class RightAllHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            val binding = ChatRightAllBinding.bind(itemView)
-            binding.message.text = "CHAT RIGHT  ALL"
-        }
-
-
+        val binding = ChatRightAllBinding.bind(itemView)
     }
 
     class RightAttachmentHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-
-            val binding = ChatRightAttachmentBinding.bind(itemView)
-            binding.message.text = "CHAT Right Attachment"
-        }
-
+        val binding = ChatRightAttachmentBinding.bind(itemView)
     }
 
     class RightTextHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            val binding = ChatRightTextBinding.bind(itemView)
-            binding.message.text = "CHAT RIGHT TEXT"
-        }
-
+        val binding = ChatRightTextBinding.bind(itemView)
     }
+
     class RightTextReplayHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        init {
-            val binding = ChatRightTextReplayBinding.bind(itemView)
-            binding.message.text = "CHAT RIGHT TEXT REPLAY"
-        }
-
-
+        val binding = ChatRightTextReplayBinding.bind(itemView)
     }
 
     class ShimmerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
-
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
     }
 
 

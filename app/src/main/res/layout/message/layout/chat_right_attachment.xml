@@ -45,9 +45,10 @@
             android:contentDescription="@string/play"
             android:src="@drawable/ic_play"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/iv_attachment"
+            app:layout_constraintStart_toStartOf="@id/iv_attachment"
+            app:layout_constraintTop_toTopOf="@id/iv_attachment"
+            app:layout_constraintBottom_toBottomOf="@id/iv_attachment"/>
 
         <ImageView
             android:id="@+id/iv_download"
@@ -60,9 +61,10 @@
             android:gravity="center"
             android:src="@drawable/ic_download"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/iv_attachment"
+            app:layout_constraintStart_toStartOf="@id/iv_attachment"
+            app:layout_constraintTop_toTopOf="@id/iv_attachment"
+            app:layout_constraintBottom_toBottomOf="@id/iv_attachment"
             app:tint="@color/white" />
 
         <ProgressBar

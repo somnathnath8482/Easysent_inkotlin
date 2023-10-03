@@ -130,7 +130,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
 
 
         userVewModel.selectUserLive(
-            PrefUtill.getUser()?.user?.id
+          reciver
         ) { item ->
             handler.post(kotlinx.coroutines.Runnable {
                 item?.observe(this@MessageActivity)

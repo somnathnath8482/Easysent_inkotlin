@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.google.gson.annotations.SerializedName
 
 @Entity(indices = [Index(value = ["chat_id"], unique = true)])
@@ -63,5 +64,9 @@ class Chats {
         this.seen = seen
         this.replay_of = replay_of
         this.deleted = is_deleted
+    }
+
+    fun getFormattedTime(): String? {
+        return MethodClass.changeDateFormat2(createdAt)
     }
 }

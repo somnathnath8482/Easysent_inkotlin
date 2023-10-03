@@ -112,9 +112,10 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_play"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/replay_bg"
+        app:layout_constraintEnd_toEndOf="@id/iv_attachment"
+        app:layout_constraintStart_toStartOf="@id/iv_attachment"
+        app:layout_constraintTop_toTopOf="@id/iv_attachment"
+        app:layout_constraintBottom_toBottomOf="@id/iv_attachment"
         android:contentDescription="@string/play"
         android:visibility="gone"/>
 
@@ -127,9 +128,10 @@
         android:adjustViewBounds="true"
         android:gravity="center"
         android:src="@drawable/ic_download"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/replay_bg"
+        app:layout_constraintEnd_toEndOf="@id/iv_attachment"
+        app:layout_constraintStart_toStartOf="@id/iv_attachment"
+        app:layout_constraintTop_toTopOf="@id/iv_attachment"
+        app:layout_constraintBottom_toBottomOf="@id/iv_attachment"
         app:tint="@color/white"
         android:contentDescription="@string/download"
         android:visibility="gone"/>

@@ -125,13 +125,14 @@ class Chatepository{
         scope.launch {
 
             val pager = Pager(
-                PagingConfig(
+               /* PagingConfig(
                     30,  //  Count of items in one page
                     30,  //  Number of items to prefetch
                     true,  // Enable placeholders for data which is not yet loaded
                     120,  // initialLoadSize - Count of items to be loaded initially
                     PagingConfig.MAX_SIZE_UNBOUNDED
-                )
+                )*/
+            PagingConfig(pageSize = 40)
             ) {
                 Chat_dao.getMessageBy_paging(user, me)
             }
