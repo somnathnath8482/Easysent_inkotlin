@@ -3,6 +3,7 @@ package com.easy.kotlintest.adapter.Message
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Handler
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.FileProvider
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +22,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.FutureTarget
 import com.bumptech.glide.request.RequestListener
+import com.easy.kotlintest.BuildConfig
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Helper.SaveWithProgress
 import com.easy.kotlintest.Networking.Helper.Constants
@@ -30,10 +33,7 @@ import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.databinding.*
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
@@ -156,14 +156,18 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
-                            attachmentImage(item, viewholder.binding.ivAttachment,viewholder.binding.btnPlay)
+                            attachmentImage(
+                                item,
+                                viewholder.binding.ivAttachment,
+                                viewholder.binding.btnPlay
+                            )
                         }
                         "V" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentVideo(
                                 item,
@@ -175,9 +179,10 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -187,9 +192,10 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -211,8 +217,8 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentImage(
                                 item,
@@ -221,8 +227,8 @@ class MessageNewAdapter(
                             )
                         }
                         "V" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentVideo(
                                 item,
@@ -234,9 +240,10 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -246,9 +253,10 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -269,8 +277,8 @@ class MessageNewAdapter(
                         "T" -> {
                         }
                         "I" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentImage(
                                 item,
@@ -279,8 +287,8 @@ class MessageNewAdapter(
                             )
                         }
                         "V" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentVideo(
                                 item,
@@ -292,9 +300,10 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -304,9 +313,10 @@ class MessageNewAdapter(
                             )
                         }
                         else -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -327,8 +337,8 @@ class MessageNewAdapter(
 
                         }
                         "I" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentImage(
                                 item,
@@ -337,8 +347,8 @@ class MessageNewAdapter(
                             )
                         }
                         "V" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
                             attachmentVideo(
                                 item,
@@ -350,9 +360,10 @@ class MessageNewAdapter(
                             )
                         }
                         "P" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentPDF(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -362,9 +373,10 @@ class MessageNewAdapter(
                             )
                         }
                         "D" -> {
-                            if (item.message==null || item.message?.length==0){
-                                viewholder.binding.message.visibility  = View.GONE
+                            if (item.message == null || item.message?.length == 0) {
+                                viewholder.binding.message.visibility = View.GONE
                             }
+                            viewholder.binding.btnPlay.visibility = View.GONE
                             attachmentDoc(
                                 item,
                                 viewholder.binding.ivDownload,
@@ -387,17 +399,17 @@ class MessageNewAdapter(
         if (item.attachment != null && item.attachment != "null") {
             val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
-            /*    Glide.with(context)
-                    .asBitmap()
-                    .override(500, 300)
-                    .load(file)
-                    .into(imageview)*/
+                /*    Glide.with(context)
+                        .asBitmap()
+                        .override(500, 300)
+                        .load(file)
+                        .into(imageview)*/
 
-                   MethodClass.GetFileBitmap(
-                       file.absolutePath,
-                       imageview,
-                       context
-                   ).execute()
+                MethodClass.GetFileBitmap(
+                    file.absolutePath,
+                    imageview,
+                    context
+                ).execute()
             } else {
                 launch {
                     Glide.with(context)
@@ -460,6 +472,29 @@ class MessageNewAdapter(
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
                 download.visibility = View.GONE
+                progress.visibility = View.GONE
+
+
+
+                val path =
+                    FileProvider.getUriForFile(
+                        context,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        file
+                    )
+                val pdfOpenintent = Intent(Intent.ACTION_VIEW)
+                pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                pdfOpenintent.setData(path)
+                //pdfOpenintent.data = path
+                iv_doc.setOnClickListener {
+                    context.startActivity(pdfOpenintent)
+
+                }
+
+
+
+
             } else {
                 download.visibility = View.VISIBLE
 
@@ -483,12 +518,36 @@ class MessageNewAdapter(
         ivDownloadProgress: ProgressBar,
         position: Int
     ) {
-        Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_pdf))
-            .override(300, 300).into(iv_doc)
+
         iv_doc.visibility = View.VISIBLE
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
+
+                val path =
+                    FileProvider.getUriForFile(
+                        context,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        file
+                    )
+
+                val mc = com.easy.kotlintest.Helper.MethodClass()
+                mc.getThumbnail(context.contentResolver, path) {
+                    handler.post(Runnable {
+                        Glide.with(context).load(it)
+                            .override(600, 500).into(iv_doc)
+                    });
+
+                };
+                val pdfOpenintent = Intent(Intent.ACTION_VIEW)
+                pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                pdfOpenintent.setDataAndType(path, "application/pdf")
+                //pdfOpenintent.data = path
+                iv_doc.setOnClickListener {
+                        context.startActivity(pdfOpenintent)
+
+                }
                 download.visibility = View.GONE
             } else {
                 download.visibility = View.VISIBLE
