@@ -177,7 +177,15 @@
             android:paddingEnd="@dimen/_13sdp"
             app:layout_constraintTop_toBottomOf="@id/iv_attachment"
             tools:text="This is  a dummy messag" />
-
+        <ImageView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_clock"
+            android:layout_marginEnd="@dimen/_7sdp"
+            app:layout_constraintEnd_toStartOf="@id/time"
+            app:layout_constraintTop_toTopOf="@id/time"
+            app:layout_constraintBottom_toBottomOf="@id/time"/>
         <TextView
             android:id="@+id/time"
             style="@style/desc"

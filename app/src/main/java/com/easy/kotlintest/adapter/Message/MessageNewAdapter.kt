@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -132,6 +133,8 @@ class MessageNewAdapter(
                 is RightTextHolder -> {
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
+
+                    status(item,viewholder.binding.status)
                 }
                 is LeftTextReplayHolder -> {
                     viewholder.binding.sender.visibility = View.GONE
@@ -143,6 +146,8 @@ class MessageNewAdapter(
 
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
+
+                    status(item,viewholder.binding.status)
                 }
                 is LeftAttachmentHolder -> {
                     viewholder.binding.sender.visibility = View.GONE
@@ -211,6 +216,7 @@ class MessageNewAdapter(
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
 
+                    status(item,viewholder.binding.status)
 
                     when (item.type) {
                         "T" -> {
@@ -330,7 +336,7 @@ class MessageNewAdapter(
                 is RightAllHolder -> {
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
-
+                    status(item,viewholder.binding.status)
 
                     when (item.type) {
                         "T" -> {
@@ -389,6 +395,29 @@ class MessageNewAdapter(
                 }
             }
 
+        }
+
+
+    }
+
+    private fun status(item: Chats, status: ImageView) {
+
+        if (item.seen.equals("2")) {
+            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_double_check))
+            status.setColorFilter(null)
+            status.setColorFilter(ContextCompat.getColor(context, R.color.white))
+        } else if (item.seen.equals("1")) {
+            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_check))
+            status.setColorFilter(null)
+            status.setColorFilter(ContextCompat.getColor(context, R.color.white))
+        } else if (item.seen.equals("0")) {
+            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_clock))
+            status.setColorFilter(null)
+            status.setColorFilter(ContextCompat.getColor(context, R.color.thim_color))
+        } else {
+            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_double_check))
+            status.setColorFilter(null)
+            status.setColorFilter(ContextCompat.getColor(context, R.color.thim_color))
         }
 
 
