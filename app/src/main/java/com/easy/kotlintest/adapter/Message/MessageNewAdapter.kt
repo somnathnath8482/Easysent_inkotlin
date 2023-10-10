@@ -111,7 +111,8 @@ class MessageNewAdapter(
                                 item,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.btnPlay,
-                                viewholder.binding.ivDownloadProgress
+                                viewholder.binding.ivDownloadProgress,
+                                viewholder.binding.fileType
                             )
                         }
                         "V" -> {
@@ -124,7 +125,8 @@ class MessageNewAdapter(
                                 viewholder.binding.btnPlay,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         "P" -> {
@@ -176,7 +178,8 @@ class MessageNewAdapter(
                                 item,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.btnPlay,
-                                viewholder.binding.ivDownloadProgress
+                                viewholder.binding.ivDownloadProgress,
+                                viewholder.binding.fileType
                             )
                         }
                         "V" -> {
@@ -189,7 +192,8 @@ class MessageNewAdapter(
                                 viewholder.binding.btnPlay,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         "P" -> {
@@ -239,7 +243,8 @@ class MessageNewAdapter(
                                 item,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.btnPlay,
-                                viewholder.binding.ivDownloadProgress
+                                viewholder.binding.ivDownloadProgress,
+                                viewholder.binding.fileType
                             )
                         }
                         "V" -> {
@@ -252,7 +257,8 @@ class MessageNewAdapter(
                                 viewholder.binding.btnPlay,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         "P" -> {
@@ -302,7 +308,8 @@ class MessageNewAdapter(
                                 item,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.btnPlay,
-                                viewholder.binding.ivDownloadProgress
+                                viewholder.binding.ivDownloadProgress,
+                                viewholder.binding.fileType
                             )
                         }
                         "V" -> {
@@ -315,7 +322,8 @@ class MessageNewAdapter(
                                 viewholder.binding.btnPlay,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         "P" -> {
@@ -393,9 +401,12 @@ class MessageNewAdapter(
         item: Chats,
         imageview: ImageView,
         btnPlay: ImageView,
-        ivDownloadProgress: ProgressBar
+        ivDownloadProgress: ProgressBar,
+        fileType: TextView
     ) {
         if (item.attachment != null && item.attachment != "null") {
+            fileType.text = "IMAGE"
+
             val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
                 /*    Glide.with(context)
@@ -669,11 +680,14 @@ class MessageNewAdapter(
         play: ImageView,
         attachment: ImageView,
         ivDownloadProgress: ProgressBar,
-        position: Int
+        position: Int,
+        fileType: TextView
     ) {
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             attachment.visibility = View.VISIBLE
+            fileType.text = "VIDEO"
+
             if (file.exists()) {
                 val cashFile = File(Constants.CATCH_DIR_CASH + "/" + item.attachment)
                 if (cashFile.exists()) {
