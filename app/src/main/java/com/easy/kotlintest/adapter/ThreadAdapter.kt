@@ -18,7 +18,6 @@ import com.easy.kotlintest.Networking.Helper.MethodClass
 import com.easy.kotlintest.Networking.Interface.AllInterFace
 import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Thread.Active_Thread
-import com.easy.kotlintest.Room.Users.Users
 import com.easy.kotlintest.databinding.UserItemBinding
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +31,8 @@ class ThreadAdapter(
     diffCallback: DiffUtil.ItemCallback<Active_Thread>,
     mainDispatcher: CoroutineDispatcher,
     private var allInterface: AllInterFace
-) : PagingDataAdapter<Active_Thread, ThreadAdapter.ViewHolder>(diffCallback, mainDispatcher), CoroutineScope {
+) : PagingDataAdapter<Active_Thread, ThreadAdapter.ViewHolder>(diffCallback, mainDispatcher),
+    CoroutineScope {
 
 
     private lateinit var context: Context
@@ -41,16 +41,35 @@ class ThreadAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = getItem(position) ?: Active_Thread()
         holder.binding.name.text = user.name
-        holder.binding.about.text = user.last_message ?: ""
+        holder.binding.about.text = when (user.last_message_type) {
+            "T"-> {user.last_message}
+            "I"-> {
+                 "Media: Image"
+            }
+            "V"-> {
+                "Media: Video"
+            }
+            "P"-> {
+                "Media: PDF"
+            }
+            else -> {
+                "Media: Document"
+            }
+
+        }
+        
+        if (user.last_message_type==""){
+            holder.binding.about.text = context.getString(R.string.click_here_to_view_messages)
+        }
 
         if (user.profilePic != null && !user.profilePic.equals("null")) {
             val url: String = BASE_URL + "profile_image/" + user.profilePic
             val file: File = File(CATCH_DIR_CASH + "/" + user.profilePic)
             if (file.exists()) {
                 launch {
-                        Glide.with(context)
-                            .load(file)
-                            .into(holder.binding.profileImage)
+                    Glide.with(context)
+                        .load(file)
+                        .into(holder.binding.profileImage)
                 }
             } else {
 

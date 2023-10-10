@@ -59,7 +59,7 @@ class SendTextMessageWorker(appContext: Context, workerParams: WorkerParameters)
                     }else{
                         val encripter = Encripter(map["sender"].toString())
                         threadRepository.update_last_seen(encripter.decrepit(map["message"].toString()),
-                            "1",map["type"].toString(),map["is_1st"].toString(),map["date"].toString())
+                            "1",map["type"].toString(),map["thread"].toString(),map["date"].toString())
                     }
 
 
