@@ -689,5 +689,114 @@ public static void CashImageInMemoryOriginalQuality(String file_name, @Nullable 
 
     }
 
+    public static void cashattachmentImage2(File bm, String filename, Handler handler, Activity context, AllInterFace allInterFace) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String path = CATCH_DIR_Memory;
+                File file = new File(path + "/" + filename + ".jpg");
+
+                if (file.exists()) {
+                    file.delete();
+                }
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (file.exists()) {
+
+
+                    try {
+                        Uri returnUri = Uri.fromFile(bm);
+                        InputStream inputStream = context.getContentResolver().openInputStream(returnUri);
+                        FileOutputStream out = new FileOutputStream(file);
+                        copyStream(inputStream, out);
+                        out.close();
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (file.exists()) {
+
+                                    allInterFace.IsClicked(file.getAbsolutePath());
+                                } else {
+                                    allInterFace.IsClicked(null);
+                                }
+
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        allInterFace.IsClicked(null);
+                    }
+
+
+                }
+
+
+            }
+        }).start();
+
+    }
+
+    public static void cashattachmentFILE2(File bm, String filename, Handler handler, Activity context, AllInterFace allInterFace) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String path = CATCH_DIR_Memory;
+                File file = new File(path + "/" + filename + "_" + bm.getName());
+
+                if (file.exists()) {
+                    file.delete();
+                }
+                try {
+                    file.createNewFile();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if (file.exists()) {
+
+
+                    try {
+                        Uri returnUri = Uri.fromFile(bm);
+                        InputStream inputStream = context.getContentResolver().openInputStream(returnUri);
+                        FileOutputStream out = new FileOutputStream(file);
+                        copyStream(inputStream, out);
+                        out.close();
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (file.exists()) {
+
+                                    allInterFace.IsClicked(file.getAbsolutePath());
+                                } else {
+                                    allInterFace.IsClicked(null);
+                                }
+
+                            }
+                        });
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        allInterFace.IsClicked(null);
+                    }
+
+
+                }
+
+
+            }
+        }).start();
+
+    }
 
 }

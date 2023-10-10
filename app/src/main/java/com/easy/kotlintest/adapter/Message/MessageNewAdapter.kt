@@ -7,17 +7,21 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.LifecycleOwner
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -35,6 +39,7 @@ import com.easy.kotlintest.Room.Messages.Message_View_Model
 import com.easy.kotlintest.Room.Users.UserVewModel
 import com.easy.kotlintest.databinding.*
 import kotlinx.coroutines.*
+import org.json.JSONObject
 import java.io.File
 import kotlin.coroutines.CoroutineContext
 
@@ -48,77 +53,14 @@ class MessageNewAdapter(
     var handler: Handler,
     var message_view_model: Message_View_Model,
     var recycler: RecyclerView,
+    var owner: LifecycleOwner,
     var myId: String = PrefUtill.getUser()?.user?.id ?: "",
+    private val manager: WorkManager = WorkManager.getInstance(context)
 ) : PagingDataAdapter<Chats, RecyclerView.ViewHolder>(diffCallback, mainDispatcher),
     CoroutineScope {
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
-
-    /* override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-         //Log.e("TAG", "onBindViewHolder: $position" )
-         val item = getItem(position)
-         item?.also {
-             holder.message?.text =it.message
-             holder.time?.text = MethodClass.changeDateFormat2(it.createdAt)
-             holder.itemView.setOnLongClickListener { view: View? ->
-                 showPopupMenu(holder.mainLay!!, item)
-                 true
-             }
-
-             launch {
-
-
-                 if (item.sender.equals(myId)){
-                     when (item.seen) {
-                         "2" -> {
-                             holder.status?.setImageResource(R.drawable.ic_double_check)
-                             holder.status?.clearColorFilter()
-                             holder.status?.setColorFilter(
-                                 ContextCompat.getColor(
-                                     context,
-                                     R.color.white
-                                 )
-                             )
-                         }
-                         "1" -> {
-                             holder.status?.setImageResource(R.drawable.ic_check)
-                             holder.status?.clearColorFilter()
-                             holder.status?.setColorFilter(
-                                 ContextCompat.getColor(
-                                     context,
-                                     R.color.white
-                                 )
-                             )
-                         }
-                         "0" -> {
-                             holder.status?.setImageResource(R.drawable.ic_clock)
-                             holder.status?.clearColorFilter()
-                             holder.status?.setColorFilter(
-                                 ContextCompat.getColor(
-                                     context,
-                                     R.color.thim_color
-                                 )
-                             )
-                         }
-                         else -> {
-                             holder.status?.setImageResource(R.drawable.ic_double_check)
-                             holder.status?.clearColorFilter()
-                             holder.status?.setColorFilter(
-                                 ContextCompat.getColor(
-                                     context,
-                                     R.color.thim_color
-                                 )
-                             )
-                         }
-                     }
-                 }
-
-             }
-         }
-
-
-     }*/
 
     override fun onBindViewHolder(viewholder: RecyclerView.ViewHolder, position: Int) {
         val item = getItem(position)
@@ -134,7 +76,7 @@ class MessageNewAdapter(
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
 
-                    status(item,viewholder.binding.status)
+                    status(item, viewholder.binding.status)
                 }
                 is LeftTextReplayHolder -> {
                     viewholder.binding.sender.visibility = View.GONE
@@ -147,7 +89,7 @@ class MessageNewAdapter(
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
 
-                    status(item,viewholder.binding.status)
+                    status(item, viewholder.binding.status)
                 }
                 is LeftAttachmentHolder -> {
                     viewholder.binding.sender.visibility = View.GONE
@@ -216,7 +158,7 @@ class MessageNewAdapter(
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
 
-                    status(item,viewholder.binding.status)
+                    status(item, viewholder.binding.status)
 
                     when (item.type) {
                         "T" -> {
@@ -336,7 +278,7 @@ class MessageNewAdapter(
                 is RightAllHolder -> {
                     viewholder.binding.message.text = item.message
                     viewholder.binding.time.text = item.getFormattedTime()
-                    status(item,viewholder.binding.status)
+                    status(item, viewholder.binding.status)
 
                     when (item.type) {
                         "T" -> {
@@ -403,20 +345,30 @@ class MessageNewAdapter(
     private fun status(item: Chats, status: ImageView) {
 
         if (item.seen.equals("2")) {
-            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_double_check))
-            status.setColorFilter(null)
+            status.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    context,
+                    R.drawable.ic_double_check
+                )
+            )
+            status.colorFilter = null
             status.setColorFilter(ContextCompat.getColor(context, R.color.white))
         } else if (item.seen.equals("1")) {
-            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_check))
-            status.setColorFilter(null)
+            status.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_check))
+            status.colorFilter = null
             status.setColorFilter(ContextCompat.getColor(context, R.color.white))
         } else if (item.seen.equals("0")) {
-            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_clock))
-            status.setColorFilter(null)
+            status.setImageDrawable(AppCompatResources.getDrawable(context, R.drawable.ic_clock))
+            status.colorFilter = null
             status.setColorFilter(ContextCompat.getColor(context, R.color.thim_color))
         } else {
-            status.setImageDrawable(AppCompatResources.getDrawable(context,R.drawable.ic_double_check))
-            status.setColorFilter(null)
+            status.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    context,
+                    R.drawable.ic_double_check
+                )
+            )
+            status.colorFilter = null
             status.setColorFilter(ContextCompat.getColor(context, R.color.thim_color))
         }
 
@@ -504,7 +456,6 @@ class MessageNewAdapter(
                 progress.visibility = View.GONE
 
 
-
                 val path =
                     FileProvider.getUriForFile(
                         context,
@@ -514,14 +465,12 @@ class MessageNewAdapter(
                 val pdfOpenintent = Intent(Intent.ACTION_VIEW)
                 pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                pdfOpenintent.setData(path)
+                pdfOpenintent.data = path
                 //pdfOpenintent.data = path
                 iv_doc.setOnClickListener {
                     context.startActivity(pdfOpenintent)
 
                 }
-
-
 
 
             } else {
@@ -565,16 +514,16 @@ class MessageNewAdapter(
                     handler.post(Runnable {
                         Glide.with(context).load(it)
                             .override(600, 500).into(iv_doc)
-                    });
+                    })
 
-                };
+                }
                 val pdfOpenintent = Intent(Intent.ACTION_VIEW)
                 pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 pdfOpenintent.setDataAndType(path, "application/pdf")
                 //pdfOpenintent.data = path
                 iv_doc.setOnClickListener {
-                        context.startActivity(pdfOpenintent)
+                    context.startActivity(pdfOpenintent)
 
                 }
                 download.visibility = View.GONE
@@ -703,6 +652,33 @@ class MessageNewAdapter(
 
             attachment.setOnClickListener {
                 MethodClass.showFullScreen(activity, handler, item.thread, item.id)
+            }
+        }
+
+        if (item.workId != null && item.seen.equals("0")) {
+            play.visibility = View.GONE
+            ivDownloadProgress.visibility = View.VISIBLE
+            ivDownloadProgress.max  =100
+            manager.getWorkInfoByIdLiveData(item.workId!!).observe(owner ) { value ->
+                val res = value?.outputData?.getString("res")
+                val  progress = value?.progress?.getInt("progress",0)
+
+
+                try {
+                    if (res != null && res != "" && value.state.name == "SUCCEEDED") {
+                        val obj = JSONObject(res)
+                        if (obj.has("error")) {
+                            Toast.makeText(context, "Failed to send", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        play.visibility = View.GONE
+                        Log.e("progress", "progress: $progress")
+                            ivDownloadProgress.setProgress( progress?:0,true)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
@@ -869,8 +845,7 @@ class MessageNewAdapter(
         val binding = ChatRightTextReplayBinding.bind(itemView)
     }
 
-    class ShimmerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    }
+    class ShimmerHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 
 }

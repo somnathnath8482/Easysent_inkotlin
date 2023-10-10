@@ -18,6 +18,7 @@ public class ProgressRequestBody extends RequestBody {
     private String content_type;
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
+    private int past_progress = 0;
 
     public interface UploadCallbacks {
         void onProgressUpdate(int percentage);
@@ -77,7 +78,14 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            mListener.onProgressUpdate((int)(100 * mUploaded / mTotal));
+            int cur_progress = (int)(100 * mUploaded / mTotal);
+
+             if (past_progress!=cur_progress){
+                 mListener.onProgressUpdate(cur_progress);
+                 past_progress =cur_progress;
+             }
+
+
         }
     }
 }

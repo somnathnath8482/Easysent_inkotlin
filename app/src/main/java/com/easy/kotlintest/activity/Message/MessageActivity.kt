@@ -3,11 +3,19 @@ package com.easy.kotlintest.activity.Message
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionManager
+import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
@@ -23,19 +31,26 @@ import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.FutureTarget
 import com.easy.kotlintest.Encription.Encripter
+import com.easy.kotlintest.Helper.CustomProgressbar
+import com.easy.kotlintest.Helper.FileHandel.Onselect
 import com.easy.kotlintest.Helper.FileHandel.PickFile
+import com.easy.kotlintest.Helper.ImageGetter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.Constants
 import com.easy.kotlintest.Networking.Helper.MethodClass
+import com.easy.kotlintest.Networking.Interface.AllInterFace
+import com.easy.kotlintest.R
 import com.easy.kotlintest.Room.Messages.Chats
 import com.easy.kotlintest.Room.Messages.Message_View_Model
 import com.easy.kotlintest.Room.Thread.Thread_ViewModel
 import com.easy.kotlintest.Room.Users.UserVewModel
-import com.easy.kotlintest.Workers.MultipartWorker
+import com.easy.kotlintest.Workers.SendMultipartMessageWorker
 import com.easy.kotlintest.Workers.SendTextMessageWorker
 import com.easy.kotlintest.adapter.Message.MessageNewAdapter
 import com.easy.kotlintest.databinding.ActivityMessageBinding
+import com.easy.kotlintest.databinding.AttachmentLayoutBinding
 import com.easy.kotlintest.databinding.MainToolbarBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -99,7 +114,8 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             userVewModel,
             handler,
             message_view_model,
-            binding.recycler
+            binding.recycler,
+            this@MessageActivity
         )
 
 
@@ -111,7 +127,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                     override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                         super.onItemRangeInserted(positionStart, itemCount)
                         total = adapter.snapshot().size
-                        thread = adapter.snapshot()[0]?.thread?:""
+                        thread = adapter.snapshot()[0]?.thread ?: ""
                         Constants.ACTIVE = thread
                         thread_viewModel.updateUnread(thread)
                     }
@@ -215,109 +231,377 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         }
 
 
+        initFile()
+
+        onclick()
+    }
+
+    private fun initFile() {
+        if (pickFile != null) pickFile.setOnselect(object : Onselect {
+            override fun onSelect(vararg strings: String?) {
+                val path = if (strings != null) strings[1] else null
+                val ty = if (strings != null) strings[0] else null
+                if (ty != null && path != null) {
+                    val file = File(path)
+                    if (file.exists()) {
+                        val name: String = ty
+                        val lastIndexOf = name.lastIndexOf(".")
+                        var type = ""
+                        type = if (lastIndexOf == -1) {
+                            Toast.makeText(activity, "Failed to select file", Toast.LENGTH_SHORT)
+                                .show()
+                            return
+                        } else {
+                            name.substring(lastIndexOf)
+                        }
+                        if (type.equals(".png", ignoreCase = true) || type.equals(
+                                ".JPEG",
+                                ignoreCase = true
+                            ) || type.equals(".JPG", ignoreCase = true)
+                        ) {
+                            filePath = MethodClass.getRightAngleImage(path)
+                            //binding.ivAttachment.setImageBitmap(BitmapFactory.decodeFile(filePath));
+                            ImageGetter(binding.ivAttachment).execute(file)
+                            binding.idTvAttachment.text = file.name
+                            fileType = "I"
+                            binding.ivAttachment.visibility = View.VISIBLE
+                            binding.layDoc.visibility = View.GONE
+                        } else if (type.equals(".PDF", ignoreCase = true)) {
+                            binding.ivDoc.setImageDrawable(resources.getDrawable(R.drawable.ic_pdf))
+                            binding.idTvAttachment.text = file.name
+                            fileType = "P"
+                            binding.ivAttachment.visibility = View.GONE
+                            binding.layDoc.visibility = View.VISIBLE
+                        } else if (type.equals(".mp4", ignoreCase = true)) {
+                            binding.ivAttachment.setImageDrawable(resources.getDrawable(R.drawable.ic_video))
+                            Thread {
+                                if (file.exists()) {
+                                    val futureTarget =
+                                        Glide.with(activity).asBitmap().override(600, 600)
+                                            .load(file.absolutePath).submit()
+                                    try {
+                                        val bi = futureTarget.get()
+                                        handler.post(Runnable {
+                                            Glide.with(activity).load(bi)
+                                                .into(
+                                                    binding.ivDoc
+                                                )
+                                        })
+                                    } catch (e: java.lang.Exception) {
+                                        e.printStackTrace()
+                                    }
+                                }
+                            }.start()
+                            binding.idTvAttachment.text = file.name
+                            fileType = "V"
+                            binding.ivAttachment.visibility = View.GONE
+                            binding.layDoc.visibility = View.VISIBLE
+                        } else {
+                            binding.ivDoc.setImageDrawable(resources.getDrawable(R.drawable.ic_files))
+                            binding.idTvAttachment.text = file.name
+                            fileType = "D"
+                            binding.ivAttachment.visibility = View.GONE
+                            binding.layDoc.visibility = View.VISIBLE
+                        }
+                        val transition: Transition = Slide(Gravity.START)
+                        transition.duration = 10
+                        transition.addTarget(binding.layAttach)
+                        filePath = path
+                        TransitionManager.beginDelayedTransition(
+                            binding.layAttach.parent as ViewGroup,
+                            transition
+                        )
+                        binding.layAttach.visibility = View.VISIBLE
+                        binding.dismissReplay.performClick()
+                    }
+                }
+            }
+        })
+
+    }
+
+    private fun onclick() {
+        binding.dismiss.setOnClickListener { view12 ->
+            val transition: Transition =
+                Slide(Gravity.START)
+            transition.duration = 10
+            transition.addTarget(binding.layAttach)
+            filePath = ""
+            fileType = ""
+            forward = ""
+            TransitionManager.beginDelayedTransition(
+                binding.layAttach.parent as ViewGroup,
+                transition
+            )
+            binding.layAttach.visibility = View.GONE
+            binding.ivAttachment.visibility = View.GONE
+            binding.layDoc.visibility = View.GONE
+        }
+        binding.dismissReplay.setOnClickListener { view12 ->
+            val transition: Transition = Slide(Gravity.START)
+            transition.duration = 10
+            transition.addTarget(binding.layReplay)
+            forward = ""
+            TransitionManager.beginDelayedTransition(
+                binding.layReplay.parent as ViewGroup,
+                transition
+            )
+            binding.layReplay.visibility = View.GONE
+            binding.layReplayDoc.visibility = View.GONE
+        }
+
+        binding.toolbar.back.setOnClickListener { view -> onBackPressed() }
+
+
+        val sender: String = PrefUtill.getUser()?.user?.id ?: ""
+        val senderName: String = PrefUtill.getUser()?.user?.name ?: ""
+        val encripter = Encripter(sender)
+        val email: String = PrefUtill.getUser()?.user?.email ?: ""
+
+
+
         binding.btnSend.setOnClickListener {
             val mid = Calendar.getInstance().timeInMillis.toString() + ""
             if (filePath == "" && binding.textSend.text.toString().trim().equals("")) {
                 Toast.makeText(activity, "You Can't Send Empty Message", Toast.LENGTH_SHORT).show()
             } else {
-                val sender: String = PrefUtill.getUser()?.user?.id?:""
-                val senderName: String = PrefUtill.getUser()?.user?.name?:""
-                val encripter = Encripter(sender)
-                val message: String = encripter.encrypt(binding.textSend.text.toString().trim())
-                val email: String = PrefUtill.getUser()?.user?.email?:""
 
-                fileType  ="T"
-                sendMessage(sender, senderName, reciver, message, activity, email, mid)
+                val message: String = encripter.encrypt(binding.textSend.text.toString().trim())
+
+
+
+
+                if (fileType == "T") {
+                    sendMessage(sender, senderName, reciver, message, activity, email, mid)
+                } else if (fileType == "I" && filePath != "") {
+
+                    if (fileType.equals("I", ignoreCase = true)) {
+                        CustomProgressbar.showProgressBar(activity, false)
+                        MethodClass.cashattachmentImage2(
+                            File(filePath),
+                            mid,
+                            handler,
+                            activity,
+                            object : AllInterFace() {
+                                override fun IsClicked(s: String) {
+                                    super.IsClicked(s)
+                                    if (s == null) {
+                                        binding.layAttach.visibility = View.GONE
+                                        filePath = ""
+                                        fileType = ""
+                                        binding.textSend.setText("")
+                                        Toast.makeText(
+                                            activity,
+                                            "Unable to sent attachment",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    } else {
+                                        filePath = s
+                                        //Toast.makeText(activity,filePath, Toast.LENGTH_SHORT).show();
+                                        sendMessage(
+                                            sender,
+                                            senderName,
+                                            reciver,
+                                            message,
+                                            activity,
+                                            email,
+                                            mid
+                                        )
+                                    }
+                                }
+                            })
+                        CustomProgressbar.hideProgressBar()
+
+                    }
+
+
+                } else if (filePath != "") {
+
+                    CustomProgressbar.showProgressBar(activity, false)
+                    MethodClass.cashattachmentFILE2(
+                        File(filePath),
+                        mid,
+                        handler,
+                        activity,
+                        object : AllInterFace() {
+                            override fun IsClicked(s: String) {
+                                super.IsClicked(s)
+                                if (s == null) {
+                                    binding.layAttach.visibility = View.GONE
+                                    filePath = ""
+                                    fileType = ""
+                                    binding.textSend.setText("")
+                                    Toast.makeText(
+                                        activity,
+                                        "Unable to sent attachment",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    filePath = s
+                                    //Toast.makeText(activity,filePath, Toast.LENGTH_SHORT).show();
+                                    sendMessage(
+                                        sender,
+                                        senderName,
+                                        reciver,
+                                        message,
+                                        activity,
+                                        email,
+                                        mid
+                                    )
+                                }
+                            }
+                        })
+                    CustomProgressbar.hideProgressBar()
+
+                }
 
             }
+
+        }
+
+        binding.attach.setOnClickListener { view1 -> AddAttachMent() }
+    }
+
+    private fun sendMessage(
+        sender: String,
+        sender_name: String,
+        reciver: String,
+        message: String,
+        context: Activity,
+        email: String,
+        m_id: String
+    ) {
+        launch {
+            val map = HashMap<String, Any>()
+            map["sender"] = sender
+            map["sender_name"] = sender_name
+            map["reciver"] = reciver
+            map["message"] = message
+            map["m_id"] = m_id
+            map["type"] = fileType
+            if (forward != "") {
+                map["replay_of"] = forward
+            }
+
+
+            val encripter = Encripter(sender)
+            val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            utcFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+            val date = utcFormat.format(Date())
+
+
+            val workData: Data = Data.Builder()
+                .putAll(map)
+                .putString("multipart", filePath)
+                .putString("key", "attachment")
+                .build()
+
+            val uploadWorkRequest = if (filePath != "" && fileType != "T") {
+                OneTimeWorkRequestBuilder<SendMultipartMessageWorker>()
+                    .setInputData(workData) // If you need to pass data to the worker
+                    .build()
+            } else {
+                OneTimeWorkRequestBuilder<SendTextMessageWorker>()
+                    .setInputData(workData) // If you need to pass data to the worker
+                    .build()
+            }
+
+
+            val manager = WorkManager
+                .getInstance(context)
+
+
+            val chats = if (filePath != "" && fileType != "T") {
+                Chats(
+                    File(filePath).name + "",
+                    sender,
+                    sender_name,
+                    date,
+                    m_id,
+                    if (total == 0) m_id else thread,
+                    encripter.decrepit(message),
+                    fileType,
+                    reciver,
+                    "0",
+                    uploadWorkRequest.id,
+                    forward,
+                    "0"
+                )
+            } else {
+                Chats(
+                    "",
+                    sender,
+                    sender_name,
+                    date,
+                    m_id,
+                    if (total == 0) m_id else thread,
+                    encripter.decrepit(message),
+                    "T",
+                    reciver,
+                    "0",
+                    uploadWorkRequest.id,
+                    forward,
+                    "0"
+                )
+            }
+
+
+            //insert to rom before start the work
+            message_view_model.insert(chats)
+            thread_viewModel.updateLastSeen(
+                encripter.decrepit(message),
+                "0",
+                "T",
+                if (total == 0) m_id else thread,
+                date
+            )
+
+            //add to worker
+            manager.enqueue(uploadWorkRequest)
+
+            binding.textSend.setText("")
+            binding.dismiss.performClick()
+            binding.dismissReplay.performClick()
+            fileType = ""
+            filePath = ""
+            forward = ""
         }
     }
 
-            private fun sendMessage(
-                sender: String,
-                sender_name: String,
-                reciver: String,
-                message: String,
-                context: Activity,
-                email: String,
-                m_id: String
-            ) {
-                launch {
-                    val map = HashMap<String, Any>()
-                    map["sender"] = sender
-                    map["sender_name"] = sender_name
-                    map["reciver"] = reciver
-                    map["message"] = message
-                    map["m_id"] = m_id
-                    map["type"] = fileType
-                    if (forward != "") {
-                        map["replay_of"] = forward
-                    }
 
-
-                    val encripter = Encripter(sender)
-                    val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                    utcFormat.timeZone = TimeZone.getTimeZone("UTC")
-
-                    val date = utcFormat.format(Date())
-
-                    val chats = Chats(
-                        "",
-                        sender,
-                        date,
-                        m_id,
-                        if (total == 0) m_id else thread,
-                        encripter.decrepit(message),
-                        "T",
-                        reciver,
-                        "0",
-                        forward,
-                        "0"
-                    )
-                    message_view_model.insert(chats)
-                    thread_viewModel.updateLastSeen(
-                        encripter.decrepit(message),
-                        "0",
-                        "T",
-                        if (total == 0) m_id else thread,
-                        date
-                    )
-
-
-
-                    val workData: Data = Data.Builder()
-                        .putAll(map)
-                        .build()
-                    val uploadWorkRequest = OneTimeWorkRequestBuilder<SendTextMessageWorker>()
-                        .setInputData(workData) // If you need to pass data to the worker
-                        .build()
-
-                    val manager = WorkManager
-                        .getInstance(context)
-
-                    manager.enqueue(uploadWorkRequest)
-                    manager.getWorkInfoByIdLiveData(uploadWorkRequest.id).observe(this@MessageActivity
-                    ) { value ->
-                        val res = value?.outputData?.getString("res")
-                        binding.textSend.setText("")
-                        fileType=""
-                        filePath=""
-                        forward=""
-                        try{
-                            val obj = JSONObject(res?:"")
-                            if (obj.has("error")){
-                               Toast.makeText(context,"Failed to send",Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        catch(e:Exception){
-                            e.printStackTrace()
-                        }
-                    }
-
-
-                }
-            }
-
-            override val coroutineContext: CoroutineContext
-            get() = Dispatchers.Main
+    private fun AddAttachMent() {
+        val dialog = BottomSheetDialog(activity, R.style.SheetDialog)
+        val inflater = layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.attachment_layout, null)
+        val binding1: AttachmentLayoutBinding = AttachmentLayoutBinding.bind(dialogView)
+        dialog.setContentView(dialogView)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        binding1.layImages.setOnClickListener {
+            dialog.dismiss()
+            pickFile.PickImage(false)
         }
+        binding1.layPdf.setOnClickListener {
+            dialog.dismiss()
+            pickFile.PickPDF()
+        }
+        binding1.layDocs.setOnClickListener {
+            dialog.dismiss()
+            pickFile.PickDoc()
+        }
+        binding1.layVideo.setOnClickListener {
+            dialog.dismiss()
+            pickFile.Pickvideo()
+        }
+        binding1.layCaptureImage.setOnClickListener {
+            pickFile.captureImage()
+            dialog.dismiss()
+        }
+        binding1.layCaptureVideo.setOnClickListener { dialog.dismiss() }
+    }
+
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main
+}

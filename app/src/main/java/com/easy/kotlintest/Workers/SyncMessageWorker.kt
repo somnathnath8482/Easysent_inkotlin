@@ -54,6 +54,7 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
                                         val chats = Chats(
                                             item.attachment,
                                             item.sender,
+                                            "",
                                             item.createdAt,
                                             item.id,
                                             item.thread,
@@ -61,6 +62,7 @@ class SyncMessageWorker(appContext: Context, workerParams: WorkerParameters) :
                                             item.type,
                                             item.reciver,
                                             item.seen,
+                                            null,
                                             item.replay_of,
                                             item.is_deleted
                                         )

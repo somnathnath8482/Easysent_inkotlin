@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/curved_top"
+        android:backgroundTint="#D7E8EF"
+        android:orientation="vertical">
+        <TextView
+            style="@style/TextHeding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Select Attachment Type"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_14sdp"
+
+            />
+        <View
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_2sdp"
+            android:background="@color/thim_color"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/_10sdp">
+
+            <LinearLayout
+                android:id="@+id/lay_images"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_gallery" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="@string/images"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_pdf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_pdf" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="@string/pdf"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_docs"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_files" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="@string/docs"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:padding="@dimen/_10sdp">
+
+            <LinearLayout
+                android:id="@+id/lay_video"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_video" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="@string/video"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_capture_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_camera" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="Take Picture"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_capture_video"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:background="@drawable/curved_border_green"
+                    android:paddingHorizontal="@dimen/_10sdp"
+                    android:src="@drawable/ic_videocam" />
+
+                <TextView
+                    style="@style/TextHeding3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="Capture Video"
+                    android:textSize="@dimen/_13sdp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
