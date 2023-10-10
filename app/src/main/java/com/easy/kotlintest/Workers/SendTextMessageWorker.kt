@@ -1,10 +1,10 @@
 package com.easy.kotlintest.Workers
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
-import androidx.work.Data
-import androidx.work.Worker
-import androidx.work.WorkerParameters
+import androidx.work.*
+import com.easy.kotlintest.Encription.Encripter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.ApiClient
 import com.easy.kotlintest.Networking.Helper.ApiInterface
@@ -48,7 +48,23 @@ class SendTextMessageWorker(appContext: Context, workerParams: WorkerParameters)
                         resData = Data.Builder().putAll(map)
                             .putString("res", it?:"")
                             .build()
+
+                    if (map["is_1st"] as Boolean || map["thread"].toString()=="" ){
+
+                        val syncThread = OneTimeWorkRequestBuilder<SyncThreadWorker>()
+                            .build()
+                        val manager = WorkManager
+                            .getInstance(con)
+                        manager.enqueue(syncThread)
+                    }else{
+                        val encripter = Encripter(map["sender"].toString())
+                        threadRepository.update_last_seen(encripter.decrepit(map["message"].toString()),
+                            "1",map["type"].toString(),map["is_1st"].toString(),map["date"].toString())
+                    }
+
+
                 } catch (e: Exception) {
+                    Log.e("TAG", "Exception: $it" )
                     e.printStackTrace()
                 }
             }

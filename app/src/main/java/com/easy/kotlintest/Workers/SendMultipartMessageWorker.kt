@@ -3,10 +3,8 @@ package com.easy.kotlintest.Workers
 import android.content.Context
 import android.util.Log
 import android.webkit.MimeTypeMap
-import androidx.work.CoroutineWorker
-import androidx.work.Data
-import androidx.work.WorkerParameters
-import androidx.work.workDataOf
+import androidx.work.*
+import com.easy.kotlintest.Encription.Encripter
 import com.easy.kotlintest.Helper.PrefFile.PrefUtill
 import com.easy.kotlintest.Networking.Helper.ApiClient
 import com.easy.kotlintest.Networking.Helper.ApiInterface
@@ -99,9 +97,27 @@ class SendMultipartMessageWorker(appContext: Context, workerParams: WorkerParame
                         }
 
 
+
+
                         resData = Data.Builder().putAll(map)
                             .putString("res", it?:"")
                             .build()
+
+
+                        if (map["is_1st"] as Boolean || map["thread"].toString()=="" ){
+
+                            val syncThread = OneTimeWorkRequestBuilder<SyncThreadWorker>()
+                                .build()
+                            val manager = WorkManager
+                                .getInstance(con)
+                            manager.enqueue(syncThread)
+                        }else{
+                            val encripter = Encripter(map["sender"].toString())
+                            threadRepository.update_last_seen(encripter.decrepit(map["message"].toString()),
+                                "1",map["type"].toString(),map["is_1st"].toString(),map["date"].toString())
+                        }
+
+
                     } catch (e: Exception) {
                         e.printStackTrace()
                         repository.updateSeen("1", map["m_id"].toString())

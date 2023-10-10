@@ -350,7 +350,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             binding.layReplayDoc.visibility = View.GONE
         }
 
-        binding.toolbar.back.setOnClickListener { view -> onBackPressed() }
+        binding.toolbar.back.setOnClickListener {  onBackPressedDispatcher.onBackPressed() }
 
 
         val sender: String = PrefUtill.getUser()?.user?.id ?: ""
@@ -474,6 +474,8 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         launch {
             val map = HashMap<String, Any>()
             map["sender"] = sender
+            map["is_1st"] = total == 0
+            map["thread"] = thread
             map["sender_name"] = sender_name
             map["reciver"] = reciver
             map["message"] = message
@@ -489,7 +491,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             utcFormat.timeZone = TimeZone.getTimeZone("UTC")
 
             val date = utcFormat.format(Date())
-
+            map["date"] = date
 
             val workData: Data = Data.Builder()
                 .putAll(map)
@@ -500,10 +502,12 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             val uploadWorkRequest = if (filePath != "" && fileType != "T") {
                 OneTimeWorkRequestBuilder<SendMultipartMessageWorker>()
                     .setInputData(workData) // If you need to pass data to the worker
+                    .addTag("MULTIPART-MESSAGE")
                     .build()
             } else {
                 OneTimeWorkRequestBuilder<SendTextMessageWorker>()
                     .setInputData(workData) // If you need to pass data to the worker
+                    .addTag("TEXT-MESSAGE")
                     .build()
             }
 

@@ -57,7 +57,8 @@ class ChatsFragment : Fragment(), CoroutineScope {
                 return (oldItem.rid == newItem.rid
                         && oldItem.id == newItem.id
                         && oldItem.fstatus == newItem.fstatus
-                        && oldItem.name == newItem.name)
+                        && oldItem.profilePic == newItem.profilePic
+                        && oldItem.last_message == newItem.last_message)
             }
         }, Dispatchers.Main, object : AllInterFace() {
             override fun IsClicked(s: String?) {
