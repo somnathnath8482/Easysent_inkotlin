@@ -571,7 +571,7 @@ class MessageNewAdapter(
     ) {
 
         iv_doc.visibility = View.VISIBLE
-        fileType.text = item.getFileType()
+        fileType.text = "PDF"
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
@@ -583,14 +583,36 @@ class MessageNewAdapter(
                         file
                     )
 
-                val mc = com.easy.kotlintest.Helper.MethodClass()
-                mc.getThumbnail(context.contentResolver, path) {
+                val cashFile = File(Constants.CATCH_DIR_CASH + "/" + file.name.replace("pdf", "png"))
+                if (cashFile.exists()) {
+                    Glide.with(context).asBitmap().load(cashFile)
+                        .override(1000,1000).into(iv_doc)
+                }else{
+
                     handler.post(Runnable {
-                        Glide.with(context).load(it)
-                            .override(600, 500).into(iv_doc)
+
+                        Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.pdf_thumb)).override(600,500).into(iv_doc)
                     })
 
+                    val mc = com.easy.kotlintest.Helper.MethodClass()
+                    mc.getThumbnail(context.contentResolver, path) {
+
+                        handler.post(Runnable {
+
+                            Glide.with(context).load(it)
+                                .override(600,500).into(iv_doc)
+                        })
+
+                        MethodClass.CashImageInCatchOriginalQuality(
+                            file.name.replace("pdf", "png"),
+                            it
+                        )
+
+                    }
                 }
+
+
+
                 val pdfOpenintent = Intent(Intent.ACTION_VIEW)
                 pdfOpenintent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                 pdfOpenintent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

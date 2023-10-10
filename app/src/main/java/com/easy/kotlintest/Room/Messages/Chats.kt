@@ -82,7 +82,7 @@ class Chats {
     }
     fun getFileType(): String? {
         val arr  = attachment?.split(".")
-        Log.e("TAG", "getFileType: $attachment")
+        //Log.e("TAG", "getFileType: $attachment")
         return arr?.get(arr.size.minus(1))
     }
 }

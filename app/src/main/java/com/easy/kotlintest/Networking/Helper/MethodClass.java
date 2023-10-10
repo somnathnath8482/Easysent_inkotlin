@@ -352,6 +352,33 @@ public static void CashImageInMemoryOriginalQuality(String file_name, @Nullable 
         });
         th.run();
     }
+    public static void CashImageInCatchOriginalQuality(String file_name, Bitmap bm) {
+        Thread th = new Thread(() -> {
+
+            File file = new File(CATCH_DIR_CASH + "/" + file_name);
+
+            if (file.exists()) {
+                file.delete();
+            }
+
+            try {
+                file.createNewFile();
+
+                FileOutputStream outStream = new FileOutputStream(file);
+                bm.compress(Bitmap.CompressFormat.PNG, 50, outStream);
+
+                outStream.flush();
+                outStream.close();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                file.delete();
+            }
+
+        });
+        th.run();
+    }
 
     public static void CashImageFromUrl(String url, String s1) {
 
