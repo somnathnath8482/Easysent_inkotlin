@@ -1,5 +1,6 @@
 package com.easy.kotlintest.Room.Messages
 
+import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
@@ -78,5 +79,10 @@ class Chats {
 
     fun getFormattedTime(): String? {
         return MethodClass.changeDateFormat2(createdAt)
+    }
+    fun getFileType(): String? {
+        val arr  = attachment?.split(".")
+        Log.e("TAG", "getFileType: $attachment")
+        return arr?.get(arr.size.minus(1))
     }
 }

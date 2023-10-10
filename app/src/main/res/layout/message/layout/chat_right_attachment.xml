@@ -112,9 +112,22 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_clock"
             android:layout_marginEnd="@dimen/_7sdp"
-            app:layout_constraintEnd_toStartOf="@id/time"
+            app:layout_constraintEnd_toStartOf="@id/file_type"
             app:layout_constraintTop_toTopOf="@id/time"
             app:layout_constraintBottom_toBottomOf="@id/time"/>
+        <TextView
+            android:id="@+id/file_type"
+            style="@style/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/theme"
+            android:textSize="@dimen/_9sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_1sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/time"
+            app:layout_constraintTop_toBottomOf="@id/message"
+            tools:text="PDF" />
         <TextView
             android:id="@+id/time"
             style="@style/desc"

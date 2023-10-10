@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
@@ -109,7 +110,8 @@ class MessageNewAdapter(
                             attachmentImage(
                                 item,
                                 viewholder.binding.ivAttachment,
-                                viewholder.binding.btnPlay
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivDownloadProgress
                             )
                         }
                         "V" -> {
@@ -135,7 +137,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         else -> {
@@ -148,7 +151,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position ,
+                                viewholder.binding.fileType
                             )
                         }
                     }
@@ -171,7 +175,8 @@ class MessageNewAdapter(
                             attachmentImage(
                                 item,
                                 viewholder.binding.ivAttachment,
-                                viewholder.binding.btnPlay
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivDownloadProgress
                             )
                         }
                         "V" -> {
@@ -197,7 +202,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         else -> {
@@ -210,7 +216,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                     }
@@ -231,7 +238,8 @@ class MessageNewAdapter(
                             attachmentImage(
                                 item,
                                 viewholder.binding.ivAttachment,
-                                viewholder.binding.btnPlay
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivDownloadProgress
                             )
                         }
                         "V" -> {
@@ -257,7 +265,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         else -> {
@@ -270,7 +279,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                     }
@@ -291,7 +301,8 @@ class MessageNewAdapter(
                             attachmentImage(
                                 item,
                                 viewholder.binding.ivAttachment,
-                                viewholder.binding.btnPlay
+                                viewholder.binding.btnPlay,
+                                viewholder.binding.ivDownloadProgress
                             )
                         }
                         "V" -> {
@@ -317,7 +328,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                         "D" -> {
@@ -330,7 +342,8 @@ class MessageNewAdapter(
                                 viewholder.binding.ivDownload,
                                 viewholder.binding.ivAttachment,
                                 viewholder.binding.ivDownloadProgress,
-                                position
+                                position,
+                                viewholder.binding.fileType
                             )
                         }
                     }
@@ -376,7 +389,12 @@ class MessageNewAdapter(
     }
 
 
-    private fun attachmentImage(item: Chats, imageview: ImageView, btnPlay: ImageView) {
+    private fun attachmentImage(
+        item: Chats,
+        imageview: ImageView,
+        btnPlay: ImageView,
+        ivDownloadProgress: ProgressBar
+    ) {
         if (item.attachment != null && item.attachment != "null") {
             val file = File(Constants.CATCH_DIR_Memory + "/" + item.attachment)
             if (file.exists()) {
@@ -437,23 +455,52 @@ class MessageNewAdapter(
                 MethodClass.showFullScreen(activity, handler, item.thread, item.id)
             }
         }
+
+        if (item.workId != null && item.seen.equals("0")) {
+            btnPlay.visibility = View.GONE
+            ivDownloadProgress.visibility = View.VISIBLE
+            ivDownloadProgress.max  =100
+            manager.getWorkInfoByIdLiveData(item.workId!!).observe(owner ) { value ->
+                val res = value?.outputData?.getString("res")
+                val  progress = value?.progress?.getInt("progress",0)
+
+
+                try {
+                    if (res != null && res != "" && value.state.name == "SUCCEEDED") {
+                        val obj = JSONObject(res)
+                        if (obj.has("error")) {
+                            Toast.makeText(context, "Failed to send", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        btnPlay.visibility = View.GONE
+                        Log.e("progress", "progress: $progress")
+                        ivDownloadProgress.setProgress( progress?:0,true)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
     }
 
     private fun attachmentDoc(
         item: Chats,
         download: ImageView,
         iv_doc: ImageView,
-        progress: ProgressBar,
-        position: Int
+        ivDownloadProgress: ProgressBar,
+        position: Int,
+        fileType: TextView
     ) {
         Glide.with(context).load(AppCompatResources.getDrawable(context, R.drawable.ic_files))
             .override(300, 300).into(iv_doc)
         iv_doc.visibility = View.VISIBLE
+        fileType.text = item.getFileType()
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
                 download.visibility = View.GONE
-                progress.visibility = View.GONE
+                ivDownloadProgress.visibility = View.GONE
 
 
                 val path =
@@ -480,11 +527,36 @@ class MessageNewAdapter(
                     downloadfile(
                         item,
                         download,
-                        progress,
+                        ivDownloadProgress,
                         position
                     )
                 }
 
+            }
+        }
+        if (item.workId != null && item.seen.equals("0")) {
+
+            ivDownloadProgress.visibility = View.VISIBLE
+            ivDownloadProgress.max  =100
+            manager.getWorkInfoByIdLiveData(item.workId!!).observe(owner ) { value ->
+                val res = value?.outputData?.getString("res")
+                val  progress = value?.progress?.getInt("progress",0)
+
+
+                try {
+                    if (res != null && res != "" && value.state.name == "SUCCEEDED") {
+                        val obj = JSONObject(res)
+                        if (obj.has("error")) {
+                            Toast.makeText(context, "Failed to send", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        Log.e("progress", "progress: $progress")
+                        ivDownloadProgress.setProgress( progress?:0,true)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
@@ -494,10 +566,12 @@ class MessageNewAdapter(
         download: ImageView,
         iv_doc: ImageView,
         ivDownloadProgress: ProgressBar,
-        position: Int
+        position: Int,
+        fileType: TextView
     ) {
 
         iv_doc.visibility = View.VISIBLE
+        fileType.text = item.getFileType()
         if (!item.attachment.isNullOrBlank() && item.attachment != "null") {
             val file = File("${Constants.CATCH_DIR_Memory}/${item.attachment}")
             if (file.exists()) {
@@ -536,6 +610,32 @@ class MessageNewAdapter(
                         ivDownloadProgress,
                         position
                     )
+                }
+            }
+        }
+
+
+        if (item.workId != null && item.seen.equals("0")) {
+            ivDownloadProgress.visibility = View.VISIBLE
+            ivDownloadProgress.max  =100
+            manager.getWorkInfoByIdLiveData(item.workId!!).observe(owner ) { value ->
+                val res = value?.outputData?.getString("res")
+                val  progress = value?.progress?.getInt("progress",0)
+
+
+                try {
+                    if (res != null && res != "" && value.state.name == "SUCCEEDED") {
+                        val obj = JSONObject(res)
+                        if (obj.has("error")) {
+                            Toast.makeText(context, "Failed to send", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        Log.e("progress", "progress: $progress")
+                        ivDownloadProgress.setProgress( progress?:0,true)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         }
