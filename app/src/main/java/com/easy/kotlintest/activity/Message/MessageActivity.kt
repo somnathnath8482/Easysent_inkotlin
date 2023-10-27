@@ -12,7 +12,6 @@ import android.os.Looper
 import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionManager
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -50,11 +49,8 @@ import com.easy.kotlintest.adapter.Message.MessageNewAdapter
 import com.easy.kotlintest.databinding.ActivityMessageBinding
 import com.easy.kotlintest.databinding.AttachmentLayoutBinding
 import com.easy.kotlintest.databinding.MainToolbarBinding
+import com.easy.kotlintest.socket.LiveMessage
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.gson.Gson
-import io.socket.client.IO
-import io.socket.client.Socket
-import io.socket.emitter.Emitter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -78,7 +74,6 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var mainToolbarBinding: MainToolbarBinding
     private lateinit var binding: ActivityMessageBinding
     private lateinit var pickFile: PickFile
-    private lateinit var mSocket: Socket
     private var handler = Handler(Looper.getMainLooper())
     lateinit var context: Context;
     lateinit var activity: Activity;
@@ -93,46 +88,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
             encripter= Encripter(sender)
         }
 
-        try {
-            mSocket =   IO.socket("http://worldtoday.online:4000")
-            mSocket.let {
-                it.connect()
-                    .on(Socket.EVENT_CONNECT) {
-                        Log.d("SignallingClient", "Socket connected!!!!!")
-                        Log.e("SOCKET", "status: ${mSocket.connected()}")
-                    }
-                    .on(Socket.EVENT_CONNECT_ERROR) {
-                            args ->
-                        runOnUiThread { //val chats:Chats = Gson().fromJson(args.toString(),Chats::class.java)
-                            Log.e("SOCKET", "ERROR: ${args[0].toString()}")
-                        }
 
-                    };
-            }
-
-
-            mSocket.on(sender) { args ->
-                runOnUiThread {
-
-                    val chats:Chats = Gson().fromJson(args.get(0).toString(),Chats::class.java)
-
-                    Log.e("SOCKET", "new message: ${chats.toString()}")
-                    message_view_model.insert(chats)
-                  val  decripter= Encripter(chats.sender);
-                  thread_viewModel.updateLastSeen(
-                        decripter.decrepit(chats.message),
-                        "0",
-                        chats.type,
-                        chats.thread,
-                        chats.createdAt
-                    )
-                }
-            };
-
-        }catch (e:Exception ) {
-            e.printStackTrace()
-            Log.e("SOCKET", "error: ${e.stackTrace}")
-        }
 
         userVewModel = ViewModelProviders.of(this)[UserVewModel::class.java]
         thread_viewModel = ViewModelProviders.of(this)[Thread_ViewModel::class.java]
@@ -597,8 +553,9 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                 )
             }
 
-            val json = Gson()
-            mSocket.emit("NM", json.toJson(chats,Chats::class.java));
+
+
+          LiveMessage.sendMessage(chats,PrefUtill.getUser()?.user?.profilePic)
             //insert to rom before start the work
             message_view_model.insert(chats)
             thread_viewModel.updateLastSeen(
@@ -655,11 +612,11 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onDestroy() {
         super.onDestroy()
-        mSocket.disconnect()
+       /* mSocket.disconnect()
         mSocket.off("new message", object : Emitter.Listener {
             override fun call(vararg args: Any?) {
             }
-        })
+        })*/
     }
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main

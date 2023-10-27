@@ -21,6 +21,7 @@ import com.easy.kotlintest.Workers.SyncMessageWorker
 import com.easy.kotlintest.Workers.SyncThreadWorker
 import com.easy.kotlintest.Workers.SyncUserWorker
 import com.easy.kotlintest.databinding.ActivityLoginBinding
+import com.easy.kotlintest.socket.LiveMessage
 import com.google.gson.Gson
 import io.github.muddz.styleabletoast.StyleableToast
 import org.json.JSONObject
@@ -153,6 +154,8 @@ class LoginActivity : AppCompatActivity() {
                                     .getInstance(this@LoginActivity)
                                 manager.enqueue(requests)
 
+                                LiveMessage(application)
+                                LiveMessage.listen(PrefUtill.getUser()?.user?.id)
 
                                 val intent = Intent(applicationContext, MainActivity::class.java)
                                 //intent.putExtra("new_login", true)
