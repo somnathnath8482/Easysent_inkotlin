@@ -127,7 +127,7 @@ class Chatepository{
     }
 
     fun getChatByPaging(
-        user: String?, me: String?, list: LiveData_List<Chats>
+        thread: String?, list: LiveData_List<Chats>
     ) {
         scope.launch {
 
@@ -141,7 +141,7 @@ class Chatepository{
                 )
 
             ) {
-                Chat_dao.getMessageBy_paging(user, me)
+                Chat_dao.getMessageBy_paging(thread)
             }
 
             list.allMessage(pager.flow.cachedIn(scope).asLiveData())

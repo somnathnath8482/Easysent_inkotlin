@@ -66,7 +66,6 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
     private var filePath: String = ""
     private var fileType: String = "T"
     private var forward: String = ""
-    private var livedata: LiveData<PagingData<Chats>>? = null
     private lateinit var reciver: String
     private lateinit var message_view_model: Message_View_Model
     private lateinit var thread_viewModel: Thread_ViewModel
@@ -83,6 +82,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         activity = this@MessageActivity
         binding = ActivityMessageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if (intent != null) {
             reciver = intent.getStringExtra("reciver") ?: ""
             encripter= Encripter(sender)
@@ -95,9 +95,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         thread_viewModel = ViewModelProviders.of(this)[Thread_ViewModel::class.java]
         message_view_model = ViewModelProviders.of(this)[Message_View_Model::class.java]
 
-        message_view_model.chatByPaged(reciver, PrefUtill.getUser()?.user?.id) {
-            livedata = it
-        }
+
         val adapter = MessageNewAdapter(
             object : DiffUtil.ItemCallback<Chats>() {
                 override fun areItemsTheSame(oldItem: Chats, newItem: Chats): Boolean {
@@ -124,22 +122,6 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         )
 
 
-        livedata?.observe(this) { it ->
-            launch {
-                adapter.submitData(it);
-                setContentView(binding.root)
-                adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                        super.onItemRangeInserted(positionStart, itemCount)
-                        total = adapter.snapshot().size
-                        Constants.ACTIVE = thread
-                        thread_viewModel.updateUnread(thread)
-                        binding.recycler.smoothScrollToPosition(total-1)
-                    }
-                })
-            }
-
-        }
 
         context = this
 
@@ -161,11 +143,21 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         binding.recycler.adapter = adapter
 
 
-        message_view_model.chatByPaged(reciver, PrefUtill.getUser()?.user?.id) {
+        message_view_model.chatByPaged(thread) {
             handler.post {
                 it.observe(this) {
                     launch {
                         adapter.submitData(it);
+
+                        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                                super.onItemRangeInserted(positionStart, itemCount)
+                                total = adapter.snapshot().size
+                                Constants.ACTIVE = thread
+                                thread_viewModel.updateUnread(thread)
+                                binding.recycler.smoothScrollToPosition(total-1)
+                            }
+                        })
                     }
 
                 }

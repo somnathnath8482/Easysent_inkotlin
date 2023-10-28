@@ -97,6 +97,7 @@ class MessageNewAdapter internal constructor(
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        //Log.e("TAG", "onBindViewHolder: $position" )
         when (holder) {
             is LeftTextHolder -> {
                 setUpLeftTextViewHolder(holder, position)

@@ -58,10 +58,9 @@ class Message_View_Model(application: Application) : AndroidViewModel(applicatio
 
 
     fun chatByPaged(
-        user: String?,
-        me: String?,
+        thread: String?,
         list: LiveData_List<Chats>
     ) {
-        repository.getChatByPaging(user, me,  list)
+        repository.getChatByPaging(thread,  list)
     }
 }

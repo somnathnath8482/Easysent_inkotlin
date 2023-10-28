@@ -37,8 +37,8 @@ interface ChatDao {
 
 
     //todo  paging3
-    @Query("SELECT * FROM Chats WHERE (sender =:user AND reciver=:me) OR (sender =:me AND reciver=:user) order by createdAt ASC ")
-    fun getMessageBy_paging(user: String?, me: String?): PagingSource<Int, Chats>
+    @Query("SELECT * FROM Chats WHERE thread =:thread order by createdAt ASC ")
+    fun getMessageBy_paging( thread: String?): PagingSource<Int, Chats>
 
     // @Query("SELECT * FROM Chats WHERE thread = :Tid AND (type = 'I' OR type = 'V') ")
     @Query("SELECT * FROM Chats WHERE thread = :Tid AND (type = 'I' OR type = 'V')  ORDER BY CASE WHEN chat_id =:chat_id THEN 0 ELSE 1 END")
