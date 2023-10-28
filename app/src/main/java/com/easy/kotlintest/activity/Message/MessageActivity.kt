@@ -86,6 +86,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
         if (intent != null) {
             reciver = intent.getStringExtra("reciver") ?: ""
             encripter= Encripter(sender)
+           thread =  com.easy.kotlintest.Helper.MethodClass.getThread(sender,reciver).toString()
         }
 
 
@@ -131,9 +132,9 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                     override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                         super.onItemRangeInserted(positionStart, itemCount)
                         total = adapter.snapshot().size
-                        thread = adapter.snapshot()[0]?.thread ?: ""
                         Constants.ACTIVE = thread
                         thread_viewModel.updateUnread(thread)
+                        binding.recycler.smoothScrollToPosition(total-1)
                     }
                 })
             }
@@ -526,7 +527,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                     sender_name,
                     date,
                     m_id,
-                    if (total == 0) m_id else thread,
+                  thread,
                     encripter.decrepit(message),
                     fileType,
                     reciver,
@@ -542,7 +543,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                     sender_name,
                     date,
                     m_id,
-                    if (total == 0) m_id else thread,
+                  thread,
                     encripter.decrepit(message),
                     "T",
                     reciver,
@@ -562,7 +563,7 @@ class MessageActivity : AppCompatActivity(), CoroutineScope {
                 encripter.decrepit(message),
                 "0",
                 "T",
-                if (total == 0) m_id else thread,
+               thread,
                 date
             )
 

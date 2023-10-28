@@ -37,5 +37,17 @@ class MethodClass {
 
         }
 
+    companion object{
+        fun getThread(sender:String, receiver:String):Int{
+
+            return if (sender.toInt()>receiver.toInt()){
+                (sender+receiver).toInt()
+            }else{
+                (receiver+sender).toInt()
+            }
+
+        }
+    }
+
 
 }

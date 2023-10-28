@@ -122,36 +122,9 @@ class MessageNewAdapter internal constructor(
             is RightAllHolder -> {
                 setUpRightAllViewHolder(holder, position)
             }
-
-            /*is SmallItemViewHolder -> setUpSmallViewHolder(holder, position)
-            is LargeItemViewHolder -> setUpLargeViewHolder(holder, position)*/
         }
     }
 
-/*    private fun setUpLargeViewHolder(holder: LargeItemViewHolder, position: Int) {
-        (holder.itemView as LargeItemCell).bindWhenInflated {
-            items[position].let { item ->
-                holder.itemView.binding?.item = item
-            }
-        }
-    }
-
-    private fun setUpSmallViewHolder(
-        holder: SmallItemViewHolder,
-        position: Int
-    ) {
-        (holder.itemView as SmallItemCell).bindWhenInflated {
-            items[position].let { item ->
-                holder.itemView.binding?.item = item
-            }
-        }
-    }*/
-
-    /* private inner class LargeItemViewHolder internal constructor(view: ViewGroup) :
-         RecyclerView.ViewHolder(view)
-
-     private inner class SmallItemViewHolder internal constructor(view: ViewGroup) :
-         RecyclerView.ViewHolder(view)*/
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
@@ -204,26 +177,7 @@ class MessageNewAdapter internal constructor(
         }
     }
 
-/*
 
-    private inner class LargeItemCell(context: Context) : AsyncCell(context) {
-        var binding: LargeItemCellBinding? = null
-        override val layoutId = R.layout.large_item_cell
-        override fun createDataBindingView(view: View): View? {
-            binding = LargeItemCellBinding.bind(view)
-            return view.rootView
-        }
-    }
-
-    private inner class SmallItemCell(context: Context) : AsyncCell(context) {
-        var binding: SmallItemCellBinding? = null
-        override val layoutId = R.layout.small_item_cell
-        override fun createDataBindingView(view: View): View? {
-            binding = SmallItemCellBinding.bind(view)
-            return view.rootView
-        }
-    }
-*/
 
     /*-------------------------*/
 

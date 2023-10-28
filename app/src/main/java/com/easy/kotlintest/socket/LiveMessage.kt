@@ -44,7 +44,7 @@ class LiveMessage {
 
                 encripter = Encripter(chats.sender)
 
-                if (chats.sender != Constants.ACTIVE) {
+                if (chats.thread != Constants.ACTIVE) {
                     val futureTarget = Glide.with(application)
                         .asBitmap()
                         .load(Constants.BASE_URL + "profile_image/" + customMessage.profile_image)
