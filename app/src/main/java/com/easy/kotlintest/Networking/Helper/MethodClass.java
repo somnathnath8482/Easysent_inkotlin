@@ -499,7 +499,7 @@ public static void CashImageInMemoryOriginalQuality(String file_name, @Nullable 
         LayoutInflater inflater = context.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.fragment_view_attachment, null);
         @NonNull FragmentViewAttachmentBinding binding = FragmentViewAttachmentBinding.bind(dialogView);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Light_DialogWhenLarge_DarkActionBar);
         // AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(dialogView);
         builder.setCancelable(true);
